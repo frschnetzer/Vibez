@@ -1,0 +1,9 @@
+Vibez
+
+TODOs:
+    • einladung
+    • slogan finden
+    • dotnet 8
+    • informieren über nugets die eventuell benötigt werden
+    • allgemeine Information über die bisherige App
+    • aufbau, design patterns
