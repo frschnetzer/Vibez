@@ -13,7 +13,7 @@ TODOs:
         In der MainPage hat der User die möglichkeit Events zu erstellen und die aktuellen und bisherigen Events, die der User erstellt hat, anzuzeigen.
         Neu:
         Jetz sollte es noch möglich sein leute über ein suchfeld zu finden und diese als Freunde hinzufügen zu können.
-        Das Event soll die möglichkeit haben die Location via Maps darzustellen
+        Das Event soll die möglichkeit haben die Location via Maps darzustellen (https://www.youtube.com/watch?v=xXXnCODrlVs)
         Eine mögliche Hochrechnung über die Kosten
         Benachrichtigung über eine Einladung
         Zu- & Absage eines Events
