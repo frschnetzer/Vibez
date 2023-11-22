@@ -11,8 +11,6 @@ TODOs:
         Alt:
         Die App sollte ein Login und eine Registrierung haben, nach dem login kommt man dann zur MainPage.
         In der MainPage hat der User die möglichkeit Events zu erstellen und die aktuellen und bisherigen Events, die der User erstellt hat, anzuzeigen.
-        Es sollte noch einen zweiten Reiter geben in dem man eine Party erstellen kann und leute einladen kann über E-Mail.
-        Wenn eine Party angenommen wird sollte diese entweder in der MainPage oder bei einem seperaten Reiter in der Page angezeigt werden. 
         Neu:
         Jetz sollte es noch möglich sein leute über ein suchfeld zu finden und diese als Freunde hinzufügen zu können.
         Das Event soll die möglichkeit haben die Location via Maps darzustellen
