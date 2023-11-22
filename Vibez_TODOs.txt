@@ -1,9 +1,10 @@
 Vibez
 
 TODOs:
-    • einladung
-    • slogan finden
-    • dotnet 8
-    • informieren über nugets die eventuell benötigt werden
-    • allgemeine Information über die bisherige App
-    • aufbau, design patterns
+    â€¢ einladung
+    â€¢ slogan finden
+    â€¢ dotnet 8
+    â€¢ informieren Ã¼ber nugets die eventuell benÃ¶tigt werden
+Standart Datenbank Nugets, MailKit(Email)
+    â€¢ allgemeine Information Ã¼ber die bisherige App
+    â€¢ aufbau, design patterns
