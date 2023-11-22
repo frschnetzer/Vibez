@@ -5,6 +5,14 @@ TODOs:
     • slogan finden
     • dotnet 8
     • informieren über nugets die eventuell benötigt werden
-Standart Datenbank Nugets, MailKit(Email)
+        Standart Datenbank Nugets, MailKit(Email)
+
     • allgemeine Information über die bisherige App
+        Alt:
+        Die App sollte ein Login und eine Registrierung haben, nach dem login kommt man dan zur haupt page.
+        Auf der Hauptpage sollten alle Events (Partys) angezeigt werden in denen man eingeladen ist diese kann man dort dann bestätigen oder             ablehnen. Es sollte noch einen zweiten Reiter geben in dem man eine Party erstellen kann und leute einladen kann über E-Mail.
+        Wenn eine Party angenommen wird sollte diese entweder in der Main Page oder bei einem seperaten Reiter in der Page angezeigt werden. 
+        Neu:
+        Jetz sollte es noch möglich sein leute über ein suchfeld zu finden und diese als Freunde hinzufügen zu können.
+
     • aufbau, design patterns
