@@ -35,4 +35,7 @@ Meilensteine
 •	E-Mail
 Qualitätsanforderungen:
 Welche Maßnahmen zur Qualitätssicherungen sollen erfüllt werden?
-Es sollten die neusten Technologien verwendet werden (.NET 7).
+•	Es sollten die neusten Technologien verwendet werden (.NET 7).
+•	Wir möchten ein genaues und schönes User Interface.
+•	So gut wie keine Bugs bei diversen Aktionen entstehen.
+•	Daten in der Datenbank sollen der Richtigkeit entsprechen und streng nach Schema sein.
