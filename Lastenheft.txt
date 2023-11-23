@@ -20,7 +20,6 @@ Es soll ein Login mit Registrierung vorhanden sein. Ein Event sollte erstellt, b
 •	Zeit und Orts Angabe
 •	Organisator
 •	Gäste hinzufügen/entfernen
-•	Preis pro Person und Preis insgesamt
 Wenn der User eine Einladung als Benachrichtigung in der App bekommt, dann soll der Veranstaltungsort auf einer Karte angezeigt werden. Die anderen Informationen werden ebenfalls angezeigt, bis auf die Gästeliste. Es wird angezeigt wie viele bereits zugesagt haben. Es sollen Zu- und Absagen gemacht werden können. Diese Rückmeldung bekommt der Organisator.
 Was hätte zusätzlich erreicht werden können?
 •	Freunde hinzufügen
