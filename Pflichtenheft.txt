@@ -1,63 +1,47 @@
-Projekt Praktikum
-Pflichtenheft
-1. Ausgangssituation
-Die Applikation soll das Organisieren einer Party/ eines Events vereinfachen.
+1.Einleitung
+Die Web App â€Vibezâ€œ soll eine Visual Studio Blazor Applikation werden, mit dem Ziel, Partys zu verwalten (Party erstellen, User zur Party einladen, Party Manager).
 
-2. Zielsetzung
-Eine simple Web-Applikation, in der Partys / Events organisiert werden können.
+2. Auftrag
+Die Web App soll wie folgt agieren kÃ¶nnen: 
+â€¢	Die App soll nur von bereits Registrierten bzw. Angemeldeten Usern verwendet werden kÃ¶nnen. Dem entsprechend soll bei Ã¶ffnen der Webseite ein Login/Registrierung erscheinen.
+â€¢	Dashboard Button (Main Button): Auf der Main Seite sollen 3 verschiedene Buttons sein: Ein Button der alle Partys zu denen der angemeldete User eingeladen ist und auch akzeptiert hat anzeigt. Ein Button der in Naher Zukunft liegende Partys anzeigen soll und ein Button der die Historie von bereits besuchten Partys anzeigt.
+â€¢	Die Felder der Partys sollen geÃ¶ffnet werden kÃ¶nnen, dann soll ein Fenster erscheinen auf dem man die Anzahl der Besucher, Standort der Party und Uhrzeit sehen kann. 
+â€¢	ZusÃ¤tzlich soll am Party Feld ein cancel Button sein, der den User von einer Party abmeldet.
+â€¢	Create Party Button (Main Button): Dieser Button soll ein Fenster Ã¶ffnen, auf dem Man eine Party erstellen kann. Dazu gehÃ¶rt die Adresse(Google Maps), Organisator, User einladen(per Mail, oder Username), Notizen. Diese Eigenschaften einer Party kann man unter diesem Button einrichten und mit einem BestÃ¤tigen Button erstellen/absenden.
+â€¢	Add Friends(Main Button): Mit betÃ¤tigen von diesem Button soll sich ein Fenster Ã¶ffnen, auf dem Mann andere User der App Adden kann (via. Username/Email Adresse).
 
-Der Erfolg des Projektes ist gegeben, wenn die nacher erwähnten Funktionen realisiert wurden.
+3.Teams und Schnittstellen
+And dem Projekt â€Vibezâ€œ arbeiten folgende Personen: Jakob Moser, Marc Sahler, Franziska Schnetzer, Claire Pramstaller; Wir werden uns grÃ¶ÃŸtenteils Ã¼ber Discord, im Unterricht, per GitHup und per Teams austauschen.
 
-Folgender Termin gilt als Abgabetermin: 02.02.2024
+5.Rahmenbedingungen
+Unsere Rahmenbedingungen sind:
+â€¢	Ein ausfÃ¼hrliches und funktionierendes GitHub Repository mit dem Neusten Stand des Projektes.
+â€¢	Jeder sollte die gleiche version des Entity.Framework haben (v.net7.0).
+â€¢	AsfÃ¼hrliche inline Kommentare, sowie Projekt Dokumentation.
+â€¢	Ein SQL Datenbank Management Tool (SQL Server).
+â€¢	Alle sollten den Docker installiert haben
+â€ƒ
+6.Technische Anforderungen
+Die Technischen Anforderungen fÃ¼r unser Projekt sind:
+â€¢	GitHub Repository.
+â€¢	SQL Server.
+â€¢	Visual Studio (Blazor Web Server)
+â€¢	Extension (Mailkit)
+â€¢	Google Maps API
 
-3. Produkteinsatz
-Das Produkt ist für die Organisation eines Events gedacht.
+7.Problemanalyse
+MÃ¶gliche Probleme, die beim Projekt entstehen kÃ¶nnen, sind:
+â€¢	Emails verschicken kÃ¶nnte zu Sicherheits-Problemen fÃ¼hren.
+â€¢	Die Verwendung der Google Maps API kÃ¶nnte sich schwierig gestalten (fehlende Erfahrung).
+â€¢	Beim Frontend kÃ¶nnten Probleme mit dem Design, Farben, â€¦ geben.
+â€¢	Beim Zeitmanagement kÃ¶nnten wir auf Probleme mit der Einteilung bzw. Einhaltung von Meilensteinen stoÃŸen.
+â€¢	Probleme beim Adden von Usern.
 
-4. Funktionale Anforderungen
-    • Die Applikation wird in Blazor Server App realisiert
-    • es wird MSSQL als Datenbank verwendet
-    • die Datenbank soll min. drei Tabellen enthalten. User, Password, Event eventuell Email.
-    • beim aufrufen der web-App wird eine Main Page mit Logo und eventuell Facts über die Applikation angezeigt. Außerdem gibt es einen Button für den Login oder Registrierung
-    • Beim Login gibt es die Möglichkeit sich mit Email und Passwort anzumelden. Falls noch kein Konto erstellt wurde, soll es die Option geben, einen neuen User zu registrieren.
-    • Um einen neuen User zu registrieren, müssen Email und Passwort (2x) angegeben werden.
-    • Sobald man einen User erstellt hat und sich eingeloggt hat, soll wieder die Main Page angezeigt werden. Nun hat man die Option mittels eines Buttons ein neues Event zu erstellen. In der Main Page werden dann auch mehrere Events angezeigt.
-    • Wenn auf den Button „Neues Event“ geklickt wurde, soll ein Pop up angezeigt werden, die dem User ermöglicht gewisse Einstellungen zu setzten.
-Mögliche Einstellungen sind: Name des Events, Ort und Zeitpunkt, Gäste sollen hinzugefügt und entfernt werden können, und zum Schluss soll dann ein Preis pro Person und Insgesamt angezeigt werden.
-    • Sobald auf „Speichern“ geklickt wurde, wird das Pop-up geschlossen und es wird wieder die Main Page mit allen gültigen Events angezeigt. Ein Event ist nur dann Gültig, wenn das Datum noch nicht abgelaufen ist. Nun bekommen die Gäste eine Einladung per Email.
-    • Außerdem gibt es die Option ein Event anzuzeigen und auch zu bearbeiten oder eventuell zu löschen.
-    • Wenn nun auf Event anzeigen geklickt wird, werden der Event Name, Ort und Zeitpunkt, Anzahl der Gäste und die Hochrechnung angezeigt.
-    • Beim Klick auf bearbeiten, wird das gleiche Pop-up wie beim erstellen eines Events angezeigt, nur sind die Felder schon richtig ausgefüllt.
-    • Beim Löschen eines Events soll der User nochmals gefragt werden, ob er wirklich löschen will.
+8.QualitÃ¤t
+Unsere AnsprÃ¼che an unser Projekt sind:
+â€¢	Wir mÃ¶chten ein genaues und schÃ¶nes User Interface.
+â€¢	So gut wie keine Bugs bei diversen Aktionen entstehen.
+â€¢	Daten in der Datenbank sollen der Richtigkeit entsprechen und streng nach Schema sein.
 
-Diese Funktionen sollen so gut wie möglich in der Projekt Struktur aufgeteilt werden.
-
-5. Nicht funktionale Anforderungen
-    • Gäste können Einladung zu oder absagen
-    • Gäste können über die Einladung +1 angeben
-    • der Standort wird per Google Maps angezeigt
-    • Drei Stunden bevor dem Event soll nochmals an alle Gäste eine erinnerung gesendet werden
-
-6. Lieferumfang
-Es soll die Applikation so geliefert werden, dass sie auf den lokalen Rechnern der Programmiere des Teams funktioniert.
-Im Lieferumfang ist nicht unbedingt enthalten, dass die Applikation öffentlich benutzbar ist.
-
-7. Offene Punkte, die noch zu klären sind
-    • Aufgabenaufteilung
-    • Design der Applikation
-    • Meilensteine
-    • Datenbankdesign
-    • Projektstruktur
-
-Wichtige Entscheidungen werden im Team zusammen beschlossen. Kleinere Tasks werden selber beschlossen oder auch mit Absprache des jeweiligen anderen Teammitgliedes.
-
-Veränderungen im Lastenheft sind so gut wie möglich zu vermeiden. Falls doch welche sind, sollen diese im Team besprochen werden und gemeinsam eingetragen werden.
-
-8. Abnahmekriterien und Qualitätsanforderungen
-Sobald die gesetzten Anforderungen erfüllt worden sind, wird die Projektleitung entlastet mit Abstimmung des Projektteams.
-Kriterien sind:
-    • ist es möglich einen neuen User zu registrieren
-    • ist es möglich sich mit einem User anzumelden
-    • können neue Events erstellt werden
-    • bekommen die Gäste die Einladungen
-    • werden die Daten von User und Events in einer Datenbank korrekt gespeichert
-
+9.Projektentwicklung
+Siehe ZeitplanïŠ.
