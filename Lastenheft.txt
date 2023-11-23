@@ -1,0 +1,37 @@
+Projekteinführung:
+Ziel des Projekts
+Die Web-Applikation soll das Organisieren einer Party/ eines Events vereinfachen.
+Ablauf- und Terminplanung
+
+Ist-Zustand:
+Aktuellen Situation
+Das Produkt ist für die Organisation eines Events oder mehrere Events gedacht.
+Anzahl der Mitarbeiter, die mit dem Softwaresystem arbeiten
+Das Team besteht aus 4 Entwicklern. Jakob Moser, Marc Sahler, Franziska Schnetzer und Claire Pramstaller.
+Schilderung möglicher Probleme und Missstände
+Kommunikation unter den Entwicklern.
+Das verschiedene Features nicht implementiert werden können.
+Das die Web-App am Ende nicht funktionsfähig ist.
+Soll-Zustand:
+Welche Ziele sollen erreicht werden?
+Es soll ein Login mit Registrierung vorhanden sein. Ein Event sollte erstellt, bearbeitet und gelöscht werden können mit folgenden Eigenschaften:
+•	Name des Events (Beschreibung)
+•	Zeit und Orts Angabe
+•	Organisator
+•	Gäste hinzufügen/entfernen
+•	Preis pro Person und Preis insgesamt
+Wenn der User eine Einladung als Benachrichtigung in der App bekommt, dann soll der Veranstaltungsort auf einer Karte angezeigt werden. Die anderen Informationen werden ebenfalls angezeigt, bis auf die Gästeliste. Es wird angezeigt wie viele bereits zugesagt haben. Es sollen Zu- und Absagen gemacht werden können. Diese Rückmeldung bekommt der Organisator.
+Was hätte zusätzlich erreicht werden können?
+•	Freunde hinzufügen
+•	Einstellungen (bestimmt Konditionen)
+•	E-Mail-Validierung
+Inbetriebnahme und Einsatz:
+Meilensteine
+•	Rahmenbedingungen für die App.
+•	Datenbank Modellierung und Funktionelle Verbindung zur Datenbank
+•	Login/Registrierung
+•	Frontend und Service
+•	E-Mail
+Qualitätsanforderungen:
+Welche Maßnahmen zur Qualitätssicherungen sollen erfüllt werden?
+Es sollten die neusten Technologien verwendet werden (.NET 8).
