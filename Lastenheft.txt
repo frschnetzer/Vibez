@@ -1,3 +1,4 @@
+Lastenheft
 Projekteinführung:
 Ziel des Projekts
 Die Web-Applikation soll das Organisieren einer Party/ eines Events vereinfachen.
