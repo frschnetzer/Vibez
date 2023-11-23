@@ -3,20 +3,21 @@ Die Web App „Vibez“ soll eine Visual Studio Blazor Applikation werden, mit d
 
 2. Auftrag
 Die Web App soll wie folgt agieren können: 
-•	Die App soll nur von bereits Registrierten bzw. Angemeldeten Usern verwendet werden können. Dem entsprechend soll bei öffnen der Webseite ein Login/Registrierung erscheinen.
-•	Dashboard Button (Main Button): Auf der Main Seite sollen 3 verschiedene Buttons sein: Ein Button der alle Partys zu denen der angemeldete User eingeladen ist und auch akzeptiert hat anzeigt. Ein Button der in Naher Zukunft liegende Partys anzeigen soll und ein Button der die Historie von bereits besuchten Partys anzeigt.
-•	Die Felder der Partys sollen geöffnet werden können, dann soll ein Fenster erscheinen auf dem man die Anzahl der Besucher, Standort der Party und Uhrzeit sehen kann. 
-•	Zusätzlich soll am Party Feld ein cancel Button sein, der den User von einer Party abmeldet.
-•	Create Party Button (Main Button): Dieser Button soll ein Fenster öffnen, auf dem Man eine Party erstellen kann. Dazu gehört die Adresse(Google Maps), Organisator, User einladen(per Mail, oder Username), Notizen. Diese Eigenschaften einer Party kann man unter diesem Button einrichten und mit einem Bestätigen Button erstellen/absenden.
-•	Add Friends(Main Button): Mit betätigen von diesem Button soll sich ein Fenster öffnen, auf dem Mann andere User der App Adden kann (via. Username/Email Adresse).
+•	Die App soll nur von bereits Registrierten bzw. Angemeldeten Usern verwendet werden können. Dem entsprechend soll beim öffnen der Webseite ein Login/Registrierung erscheinen.
+•	Dashboard Button (Main Button): Auf der Main Seite sollen 3 verschiedene Buttons sein: 
+Ein Button der alle Partys zu denen der angemeldete User eingeladen ist und auch akzeptiert hat anzeigt. Ein Button der in Naher Zukunft liegende Partys anzeigen soll und ein Button der die Historie von bereits besuchten Partys anzeigt.
+•	Die Felder der Partys sollen geöffnet werden können. Dann soll ein Fenster erscheinen, auf dem man die Anzahl der Besucher, Standort der Party und Uhrzeit sehen kann. 
+•	Zusätzlich soll am Party Feld ein Cancel Button sein, der den User von einer Party abmeldet.
+•	Create Party Button (Main Button): Dieser Button soll ein Fenster öffnen, auf dem man eine Party erstellen kann. Dazu gehört die Adresse(Google Maps), Organisator, User einladen(per Mail, oder Username), Notizen. Diese Eigenschaften einer Party kann man unter diesem Button einrichten und mit einem Bestätigen Button erstellen/absenden.
+•	Add Friends(Main Button): Mit betätigen von diesem Button soll sich ein Fenster öffnen, auf dem man andere User der App adden kann (via. Username/Email Adresse).
 
 3.Teams und Schnittstellen
-And dem Projekt „Vibez“ arbeiten folgende Personen: Jakob Moser, Marc Sahler, Franziska Schnetzer, Claire Pramstaller; Wir werden uns größtenteils über Discord, im Unterricht, per GitHup und per Teams austauschen.
+An dem Projekt „Vibez“ arbeiten folgende Personen: Jakob Moser, Marc Sahler, Franziska Schnetzer, Claire Pramstaller. Wir werden uns größtenteils über Discord, im Unterricht, per GitHup und per Teams austauschen.
 
 5.Rahmenbedingungen
 Unsere Rahmenbedingungen sind:
 •	Ein ausführliches und funktionierendes GitHub Repository mit dem Neusten Stand des Projektes.
-•	Jeder sollte die gleiche version des Entity.Framework haben (v.net7.0).
+•	Jeder sollte die gleiche version des Entity.Framework haben (.NET 7).
 •	Asführliche inline Kommentare, sowie Projekt Dokumentation.
 •	Ein SQL Datenbank Management Tool (SQL Server).
 •	Alle sollten den Docker installiert haben
@@ -44,4 +45,4 @@ Unsere Ansprüche an unser Projekt sind:
 •	Daten in der Datenbank sollen der Richtigkeit entsprechen und streng nach Schema sein.
 
 9.Projektentwicklung
-Siehe Zeitplan.
+Siehe Zeitplan.
