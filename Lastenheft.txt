@@ -29,10 +29,10 @@ Was hätte zusätzlich erreicht werden können?
 Inbetriebnahme und Einsatz:
 Meilensteine
 •	Rahmenbedingungen für die App.
-•	Datenbank Modellierung und Funktionelle Verbindung zur Datenbank
+•	Datenbank Modellierung und Funktionelle Verbindung zur Datenbank und Service
 •	Login/Registrierung
-•	Frontend und Service
+•	Frontend 
 •	E-Mail
 Qualitätsanforderungen:
 Welche Maßnahmen zur Qualitätssicherungen sollen erfüllt werden?
-Es sollten die neusten Technologien verwendet werden (.NET 8).
+Es sollten die neusten Technologien verwendet werden (.NET 7).
