@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Vibez/Vibez/appsettings.json
+/Vibez/Vibez/bin
+/Vibez/Vibez/obj
+/Vibez/Vibez/Data/Migrations
+/Vibez/.vs
+/Vibez/Vibez/.vs
