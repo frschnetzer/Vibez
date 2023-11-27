@@ -13,6 +13,8 @@ namespace Vibez.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Event>()
                 .HasMany(c => c.ApplicationUsers)
                 .WithMany(C => C.Events)
