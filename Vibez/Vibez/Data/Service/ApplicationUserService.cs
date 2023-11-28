@@ -3,7 +3,7 @@ using Vibez.Data.Models;
 
 namespace Vibez.Data.Service
 {
-    public class ApplicationUserService
+    public class ApplicationUserService : IApplicationUserService
     {
         ApplicationDbContext context;
 
