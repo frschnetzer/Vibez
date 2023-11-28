@@ -3,7 +3,7 @@ using Vibez.Data.Models;
 
 namespace Vibez.Data.Service
 {
-    public class EventService
+    public class EventService : IEventService
     {
         ApplicationDbContext context;
 
