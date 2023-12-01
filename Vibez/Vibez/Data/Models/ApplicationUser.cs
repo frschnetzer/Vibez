@@ -13,5 +13,7 @@ namespace Vibez.Data.Models
         [Required]
         [StringLength(6)]
         public string UserNicknameIdentifier { get; set; } = string.Empty;
+
+        public List<Event> Events { get; set; } = new List<Event>();
     }
 }
