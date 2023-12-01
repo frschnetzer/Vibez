@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Vibez",
+    "\\Vibez\\Vibez",
+    "\\Vibez\\Vibez\\Data"
   ],
-  "SelectedNode": "\\Vibez.sln",
+  "SelectedNode": "\\Vibez\\Vibez\\Data\\ApplicationDbContext.cs",
   "PreviewInSolutionExplorer": false
 }
