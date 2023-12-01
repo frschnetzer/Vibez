@@ -33,5 +33,7 @@ namespace Vibez.Data.Models
 
         [Required]
         public DateTime Date { get; set; }
+
+        public List<ApplicationUser> ApplicationUsers { get; set; } = new List<ApplicationUser>();
     }
 }
