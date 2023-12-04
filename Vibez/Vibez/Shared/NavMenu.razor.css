@@ -3,12 +3,23 @@
 }
 
 .top-row {
-    height: 3.5rem;
+    height: 15.5rem;
     background-color: rgba(0,0,0,0.4);
 }
 
 .navbar-brand {
     font-size: 1.1rem;
+}
+
+
+.bi {
+    display: inline-block;
+    position: relative;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.75rem;
+    top: -1px;
+    background-size: cover;
 }
 
 .oi {
@@ -17,6 +28,18 @@
     vertical-align: text-top;
     top: -2px;
 }
+
+    .bi-addfriend-nav-menu {
+        background-image: url("addfriend.png");
+    }
+
+    .bi-invitelist-nav-menu {
+        background-image: url("invitelist.png")
+    }
+
+    .bi-settings-nav-menu {
+        background-image: url("settings.png")
+    }
 
 .nav-item {
     font-size: 0.9rem;
