@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Vibez.Data.DTOs;
 using Vibez.Data.Models;
 
 namespace Vibez.Data.Service
@@ -67,6 +69,52 @@ namespace Vibez.Data.Service
             catch (Exception ex)
             {
                 throw new Exception($"Couldn't delete event. See following exception: {ex}");
+            }
+        }
+
+        public async Task<Event> GetEventById(int eventId)
+        {
+            try
+            {
+                return await context.Events.Where(x => x.Id == eventId).SingleAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Couldn't get event by id. See following exception: {ex}");
+            }
+        }
+        
+        public async Task<List<Event>> GetAllEvents()
+        {
+            try
+            {
+                return await context.Events.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Couldn't get events. See following exception: {ex}");
+            }
+        }
+
+        public async Task<EventDTO> GetEventDTOs(Event newEvent)
+        {
+            try
+            {
+                return await context.Events
+                    .Where(x => x.Id == newEvent.Id)
+                    .Select(x => new EventDTO
+                    {
+                    EventName = newEvent.EventName,
+                    CreatorName = newEvent.CreatorName,
+                    LocationName = newEvent.LocationName,
+                    Notes = newEvent.Notes,
+                    Date = newEvent.Date,
+                    ParticipantCount = newEvent.ParticipantCount
+                }).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Couldn't get eventDTO. See following exception: {ex}");
             }
         }
 

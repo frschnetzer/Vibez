@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
+using Vibez.Data.DTOs;
 using Vibez.Data.Models;
 
 namespace Vibez.Data.Service
@@ -29,6 +31,47 @@ namespace Vibez.Data.Service
             catch (Exception ex)
             {
                 throw new Exception($"Couldn't update nickname. See following exception: {ex}");
+            }
+        }
+
+        public async Task<ApplicationUser> GetApplicationUserByEmail(string email)
+        {
+            try
+            {
+                return await context.ApplicationUsers.Where(x => x.Email == email).SingleAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Couldn't get user by email. See following exception: {ex}");
+            }
+        }
+        public async Task<List<ApplicationUser>> GetAllApplicationUsers()
+        {
+            try
+            {
+                return await context.ApplicationUsers.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Couldn't get users. See following exception: {ex}");
+            }
+        }
+
+        public async Task<ApplicationUserDTO> GetApplicationUserDTO(ApplicationUser applicationUser)
+        {
+            try
+            {
+                return await context.ApplicationUsers
+                    .Where(x => x.Email == applicationUser.Email)
+                    .Select(x => new ApplicationUserDTO
+                    {
+                        UserNickname = applicationUser.UserNickname,
+                        UserNicknameIdentifier = applicationUser.UserNicknameIdentifier
+                    }).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Couldn't get userDTO. See following exception: {ex}");
             }
         }
 
