@@ -45,6 +45,7 @@ namespace Vibez.Data.Service
                 throw new Exception($"Couldn't get user by email. See following exception: {ex}");
             }
         }
+
         public async Task<List<ApplicationUser>> GetAllApplicationUsers()
         {
             try

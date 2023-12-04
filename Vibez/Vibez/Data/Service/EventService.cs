@@ -76,7 +76,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await context.Events.Where(x => x.Id == eventId).SingleAsync();
+                return await context.Events.Where(x => x.Id == eventId).FirstAsync();
             }
             catch (Exception ex)
             {
