@@ -9,6 +9,12 @@
 </div>
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <div>
+        <NavLink class="nav-link">
+            <hr style="border-bottom: 2px solid #fff"/>
+        </NavLink>
+    </div>
+    
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
@@ -31,7 +37,12 @@
                 <span class="bi bi-addfriend-nav-menu" aria-hidden="true"></span> Add Friends
             </NavLink>
         </div>
-        
+
+        <div>
+            <NavLink class="nav-link">
+                <hr style="border-bottom: 2px solid #fff"/>
+            </NavLink>
+        </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="settings">
