@@ -1,0 +1,41 @@
+﻿
+@page "/createparty"
+
+<PageTitle>Create Party</PageTitle>
+
+<h3>Create a party</h3>
+<br/>
+<div class="input-group mb-3 w-25">
+    <input type="text" class="form-control" placeholder="Eventname"/>
+</div>
+<div class="input-group mb-3 w-25">
+    <input type="text" class="form-control" placeholder="Creator Name"/>
+</div>
+
+<div class="input-group mb-3 w-25">
+    <input type="text" class="form-control" placeholder="Location" />
+</div>
+
+<div class="input-group mb-3 w-25">
+    <input type="text" class="form-control" placeholder="Address" />
+</div>
+
+<div class="input-group mb-3 w-25">
+    <MudSelect Margin="Margin.Dense" T="string" Label="Friends" Variant="Variant.Outlined">
+        <MudSelectItem Value="@("Jakob")" />
+        <MudSelectItem Value="@("Marc")" />
+        <MudSelectItem Value="@("Franziska")" />
+        <MudSelectItem Value="@("Claire")" />
+    </MudSelect>
+</div>
+
+<div class="input-group mb-3 w-25">
+    <input type="date" class="form-control"/>
+    <input type="time" class="form-control"/>
+</div>
+
+
+
+@code {
+
+}

@@ -1,6 +1,7 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
+    <img src="vibezzlogo.png" width="197" height="230">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Vibez</a>
+        <a class="navbar-brand" href=""></a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -8,24 +9,50 @@
 </div>
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <div>
+        <NavLink class="nav-link">
+            <hr style="border-bottom: 2px solid #fff"/>
+        </NavLink>
+    </div>
+    
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+                <span class="oi oi-home" aria-hidden="true"></span> Dashboard
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link" href="createparty">
+                <span class="oi oi-plus" aria-hidden="true"></span> Create Party
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            <NavLink class="nav-link" href="seeinvites">
+                <span class="bi bi-invitelist-nav-menu" aria-hidden="true"></span> See Invites
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="addfriends">
+                <span class="bi bi-addfriend-nav-menu" aria-hidden="true"></span> Add Friends
+            </NavLink>
+        </div>
+
+        <div>
+            <NavLink class="nav-link">
+                <hr style="border-bottom: 2px solid #fff"/>
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="settings">
+                <span class="bi bi-settings-nav-menu" aria-hidden="true"></span> Settings
             </NavLink>
         </div>
     </nav>
 </div>
+
+
 
 @code {
     private bool collapseNavMenu = true;
