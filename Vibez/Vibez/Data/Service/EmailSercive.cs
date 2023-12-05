@@ -8,7 +8,7 @@ using System.Runtime.ConstrainedExecution;
 namespace Vibez.Data.Service
 {
     // Method to Send Emails
-    public class EmailSercive:IEmailService
+    public class EmailSercive : IEmailService
     {
 
     //"DefaultAuth": "tvst wnqr bblj vywe",
