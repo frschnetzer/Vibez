@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Schnetzer Franziska\\source\\repos\\Vibez\\Vibez\\Vibez.csproj": {}
+    "C:\\Users\\jamo\\source\\repos\\frschnetzer\\Vibez\\Vibez\\Vibez\\Vibez.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Schnetzer Franziska\\source\\repos\\Vibez\\Vibez\\Vibez.csproj": {
+    "C:\\Users\\jamo\\source\\repos\\frschnetzer\\Vibez\\Vibez\\Vibez\\Vibez.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Schnetzer Franziska\\source\\repos\\Vibez\\Vibez\\Vibez.csproj",
+        "projectUniqueName": "C:\\Users\\jamo\\source\\repos\\frschnetzer\\Vibez\\Vibez\\Vibez\\Vibez.csproj",
         "projectName": "Vibez",
-        "projectPath": "C:\\Users\\Schnetzer Franziska\\source\\repos\\Vibez\\Vibez\\Vibez.csproj",
-        "packagesPath": "C:\\Users\\Schnetzer Franziska\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Schnetzer Franziska\\source\\repos\\Vibez\\Vibez\\obj\\",
+        "projectPath": "C:\\Users\\jamo\\source\\repos\\frschnetzer\\Vibez\\Vibez\\Vibez\\Vibez.csproj",
+        "packagesPath": "C:\\Users\\jamo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jamo\\source\\repos\\frschnetzer\\Vibez\\Vibez\\Vibez\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Schnetzer Franziska\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\jamo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
