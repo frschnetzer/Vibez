@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Vibez.Areas.Identity;
 using Vibez.Data;
+using MudBlazor.Services;
 
 namespace Vibez
 {
@@ -26,6 +27,7 @@ namespace Vibez
             builder.Services.AddServerSideBlazor();
             builder.Services.AddScoped<AuthenticationStateProvider, 
                 RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+            builder.Services.AddMudServices();
 
             var app = builder.Build();
 
