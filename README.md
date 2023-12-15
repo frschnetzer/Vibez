@@ -31,3 +31,15 @@
 -  contains all pngs and Icons
 #### Pages
 - CreateParyView
+
+## Email
+### Technologies
+- MailKit NuGet
+- SMTP Server name (Gmail)
+- Port: 587 TLS
+- Email Address of sender
+- Email Address of reciever
+- unlock password for App in Google Account (Account -> Security -> App Passwords)
+
+### Code
+- see Vibez_Email.pdf
