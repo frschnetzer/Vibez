@@ -27,3 +27,7 @@
 - every access to the database and all calculations are located in the services.
   
 ### Frontend
+### wwwroot
+-  contains all pngs and Icons
+### Pages
+- CreateParyView
