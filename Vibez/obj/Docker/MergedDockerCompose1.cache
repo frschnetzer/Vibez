@@ -1,4 +1,4 @@
-name: dockercompose15026841806319855851
+name: dockercompose1779766840343907049
 services:
   db:
     container_name: mssql-container
@@ -20,7 +20,7 @@ services:
         volume: {}
   vibez:
     build:
-      context: C:\Users\Schnetzer Franziska\Source\Repos\frschnetzer\Vibez\Vibez
+      context: C:\Users\ClairePramstaller\source\repos\Vibez\Vibez
       dockerfile: Vibez/Dockerfile
       args:
         BUILD_CONFIGURATION: Debug
@@ -67,71 +67,71 @@ services:
         bind:
           create_host_path: true
       - type: bind
-        source: C:\Users\Schnetzer Franziska\.nuget\packages\
+        source: C:\Users\ClairePramstaller\.nuget\packages\
         target: /.nuget/packages
         read_only: true
         bind:
           create_host_path: true
       - type: bind
-        source: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\HotReload
+        source: C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\HotReload
         target: /HotReloadAgent
         read_only: true
         bind:
           create_host_path: true
       - type: bind
-        source: C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\HotReloadProxy\linux-x64\net7.0
+        source: C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\HotReloadProxy\linux-x64\net7.0
         target: /HotReloadProxy
         read_only: true
         bind:
           create_host_path: true
       - type: bind
-        source: C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\TokenService.Proxy\linux-x64\net7.0
+        source: C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\TokenService.Proxy\linux-x64\net7.0
         target: /TokenService.Proxy
         read_only: true
         bind:
           create_host_path: true
       - type: bind
-        source: C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\Vibez
+        source: C:\Users\ClairePramstaller\source\repos\Vibez\Vibez\Vibez
         target: /app
         bind:
           create_host_path: true
       - type: bind
-        source: C:\Users\Schnetzer Franziska\AppData\Roaming/ASP.NET/Https
+        source: C:\Users\ClairePramstaller\AppData\Roaming/ASP.NET/Https
         target: /home/app/.aspnet/https
         read_only: true
         bind:
           create_host_path: true
       - type: bind
-        source: C:\Users\Schnetzer Franziska\AppData\Roaming/Microsoft/UserSecrets
+        source: C:\Users\ClairePramstaller\AppData\Roaming/Microsoft/UserSecrets
         target: /home/app/.microsoft/usersecrets
         read_only: true
         bind:
           create_host_path: true
       - type: bind
-        source: C:\Users\Schnetzer Franziska\vsdbg\vs2017u5
+        source: C:\Users\ClairePramstaller\vsdbg\vs2017u5
         target: /remote_debugger
         bind:
           create_host_path: true
       - type: bind
-        source: C:\Users\Schnetzer Franziska\AppData\Roaming/ASP.NET/Https
+        source: C:\Users\ClairePramstaller\AppData\Roaming/ASP.NET/Https
         target: /root/.aspnet/https
         read_only: true
         bind:
           create_host_path: true
       - type: bind
-        source: C:\Users\Schnetzer Franziska\AppData\Roaming/Microsoft/UserSecrets
+        source: C:\Users\ClairePramstaller\AppData\Roaming/Microsoft/UserSecrets
         target: /root/.microsoft/usersecrets
         read_only: true
         bind:
           create_host_path: true
       - type: bind
-        source: C:\Users\Schnetzer Franziska\Source\Repos\frschnetzer\Vibez\Vibez
+        source: C:\Users\ClairePramstaller\source\repos\Vibez\Vibez
         target: /src
         bind:
           create_host_path: true
 networks:
   mynetwork:
-    name: dockercompose15026841806319855851_mynetwork
+    name: dockercompose1779766840343907049_mynetwork
 volumes:
   mssql-data:
-    name: dockercompose15026841806319855851_mssql-data
+    name: dockercompose1779766840343907049_mssql-data

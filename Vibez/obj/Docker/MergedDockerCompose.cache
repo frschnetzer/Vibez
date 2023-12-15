@@ -1,4 +1,4 @@
-name: dockercompose15026841806319855851
+name: dockercompose1779766840343907049
 services:
   db:
     container_name: mssql-container
@@ -20,7 +20,7 @@ services:
         volume: {}
   vibez:
     build:
-      context: C:\Users\Schnetzer Franziska\Source\Repos\frschnetzer\Vibez\Vibez
+      context: C:\Users\ClairePramstaller\source\repos\Vibez\Vibez
       dockerfile: Vibez/Dockerfile
     depends_on:
       db:
@@ -41,20 +41,20 @@ services:
         protocol: tcp
     volumes:
       - type: bind
-        source: C:\Users\Schnetzer Franziska\AppData\Roaming/Microsoft/UserSecrets
+        source: C:\Users\ClairePramstaller\AppData\Roaming/Microsoft/UserSecrets
         target: /root/.microsoft/usersecrets
         read_only: true
         bind:
           create_host_path: true
       - type: bind
-        source: C:\Users\Schnetzer Franziska\AppData\Roaming/ASP.NET/Https
+        source: C:\Users\ClairePramstaller\AppData\Roaming/ASP.NET/Https
         target: /root/.aspnet/https
         read_only: true
         bind:
           create_host_path: true
 networks:
   mynetwork:
-    name: dockercompose15026841806319855851_mynetwork
+    name: dockercompose1779766840343907049_mynetwork
 volumes:
   mssql-data:
-    name: dockercompose15026841806319855851_mssql-data
+    name: dockercompose1779766840343907049_mssql-data
