@@ -43,3 +43,13 @@
 
 ### Code
 - see Vibez_Email.pdf
+
+## Maps
+### Technologies
+- Google API is not open source so we choose IFRAME Tool
+
+### Functionality
+- address of event should give parameters to the IFRAME
+- Then the location of the event will be shown in a map 
+
+##
