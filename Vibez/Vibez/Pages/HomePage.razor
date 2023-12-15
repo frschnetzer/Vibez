@@ -2,8 +2,12 @@
 
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Identity
+@using Vibez.Data.Models
+@using Vibez.Data.Service
 
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject IEventService eventService
+@inject IApplicationUserService applicaionUserService
 
 <h3>Vibezz</h3>
 
@@ -25,13 +29,18 @@
 
     .button {
         padding: 10px;
-        background-color: #4CAF50;
+        background-color: #8c74ac;
         color: white;
         border: none;
         border-radius: 5px !important;
         cursor: pointer;
-        margin: 20px !important
+        margin: 20px !important;
     }
+
+        .button:hover {
+            background-color: #dcc4e4;
+            transition: 0.7s;
+        }
 </style>
 
 @if(!isAuthenticated)
@@ -46,25 +55,79 @@ else
         <div class="button-row">
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" autocomplete="off" checked>
-                <label class="btn btn-outline-primary button" for="btnradio1">All events</label>
+                <label class="btn button" for="btnradio1" @onclick=GetAllEventsAsync>All events</label>
 
                 <input type="radio" class="btn-check" autocomplete="off">
-                <label class="btn btn-outline-primary button" for="btnradio2">Upcoming</label>
+                <label class="btn button" for="btnradio2" @onclick=GetAllUpcomingEventsAsync>Upcoming</label>
 
                 <input type="radio" class="btn-check" autocomplete="off">
-                <label class="btn btn-outline-primary button" for="btnradio3">Past</label>
+                <label class="btn button" for="btnradio3" @onclick=GetAllPastEventsAsync>Past</label>
             </div>
         </div>
-    </div>    
+    </div>
 }
 
 @code {
+    private List<Event> eventlist = new();
+    private AuthenticationState? authstate;
+    private Event? newEvent;
+
     private bool isAuthenticated;
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
-        var user = authState.User;
-        isAuthenticated = user.Identity.IsAuthenticated;
+        authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        isAuthenticated = authstate.User.Identity.IsAuthenticated;
+
+        try
+        {
+            if(isAuthenticated)
+            {
+                var currentUser = await applicaionUserService.GetApplicationUserByEmail(authstate.User.Identity.Name);
+
+                var guestList = new List<ApplicationUser?>();
+                guestList.Add(currentUser);
+                guestList.Add(currentUser);
+
+                await eventService.AddEvent(new Event()
+                    {
+                        CreatorName = authstate.User.Identity.Name,
+                        CordinatesLatitude = 47.264427185058594,
+                        CordinatesLongitude = 11.358067512512207,
+                        Date = DateTime.Now,
+                        EventName = "Test event",
+                        LocationName = "Test location",
+                        Notes = "some notes",
+                        ParticipantCount = 2,
+                        ApplicationUsers = guestList 
+                    });
+
+                eventlist = await eventService.GetAllUserEvents(authstate.User.Identity.Name);
+            }
+        }
+        catch(Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
+
+    private async Task GetAllEventsAsync()
+    {
+        await RefreshData();
+    }
+
+    private async Task GetAllUpcomingEventsAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    private async Task GetAllPastEventsAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    private async Task RefreshData()
+    {
+        eventlist = await eventService.GetAllUserEvents(authstate.User.Identity.Name);
     }
 }

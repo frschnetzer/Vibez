@@ -40,7 +40,6 @@ C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Micr
 C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\MimeKit.dll
 C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\MailKit.dll
-C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Azure.Core.dll
 C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.Extensions.Options.dll
 C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\MudBlazor.dll
@@ -52,7 +51,6 @@ C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Micr
 C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\BouncyCastle.Cryptography.dll
 C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\System.Security.Cryptography.Pkcs.dll
-C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\System.Memory.Data.dll
 C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.AspNetCore.Components.Forms.dll
 C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.JSInterop.dll
 C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.Extensions.Localization.Abstractions.dll

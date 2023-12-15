@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using Vibez.Data.DTOs;
 using Vibez.Data.Models;
 
@@ -18,17 +17,17 @@ namespace Vibez.Data.Service
         {
             try
             {
-                if (await UserIsValid(user.UserName))
+                if(await UserIsValid(user.UserName))
                 {
                     var oldUser = await context.ApplicationUsers.FirstAsync(x => x.UserName == user.UserName);
 
                     oldUser.UserNickname = user.UserNickname;
                     oldUser.UserNicknameIdentifier = user.UserNicknameIdentifier;
- 
+
                     await context.SaveChangesAsync();
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw new Exception($"Couldn't update nickname. See following exception: {ex}");
             }
@@ -38,9 +37,26 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await context.ApplicationUsers.Where(x => x.Email == email).SingleAsync();
+                return await context.Users.Where(x => x.UserName == email).Select(x => new ApplicationUser()
+                {
+                    UserName = x.UserName,
+                    AccessFailedCount = x.AccessFailedCount,
+                    ConcurrencyStamp = x.ConcurrencyStamp,
+                    Email = x.Email,
+                    EmailConfirmed = x.EmailConfirmed,
+                    Id = x.Id,
+                    LockoutEnabled = x.LockoutEnabled,
+                    LockoutEnd = x.LockoutEnd,
+                    NormalizedEmail = x.NormalizedEmail,
+                    NormalizedUserName = x.NormalizedUserName,
+                    PasswordHash = x.PasswordHash,
+                    PhoneNumberConfirmed = x.PhoneNumberConfirmed,
+                    PhoneNumber = x.PhoneNumber,
+                    SecurityStamp = x.SecurityStamp,
+                    TwoFactorEnabled = x.TwoFactorEnabled
+                }).FirstAsync();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw new Exception($"Couldn't get user by email. See following exception: {ex}");
             }
@@ -52,7 +68,7 @@ namespace Vibez.Data.Service
             {
                 return await context.ApplicationUsers.ToListAsync();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw new Exception($"Couldn't get users. See following exception: {ex}");
             }
@@ -70,7 +86,7 @@ namespace Vibez.Data.Service
                         UserNicknameIdentifier = applicationUser.UserNicknameIdentifier
                     }).FirstAsync();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw new Exception($"Couldn't get userDTO. See following exception: {ex}");
             }
@@ -80,7 +96,7 @@ namespace Vibez.Data.Service
         {
             bool isDuplicate = await context.ApplicationUsers.AnyAsync(x => x.UserName == userName);
 
-            if (!isDuplicate)
+            if(!isDuplicate)
             {
                 return false;
             }

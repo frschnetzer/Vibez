@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static Azure.Core.HttpHeader;
 
 namespace Vibez.Data.Models
 {
     public class Event
     {
-        [Required]
         [Key]
-        public int Id { get; set; }
+        public int EventId { get; set; }
 
         [Required]
         [StringLength(100)]
@@ -34,6 +32,6 @@ namespace Vibez.Data.Models
         [Required]
         public DateTime Date { get; set; }
 
-        public List<ApplicationUser> ApplicationUsers { get; set; } = new List<ApplicationUser>();
+        public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; } = new List<ApplicationUser>();
     }
 }

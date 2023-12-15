@@ -27,12 +27,12 @@ namespace Vibez.Data.Migrations
                     b.Property<string>("ApplicationUsersId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("EventsId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("EventsEventId")
+                        .HasColumnType("int");
 
-                    b.HasKey("ApplicationUsersId", "EventsId");
+                    b.HasKey("ApplicationUsersId", "EventsEventId");
 
-                    b.HasIndex("EventsId");
+                    b.HasIndex("EventsEventId");
 
                     b.ToTable("ApplicationUserEvents", (string)null);
                 });
@@ -249,8 +249,11 @@ namespace Vibez.Data.Migrations
 
             modelBuilder.Entity("Vibez.Data.Models.Event", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("EventId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventId"));
 
                     b.Property<double>("CordinatesLatitude")
                         .HasColumnType("float");
@@ -283,9 +286,9 @@ namespace Vibez.Data.Migrations
                     b.Property<int>("ParticipantCount")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("EventId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("Vibez.Data.Models.ApplicationUser", b =>
@@ -315,7 +318,7 @@ namespace Vibez.Data.Migrations
 
                     b.HasOne("Vibez.Data.Models.Event", null)
                         .WithMany()
-                        .HasForeignKey("EventsId")
+                        .HasForeignKey("EventsEventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
