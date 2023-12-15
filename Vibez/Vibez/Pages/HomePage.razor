@@ -1,5 +1,13 @@
-﻿<h3>HomePage</h3>
+﻿@page "/homePage"
 
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Identity
+
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+
+<h3>Vibezz</h3>
+
+@*style defining*@
 <style>
     .header {
         background-color: #f0f0f0;
@@ -20,27 +28,43 @@
         background-color: #4CAF50;
         color: white;
         border: none;
-        border-radius: 5px !important; 
+        border-radius: 5px !important;
         cursor: pointer;
         margin: 20px !important
     }
 </style>
 
-<div class="header">
-    <div class="button-row">
-        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" autocomplete="off" checked>
-            <label class="btn btn-outline-primary button" for="btnradio1">All events</label>
-
-            <input type="radio" class="btn-check" autocomplete="off">
-            <label class="btn btn-outline-primary button" for="btnradio2">Upcoming</label>
-
-            <input type="radio" class="btn-check" autocomplete="off">
-            <label class="btn btn-outline-primary button" for="btnradio3">Past</label>
-        </div>
+@if(!isAuthenticated)
+{
+    <div>
+        <p>Please sign in or register to use the application!</p>
     </div>
-</div>
+}
+else
+{
+    <div class="header">
+        <div class="button-row">
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" autocomplete="off" checked>
+                <label class="btn btn-outline-primary button" for="btnradio1">All events</label>
+
+                <input type="radio" class="btn-check" autocomplete="off">
+                <label class="btn btn-outline-primary button" for="btnradio2">Upcoming</label>
+
+                <input type="radio" class="btn-check" autocomplete="off">
+                <label class="btn btn-outline-primary button" for="btnradio3">Past</label>
+            </div>
+        </div>
+    </div>    
+}
 
 @code {
+    private bool isAuthenticated;
 
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authState.User;
+        isAuthenticated = user.Identity.IsAuthenticated;
+    }
 }

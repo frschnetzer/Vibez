@@ -25,3 +25,43 @@ C:\Users\ClairePramstaller\source\repos\Vibez\Vibez\bin\Debug\Vibez.pdb
 C:\Users\ClairePramstaller\source\repos\Vibez\Vibez\obj\Debug\docker-compose.dcproj.AssemblyReference.cache
 C:\Users\ClairePramstaller\source\repos\Vibez\Vibez\obj\Debug\docker-compose.dcproj.CoreCompileInputs.cache
 C:\Users\ClairePramstaller\source\repos\Vibez\Vibez\obj\Debug\docker-compose.dcproj.CopyComplete
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\appsettings.Development.json
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Vibez.deps.json
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Vibez.runtimeconfig.json
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\appsettings.json
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Vibez.staticwebassets.runtime.json
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Vibez.exe
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Vibez.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.AspNetCore.Identity.UI.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.Extensions.Identity.Core.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.AspNetCore.Components.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.EntityFrameworkCore.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\MimeKit.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\MailKit.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Azure.Core.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.Extensions.Options.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\MudBlazor.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.AspNetCore.Components.Web.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.EntityFrameworkCore.SqlServer.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.AspNetCore.Authorization.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\BouncyCastle.Cryptography.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\System.Security.Cryptography.Pkcs.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\System.Memory.Data.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.AspNetCore.Components.Forms.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.JSInterop.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.Extensions.Localization.Abstractions.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.Extensions.Localization.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.Data.SqlClient.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.AspNetCore.Metadata.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Microsoft.Identity.Client.dll
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\bin\Debug\Vibez.pdb
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\obj\Debug\docker-compose.dcproj.AssemblyReference.cache
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\obj\Debug\docker-compose.dcproj.CoreCompileInputs.cache
+C:\Users\Schnetzer Franziska\source\repos\frschnetzer\Vibez\Vibez\obj\Debug\docker-compose.dcproj.CopyComplete
