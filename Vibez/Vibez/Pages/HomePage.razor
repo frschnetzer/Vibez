@@ -9,6 +9,7 @@
     }
 
     .button-row {
+        display: flex;
         width: 100%;
         text-align: center;
         margin-bottom: 20px;
@@ -19,16 +20,24 @@
         background-color: #4CAF50;
         color: white;
         border: none;
-        border-radius: 5px;
+        border-radius: 5px !important; 
         cursor: pointer;
+        margin: 20px !important
     }
 </style>
 
 <div class="header">
     <div class="button-row">
-        <button class="button">Button 1</button>
-        <button class="button">Button 2</button>
-        <button class="button">Button 3</button>
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" autocomplete="off" checked>
+            <label class="btn btn-outline-primary button" for="btnradio1">All events</label>
+
+            <input type="radio" class="btn-check" autocomplete="off">
+            <label class="btn btn-outline-primary button" for="btnradio2">Upcoming</label>
+
+            <input type="radio" class="btn-check" autocomplete="off">
+            <label class="btn btn-outline-primary button" for="btnradio3">Past</label>
+        </div>
     </div>
 </div>
 

@@ -3,8 +3,8 @@
     "",
     "\\Vibez",
     "\\Vibez\\Vibez",
-    "\\Vibez\\Vibez\\Data"
+    "\\Vibez\\Vibez\\Pages"
   ],
-  "SelectedNode": "\\Vibez\\Vibez\\Data\\ApplicationDbContext.cs",
+  "SelectedNode": "\\Vibez\\Vibez\\Pages\\HomePage.razor",
   "PreviewInSolutionExplorer": false
 }
