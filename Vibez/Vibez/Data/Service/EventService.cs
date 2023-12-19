@@ -23,7 +23,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                if(await EventIsValid(newEvent.EventId))
+                if (await EventIsValid(newEvent.EventId))
                 {
                     await context.Events.AddAsync(newEvent);
                     await context.SaveChangesAsync();
@@ -39,7 +39,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                if(await EventIsValid(newEvent.EventId))
+                if (await EventIsValid(newEvent.EventId))
                 {
                     var oldEvent = await context.Events.FirstAsync(x => x.EventId == newEvent.EventId);
 

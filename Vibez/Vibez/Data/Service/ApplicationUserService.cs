@@ -4,33 +4,13 @@ using Vibez.Data.Models;
 
 namespace Vibez.Data.Service
 {
-    public class ApplicationUserService : IApplicationUserService
+    public class ApplicationUserService
     {
         ApplicationDbContext context;
 
         public ApplicationUserService(ApplicationDbContext context)
         {
             this.context = context;
-        }
-
-        public async Task UpdateUserNickName(ApplicationUser user)
-        {
-            try
-            {
-                if(await UserIsValid(user.UserName))
-                {
-                    var oldUser = await context.ApplicationUsers.FirstAsync(x => x.UserName == user.UserName);
-
-                    oldUser.UserNickname = user.UserNickname;
-                    oldUser.UserNicknameIdentifier = user.UserNicknameIdentifier;
-
-                    await context.SaveChangesAsync();
-                }
-            }
-            catch(Exception ex)
-            {
-                throw new Exception($"Couldn't update nickname. See following exception: {ex}");
-            }
         }
 
         public async Task<ApplicationUser> GetApplicationUserByEmail(string email)
@@ -71,24 +51,6 @@ namespace Vibez.Data.Service
             catch(Exception ex)
             {
                 throw new Exception($"Couldn't get users. See following exception: {ex}");
-            }
-        }
-
-        public async Task<ApplicationUserDTO> GetApplicationUserDTO(ApplicationUser applicationUser)
-        {
-            try
-            {
-                return await context.ApplicationUsers
-                    .Where(x => x.Email == applicationUser.Email)
-                    .Select(x => new ApplicationUserDTO
-                    {
-                        UserNickname = applicationUser.UserNickname,
-                        UserNicknameIdentifier = applicationUser.UserNicknameIdentifier
-                    }).FirstAsync();
-            }
-            catch(Exception ex)
-            {
-                throw new Exception($"Couldn't get userDTO. See following exception: {ex}");
             }
         }
 
