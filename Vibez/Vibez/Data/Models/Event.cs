@@ -5,9 +5,8 @@ namespace Vibez.Data.Models
 {
     public class Event
     {
-        [Required]
         [Key]
-        public int Id { get; set; }
+        public int EventId { get; set; }
 
         [Required]
         [StringLength(100)]

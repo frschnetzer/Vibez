@@ -18,7 +18,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                if (await EventIsValid(newEvent.Id))
+                if (await EventIsValid(newEvent.EventId))
                 {
                     await context.Events.AddAsync(newEvent);
                     await context.SaveChangesAsync();
@@ -34,9 +34,9 @@ namespace Vibez.Data.Service
         {
             try
             {
-                if (await EventIsValid(newEvent.Id))
+                if (await EventIsValid(newEvent.EventId))
                 {
-                    var oldEvent = await context.Events.FirstAsync(x => x.Id == newEvent.Id);
+                    var oldEvent = await context.Events.FirstAsync(x => x.EventId == newEvent.EventId);
 
                     oldEvent.EventName = newEvent.EventName;
                     oldEvent.CreatorName = newEvent.CreatorName;
@@ -61,7 +61,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                var deleteEvent = await context.Events.FirstAsync(x => x.Id == eventId);
+                var deleteEvent = await context.Events.FirstAsync(x => x.EventId == eventId);
 
                 context.Events.Remove(deleteEvent);
                 await context.SaveChangesAsync();
@@ -76,7 +76,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await context.Events.Where(x => x.Id == eventId).FirstAsync();
+                return await context.Events.Where(x => x.EventId == eventId).FirstAsync();
             }
             catch (Exception ex)
             {
@@ -101,7 +101,7 @@ namespace Vibez.Data.Service
             try
             {
                 return await context.Events
-                    .Where(x => x.Id == newEvent.Id)
+                    .Where(x => x.EventId == newEvent.EventId)
                     .Select(x => new EventDTO
                     {
                     EventName = newEvent.EventName,
@@ -120,7 +120,7 @@ namespace Vibez.Data.Service
 
         private async Task<bool> EventIsValid(int eventId)
         {
-            bool isDuplicate = await context.Events.AnyAsync(x => x.Id == eventId);
+            bool isDuplicate = await context.Events.AnyAsync(x => x.EventId == eventId);
 
             if (!isDuplicate)
             {
