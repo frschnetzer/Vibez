@@ -12,7 +12,7 @@ using Vibez.Data;
 namespace Vibez.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231127140849_CreateModels")]
+    [Migration("20231219141051_CreateModels")]
     partial class CreateModels
     {
         /// <inheritdoc />
@@ -30,12 +30,12 @@ namespace Vibez.Data.Migrations
                     b.Property<string>("ApplicationUsersId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("EventsId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("EventsEventId")
+                        .HasColumnType("int");
 
-                    b.HasKey("ApplicationUsersId", "EventsId");
+                    b.HasKey("ApplicationUsersId", "EventsEventId");
 
-                    b.HasIndex("EventsId");
+                    b.HasIndex("EventsEventId");
 
                     b.ToTable("ApplicationUserEvents", (string)null);
                 });
@@ -252,8 +252,11 @@ namespace Vibez.Data.Migrations
 
             modelBuilder.Entity("Vibez.Data.Models.Event", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("EventId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventId"));
 
                     b.Property<double>("CordinatesLatitude")
                         .HasColumnType("float");
@@ -286,7 +289,7 @@ namespace Vibez.Data.Migrations
                     b.Property<int>("ParticipantCount")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("EventId");
 
                     b.ToTable("Events");
                 });
@@ -318,7 +321,7 @@ namespace Vibez.Data.Migrations
 
                     b.HasOne("Vibez.Data.Models.Event", null)
                         .WithMany()
-                        .HasForeignKey("EventsId")
+                        .HasForeignKey("EventsEventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
