@@ -36,7 +36,8 @@ namespace Vibez.Data.Migrations
                 name: "Events",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    EventId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     EventName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatorName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ParticipantCount = table.Column<int>(type: "int", nullable: false),
@@ -48,7 +49,7 @@ namespace Vibez.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Events", x => x.Id);
+                    table.PrimaryKey("PK_Events", x => x.EventId);
                 });
 
             migrationBuilder.CreateTable(
@@ -56,11 +57,11 @@ namespace Vibez.Data.Migrations
                 columns: table => new
                 {
                     ApplicationUsersId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    EventsId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    EventsEventId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ApplicationUserEvents", x => new { x.ApplicationUsersId, x.EventsId });
+                    table.PrimaryKey("PK_ApplicationUserEvents", x => new { x.ApplicationUsersId, x.EventsEventId });
                     table.ForeignKey(
                         name: "FK_ApplicationUserEvents_AspNetUsers_ApplicationUsersId",
                         column: x => x.ApplicationUsersId,
@@ -68,17 +69,17 @@ namespace Vibez.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ApplicationUserEvents_Events_EventsId",
-                        column: x => x.EventsId,
+                        name: "FK_ApplicationUserEvents_Events_EventsEventId",
+                        column: x => x.EventsEventId,
                         principalTable: "Events",
-                        principalColumn: "Id",
+                        principalColumn: "EventId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ApplicationUserEvents_EventsId",
+                name: "IX_ApplicationUserEvents_EventsEventId",
                 table: "ApplicationUserEvents",
-                column: "EventsId");
+                column: "EventsEventId");
         }
 
         /// <inheritdoc />
