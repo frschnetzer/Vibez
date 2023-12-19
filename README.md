@@ -31,3 +31,30 @@
 -  contains all pngs and Icons
 #### Pages
 - CreateParyView
+
+## Email
+### Technologies
+- MailKit NuGet
+- SMTP Server name (Gmail)
+- Port: 587 TLS
+- Email Address of sender
+- Email Address of reciever
+- unlock password for App in Google Account (Account -> Security -> App Passwords)
+
+### Code
+- see Vibez_Email.pdf
+
+## Maps
+### Technologies
+- Google API is not open source so we choose IFRAME Tool
+
+### Functionality
+- address of event should give parameters to the IFRAME
+- Then the location of the event will be shown in a map 
+- source: Vibez_Maps.pdf
+
+## Mulitlanguages
+### Functionality
+- through "CultureInfo" we can change the language of the website.
+- we need .txt files for instructions e.g. en-US or de-DE
+- source: Vibez_MultiLanguage.pdf
