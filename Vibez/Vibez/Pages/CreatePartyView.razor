@@ -1,23 +1,27 @@
-﻿
-@page "/createparty"
+﻿@page "/createparty"
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Vibez.Data.Models
+@using Vibez.Data.Service
+@inject IEventService EventService
+@inject IApplicationUserService ApplicationUserService
+@inject AuthenticationStateProvider AuthProvider
 
 <PageTitle>Create Party</PageTitle>
 
 <h3>Create a party</h3>
-<br/>
+<br />
 <div class="input-group mb-3 w-25">
-    <input type="text" class="form-control" placeholder="Eventname"/>
+    <input @bind="eventname" type="text" class="form-control" placeholder="Eventname" />
 </div>
 <div class="input-group mb-3 w-25">
-    <input type="text" class="form-control" placeholder="Creator Name"/>
+    <input @bind="notes" type="text" class="form-control" placeholder="Notes" />
+</div>
+<div class="input-group mb-3 w-25">
+    <input @bind="location" type="text" class="form-control" placeholder="Location" />
 </div>
 
 <div class="input-group mb-3 w-25">
-    <input type="text" class="form-control" placeholder="Location" />
-</div>
-
-<div class="input-group mb-3 w-25">
-    <input type="text" class="form-control" placeholder="Address" />
+    <input @bind="address" type="text" class="form-control" placeholder="Address" />
 </div>
 
 <div class="input-group mb-3 w-25">
@@ -30,12 +34,40 @@
 </div>
 
 <div class="input-group mb-3 w-25">
-    <input type="date" class="form-control"/>
-    <input type="time" class="form-control"/>
+    <input type="date" class="form-control" />
+    <input type="time" class="form-control" />
 </div>
 
-
-
 @code {
+    private Event? newEvent;
+    private string eventname { get; set; } = string.Empty;
+    private string notes { get; set; } = string.Empty;
+    private string location { get; set; } = string.Empty;
+    private string address { get; set; } = string.Empty;
+    private int participantCount { get; set; }
+    private double longitude { get; set; }
+    private double latitude { get; set; }
+    private DateTime date { get; set; }
 
+
+    public async void CreateEvent()
+    {
+        var email = await AuthProvider.GetAuthenticationStateAsync();
+
+        var creatorName = await ApplicationUserService.GetApplicationUserByEmail(email.User.Identity.Name);
+
+        var _newEvent = new Event()
+            {
+                EventName = eventname,
+                CreatorName = creatorName.ToString(),
+                Notes = notes,
+                LocationName = location,
+                ParticipantCount = participantCount,
+                CordinatesLongitude = longitude,
+                CordinatesLatitude = latitude,
+                Date = date
+            };
+
+        await EventService.AddEvent(_newEvent);
+    }
 }
