@@ -8,18 +8,18 @@ namespace Vibez.Data.Service
 {
     public class ApplicationUserService : IApplicationUserService
     {
-        ApplicationDbContext context;
+        ApplicationDbContext _context;
 
         public ApplicationUserService(ApplicationDbContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
         public async Task<IdentityUser> GetApplicationUserByEmail(string email)
         {
             try
             {
-                return await context.Users.Where(x => x.Email == email).SingleAsync();
+                return await _context.Users.Where(x => x.Email == email).SingleAsync();
             }
             catch (Exception ex)
             {
@@ -31,7 +31,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await context.Users.ToListAsync();
+                return await _context.Users.ToListAsync();
             }
             catch (Exception ex)
             {
@@ -41,7 +41,7 @@ namespace Vibez.Data.Service
 
         private async Task<bool> UserIsValid(string userName)
         {
-            bool isDuplicate = await context.Users.AnyAsync(x => x.UserName == userName);
+            bool isDuplicate = await _context.Users.AnyAsync(x => x.UserName == userName);
 
             if (!isDuplicate)
             {

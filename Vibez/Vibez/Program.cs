@@ -29,6 +29,7 @@ namespace Vibez
             builder.Services.AddScoped<AuthenticationStateProvider, 
                 RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
             builder.Services.AddMudServices();
+
             builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
             builder.Services.AddScoped<IEmailService, EmailSercive>();
             builder.Services.AddScoped<IEventService, EventService>();
