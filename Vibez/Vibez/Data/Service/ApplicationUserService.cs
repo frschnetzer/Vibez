@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Vibez.Data.DTOs;
 using Vibez.Data.Models;
 
 namespace Vibez.Data.Service
 {
-    public class ApplicationUserService
+    public class ApplicationUserService : IApplicationUserService
     {
         ApplicationDbContext context;
 
@@ -14,11 +15,11 @@ namespace Vibez.Data.Service
             this.context = context;
         }
 
-        public async Task<ApplicationUser> GetApplicationUserByEmail(string email)
+        public async Task<IdentityUser> GetApplicationUserByEmail(string email)
         {
             try
             {
-                return await context.ApplicationUsers.Where(x => x.Email == email).SingleAsync();
+                return await context.Users.Where(x => x.Email == email).SingleAsync();
             }
             catch (Exception ex)
             {
@@ -26,11 +27,11 @@ namespace Vibez.Data.Service
             }
         }
 
-        public async Task<List<ApplicationUser>> GetAllApplicationUsers()
+        public async Task<List<IdentityUser>> GetAllApplicationUsers()
         {
             try
             {
-                return await context.ApplicationUsers.ToListAsync();
+                return await context.Users.ToListAsync();
             }
             catch (Exception ex)
             {
@@ -40,7 +41,7 @@ namespace Vibez.Data.Service
 
         private async Task<bool> UserIsValid(string userName)
         {
-            bool isDuplicate = await context.ApplicationUsers.AnyAsync(x => x.UserName == userName);
+            bool isDuplicate = await context.Users.AnyAsync(x => x.UserName == userName);
 
             if (!isDuplicate)
             {

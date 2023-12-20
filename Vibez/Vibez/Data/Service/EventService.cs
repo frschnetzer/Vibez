@@ -34,19 +34,19 @@ namespace Vibez.Data.Service
         {
             try
             {
-                if (await EventIsValid(newEvent.EventId))
+                if (await EventIsValidUpdate(newEvent.EventId))
                 {
                     var oldEvent = await context.Events.FirstAsync(x => x.EventId == newEvent.EventId);
 
                     oldEvent.EventName = newEvent.EventName;
-                    oldEvent.CreatorName = newEvent.CreatorName;
+                    oldEvent.CreatorName = "HalloHallo";
                     oldEvent.LocationName = newEvent.LocationName;
                     oldEvent.Date = newEvent.Date;
                     oldEvent.Notes = newEvent.Notes;
                     oldEvent.ParticipantCount = newEvent.ParticipantCount;
                     oldEvent.CordinatesLatitude = newEvent.CordinatesLatitude;
                     oldEvent.CordinatesLongitude = newEvent.CordinatesLongitude;
-                    oldEvent.ApplicationUsers = newEvent.ApplicationUsers;
+                    oldEvent.IdentityUsers = newEvent.IdentityUsers;
                     
                     await context.SaveChangesAsync();
                 }
@@ -122,11 +122,21 @@ namespace Vibez.Data.Service
         {
             bool isDuplicate = await context.Events.AnyAsync(x => x.EventId == eventId);
 
-            if (!isDuplicate)
+            if (isDuplicate)
             {
                 return false;
             }
             return true;
+        }
+        private async Task<bool> EventIsValidUpdate(int eventId)
+        {
+            bool isDuplicate = await context.Events.AnyAsync(x => x.EventId == eventId);
+
+            if (isDuplicate)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Vibez.Areas.Identity;
 using Vibez.Data;
 using MudBlazor.Services;
+using Vibez.Data.Service;
 
 namespace Vibez
 {
@@ -28,6 +29,9 @@ namespace Vibez
             builder.Services.AddScoped<AuthenticationStateProvider, 
                 RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
             builder.Services.AddMudServices();
+            builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
+            builder.Services.AddScoped<IEmailService, EmailSercive>();
+            builder.Services.AddScoped<IEventService, EventService>();
 
             var app = builder.Build();
 
