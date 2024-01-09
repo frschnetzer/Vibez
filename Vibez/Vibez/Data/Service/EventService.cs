@@ -80,7 +80,7 @@ namespace Vibez.Data.Service
             }
             catch (Exception ex)
             {
-                throw new Exception($"Couldn't get event by id. See following exception: {ex}");
+                throw new Exception($"Couldn't get event by Id. See following exception: {ex}");
             }
         }
         
