@@ -39,7 +39,7 @@ namespace Vibez.Data.Service
                     var oldEvent = await _context.Events.Where(x => x.EventId == newEvent.EventId).FirstAsync();
 
                     oldEvent.EventName = newEvent.EventName;
-                    oldEvent.CreatorName = newEvent.CreatorName;
+                    oldEvent.CreatorName = "HalloHallo";
                     oldEvent.LocationName = newEvent.LocationName;
                     oldEvent.Date = newEvent.Date;
                     oldEvent.Notes = newEvent.Notes;
