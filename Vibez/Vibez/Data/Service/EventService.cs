@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Vibez.Data.DTOs;
 using Vibez.Data.Models;
@@ -72,6 +73,17 @@ namespace Vibez.Data.Service
             }
         }
 
+        public async Task<List<Event>> GetEventsFromUser(IdentityUser user)
+        {
+            try
+            {
+                return await _context.Events.Where(e => e.IdentityUsers.Any(u => u.UserName == user.UserName)).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Couldn't get event by id. See following exception: {ex}");
+            }
+        }
         public async Task<Event> GetEventById(int eventId)
         {
             try

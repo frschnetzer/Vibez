@@ -18,5 +18,6 @@ namespace Vibez.Data
            
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public virtual DbSet<Event> Events { get; set; }
+        public virtual DbSet<Friend> Friends { get; set; }
     }
 }
