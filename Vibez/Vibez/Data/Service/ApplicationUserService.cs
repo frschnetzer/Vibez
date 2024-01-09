@@ -39,15 +39,15 @@ namespace Vibez.Data.Service
             }
         }
 
-        private async Task<bool> UserIsValid(string userName)
-        {
-            bool isDuplicate = await _context.Users.AnyAsync(x => x.UserName == userName);
+        //private async Task<bool> UserIsValid(string userName)
+        //{
+        //    bool isDuplicate = await _context.Users.AnyAsync(x => x.UserName == userName);
 
-            if (!isDuplicate)
-            {
-                return false;
-            }
-            return true;
-        }
+        //    if (!isDuplicate)
+        //    {
+        //        return false;
+        //    }
+        //    return true;
+        //}
     }
 }
