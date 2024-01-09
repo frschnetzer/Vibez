@@ -7,11 +7,11 @@ namespace Vibez.Data.Service
 {
     public class EventService : IEventService
     {
-        ApplicationDbContext _context;
+        ApplicationDbContext context;
 
         public EventService(ApplicationDbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         public async Task AddEvent(Event newEvent)
@@ -20,8 +20,8 @@ namespace Vibez.Data.Service
             {
                 if (await EventIsValid(newEvent.EventId))
                 {
-                    await _context.Events.AddAsync(newEvent);
-                    await _context.SaveChangesAsync();
+                    await context.Events.AddAsync(newEvent);
+                    await context.SaveChangesAsync();
                 }        
             }
             catch (Exception ex)
@@ -34,9 +34,9 @@ namespace Vibez.Data.Service
         {
             try
             {
-                if (await EventIsValid(newEvent.EventId))
+                if (await EventIsValidUpdate(newEvent.EventId))
                 {
-                    var oldEvent = await _context.Events.Where(x => x.EventId == newEvent.EventId).FirstAsync();
+                    var oldEvent = await context.Events.FirstAsync(x => x.EventId == newEvent.EventId);
 
                     oldEvent.EventName = newEvent.EventName;
                     oldEvent.CreatorName = "HalloHallo";
@@ -48,7 +48,7 @@ namespace Vibez.Data.Service
                     oldEvent.CordinatesLongitude = newEvent.CordinatesLongitude;
                     oldEvent.IdentityUsers = newEvent.IdentityUsers;
                     
-                    await _context.SaveChangesAsync();
+                    await context.SaveChangesAsync();
                 }
             }
             catch (Exception ex)
@@ -61,10 +61,10 @@ namespace Vibez.Data.Service
         {
             try
             {
-                var deleteEvent = await _context.Events.Where(x => x.EventId == eventId).FirstAsync();
+                var deleteEvent = await context.Events.FirstAsync(x => x.EventId == eventId);
 
-                _context.Events.Remove(deleteEvent);
-                await _context.SaveChangesAsync();
+                context.Events.Remove(deleteEvent);
+                await context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -76,7 +76,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await _context.Events.Where(x => x.EventId == eventId).FirstAsync();
+                return await context.Events.Where(x => x.EventId == eventId).FirstAsync();
             }
             catch (Exception ex)
             {
@@ -88,7 +88,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await _context.Events.ToListAsync();
+                return await context.Events.ToListAsync();
             }
             catch (Exception ex)
             {
@@ -100,7 +100,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await _context.Events
+                return await context.Events
                     .Where(x => x.EventId == newEvent.EventId)
                     .Select(x => new EventDTO
                     {
@@ -120,25 +120,23 @@ namespace Vibez.Data.Service
 
         private async Task<bool> EventIsValid(int eventId)
         {
-            bool isDuplicate = await _context.Events.AnyAsync(x => x.EventId == eventId);
+            bool isDuplicate = await context.Events.AnyAsync(x => x.EventId == eventId);
 
-            if (eventId > 0)
+            if (isDuplicate)
             {
-
-                if (isDuplicate)
-                {
-                    return true;
-                }
                 return false;
             }
-            else
+            return true;
+        }
+        private async Task<bool> EventIsValidUpdate(int eventId)
+        {
+            bool isDuplicate = await context.Events.AnyAsync(x => x.EventId == eventId);
+
+            if (isDuplicate)
             {
-                if (isDuplicate)
-                {
-                    return false;
-                }
                 return true;
             }
+            return false;
         }
     }
 }
