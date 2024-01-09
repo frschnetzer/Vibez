@@ -22,21 +22,6 @@ namespace Vibez.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ApplicationUserEvent", b =>
-                {
-                    b.Property<string>("ApplicationUsersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("EventsEventId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ApplicationUsersId", "EventsEventId");
-
-                    b.HasIndex("EventsEventId");
-
-                    b.ToTable("ApplicationUserEvents", (string)null);
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -112,6 +97,9 @@ namespace Vibez.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("EventId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -146,6 +134,8 @@ namespace Vibez.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EventId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -255,6 +245,9 @@ namespace Vibez.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventId"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<double>("CordinatesLatitude")
                         .HasColumnType("float");
 
@@ -288,7 +281,9 @@ namespace Vibez.Data.Migrations
 
                     b.HasKey("EventId");
 
-                    b.ToTable("Events", (string)null);
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("Vibez.Data.Models.ApplicationUser", b =>
@@ -298,21 +293,6 @@ namespace Vibez.Data.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
-            modelBuilder.Entity("ApplicationUserEvent", b =>
-                {
-                    b.HasOne("Vibez.Data.Models.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("ApplicationUsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Vibez.Data.Models.Event", null)
-                        .WithMany()
-                        .HasForeignKey("EventsEventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -320,6 +300,13 @@ namespace Vibez.Data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.HasOne("Vibez.Data.Models.Event", null)
+                        .WithMany("IdentityUsers")
+                        .HasForeignKey("EventId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -362,6 +349,23 @@ namespace Vibez.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Vibez.Data.Models.Event", b =>
+                {
+                    b.HasOne("Vibez.Data.Models.ApplicationUser", null)
+                        .WithMany("Events")
+                        .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("Vibez.Data.Models.Event", b =>
+                {
+                    b.Navigation("IdentityUsers");
+                });
+
+            modelBuilder.Entity("Vibez.Data.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Events");
                 });
 #pragma warning restore 612, 618
         }

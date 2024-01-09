@@ -6,17 +6,13 @@ namespace Vibez.Data.Service
 {
     public class EventService : IEventService
     {
-        ApplicationDbContext context;
+        ApplicationDbContext _context;
 
         private ApplicationUserService _userService;
 
         public EventService(ApplicationDbContext context)
         {
-            // TODO: warum nicht _context??
-            // TODO: richtige reihenfolge der Methoden beachten: Get, Add, Edit, Delete, validation
-            // TODO: implement upcoming and past event list of a user
-            this.context = context;
-            _userService = new(context);
+            _context = context;
         }
 
         public async Task AddEvent(Event newEvent)
@@ -25,9 +21,9 @@ namespace Vibez.Data.Service
             {
                 if (await EventIsValid(newEvent.EventId))
                 {
-                    await context.Events.AddAsync(newEvent);
-                    await context.SaveChangesAsync();
-                }
+                    await _context.Events.AddAsync(newEvent);
+                    await _context.SaveChangesAsync();
+                }        
             }
             catch(Exception ex)
             {
@@ -41,19 +37,19 @@ namespace Vibez.Data.Service
             {
                 if (await EventIsValid(newEvent.EventId))
                 {
-                    var oldEvent = await context.Events.FirstAsync(x => x.EventId == newEvent.EventId);
+                    var oldEvent = await _context.Events.Where(x => x.EventId == newEvent.EventId).FirstAsync();
 
                     oldEvent.EventName = newEvent.EventName;
-                    oldEvent.CreatorName = newEvent.CreatorName;
+                    oldEvent.CreatorName = "HalloHallo";
                     oldEvent.LocationName = newEvent.LocationName;
                     oldEvent.Date = newEvent.Date;
                     oldEvent.Notes = newEvent.Notes;
                     oldEvent.ParticipantCount = newEvent.ParticipantCount;
                     oldEvent.CordinatesLatitude = newEvent.CordinatesLatitude;
                     oldEvent.CordinatesLongitude = newEvent.CordinatesLongitude;
-                    oldEvent.ApplicationUsers = newEvent.ApplicationUsers;
-
-                    await context.SaveChangesAsync();
+                    oldEvent.IdentityUsers = newEvent.IdentityUsers;
+                    
+                    await _context.SaveChangesAsync();
                 }
             }
             catch(Exception ex)
@@ -66,10 +62,10 @@ namespace Vibez.Data.Service
         {
             try
             {
-                var deleteEvent = await context.Events.FirstAsync(x => x.EventId == eventId);
+                var deleteEvent = await _context.Events.Where(x => x.EventId == eventId).FirstAsync();
 
-                context.Events.Remove(deleteEvent);
-                await context.SaveChangesAsync();
+                _context.Events.Remove(deleteEvent);
+                await _context.SaveChangesAsync();
             }
             catch(Exception ex)
             {
@@ -81,7 +77,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await context.Events.Where(x => x.EventId == eventId).FirstAsync();
+                return await _context.Events.Where(x => x.EventId == eventId).FirstAsync();
             }
             catch(Exception ex)
             {
@@ -93,7 +89,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await context.Events.ToListAsync();
+                return await _context.Events.ToListAsync();
             }
             catch(Exception ex)
             {
@@ -121,7 +117,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await context.Events
+                return await _context.Events
                     .Where(x => x.EventId == newEvent.EventId)
                     .Select(x => new EventDTO
                     {
@@ -141,13 +137,25 @@ namespace Vibez.Data.Service
 
         private async Task<bool> EventIsValid(int eventId)
         {
-            bool isDuplicate = await context.Events.AnyAsync(x => x.EventId == eventId);
+            bool isDuplicate = await _context.Events.AnyAsync(x => x.EventId == eventId);
 
-            if(isDuplicate)
+            if (eventId > 0)
             {
+
+                if (isDuplicate)
+                {
+                    return true;
+                }
                 return false;
             }
-            return true;
+            else
+            {
+                if (isDuplicate)
+                {
+                    return false;
+                }
+                return true;
+            }
         }
     }
 }

@@ -1,40 +1,24 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Vibez.Data.DTOs;
 using Vibez.Data.Models;
 
 namespace Vibez.Data.Service
 {
-    public class ApplicationUserService
+    public class ApplicationUserService : IApplicationUserService
     {
-        ApplicationDbContext context;
+        ApplicationDbContext _context;
 
         public ApplicationUserService(ApplicationDbContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
-        public async Task<ApplicationUser> GetApplicationUserByEmail(string email)
+        public async Task<IdentityUser> GetApplicationUserByEmail(string email)
         {
             try
             {
-                return await context.Users.Where(x => x.UserName == email).Select(x => new ApplicationUser()
-                {
-                    UserName = x.UserName,
-                    AccessFailedCount = x.AccessFailedCount,
-                    ConcurrencyStamp = x.ConcurrencyStamp,
-                    Email = x.Email,
-                    EmailConfirmed = x.EmailConfirmed,
-                    Id = x.Id,
-                    LockoutEnabled = x.LockoutEnabled,
-                    LockoutEnd = x.LockoutEnd,
-                    NormalizedEmail = x.NormalizedEmail,
-                    NormalizedUserName = x.NormalizedUserName,
-                    PasswordHash = x.PasswordHash,
-                    PhoneNumberConfirmed = x.PhoneNumberConfirmed,
-                    PhoneNumber = x.PhoneNumber,
-                    SecurityStamp = x.SecurityStamp,
-                    TwoFactorEnabled = x.TwoFactorEnabled
-                }).FirstAsync();
+                return await _context.Users.Where(x => x.Email == email).SingleAsync();
             }
             catch(Exception ex)
             {
@@ -42,11 +26,11 @@ namespace Vibez.Data.Service
             }
         }
 
-        public async Task<List<ApplicationUser>> GetAllApplicationUsers()
+        public async Task<List<IdentityUser>> GetAllApplicationUsers()
         {
             try
             {
-                return await context.ApplicationUsers.ToListAsync();
+                return await _context.Users.ToListAsync();
             }
             catch(Exception ex)
             {
@@ -56,7 +40,7 @@ namespace Vibez.Data.Service
 
         private async Task<bool> UserIsValid(string userName)
         {
-            bool isDuplicate = await context.ApplicationUsers.AnyAsync(x => x.UserName == userName);
+            bool isDuplicate = await _context.Users.AnyAsync(x => x.UserName == userName);
 
             if(!isDuplicate)
             {

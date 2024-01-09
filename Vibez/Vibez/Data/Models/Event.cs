@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Vibez.Data.Models
 {
@@ -32,6 +33,6 @@ namespace Vibez.Data.Models
         [Required]
         public DateTime Date { get; set; }
 
-        public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; } = new List<ApplicationUser>();
+        public List<IdentityUser> IdentityUsers { get; set; } = new List<IdentityUser>();
     }
 }
