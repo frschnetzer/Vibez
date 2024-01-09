@@ -1,11 +1,11 @@
-﻿using Vibez.Data.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using Vibez.Data.Models;
 
 namespace Vibez.Data.Service
 {
     public interface IApplicationUserService
     {
-        Task UpdateUserNickName(ApplicationUser user);
-        Task<ApplicationUser> GetApplicationUserByEmail(string email);
-
+        Task<List<IdentityUser>> GetAllApplicationUsers();
+        Task<IdentityUser> GetApplicationUserByEmail(string email);
     }
 }
