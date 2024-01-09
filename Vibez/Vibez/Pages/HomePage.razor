@@ -83,9 +83,10 @@ else
         {
             if(isAuthenticated)
             {
+                // just for testing right now
                 var currentUser = await applicaionUserService.GetApplicationUserByEmail(authstate.User.Identity.Name);
 
-                var guestList = new List<ApplicationUser?>();
+                var guestList = new List<IdentityUser?>();
                 guestList.Add(currentUser);
                 guestList.Add(currentUser);
 
@@ -99,10 +100,10 @@ else
                         LocationName = "Test location",
                         Notes = "some notes",
                         ParticipantCount = 2,
-                        ApplicationUsers = guestList 
+                        IdentityUsers = guestList 
                     });
 
-                eventlist = await eventService.GetAllUserEvents(authstate.User.Identity.Name);
+                // eventlist = await eventService.GetAllUserEvents(authstate.User.Identity.Name);
             }
         }
         catch(Exception ex)
@@ -128,6 +129,6 @@ else
 
     private async Task RefreshData()
     {
-        eventlist = await eventService.GetAllUserEvents(authstate.User.Identity.Name);
+        // eventlist = await eventService.GetAllUserEvents(authstate.User.Identity.Name);
     }
 }

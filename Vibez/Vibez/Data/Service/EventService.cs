@@ -8,22 +8,25 @@ namespace Vibez.Data.Service
     {
         ApplicationDbContext _context;
 
-        private ApplicationUserService _userService;
-
         public EventService(ApplicationDbContext context)
         {
             _context = context;
         }
 
+        /// <summary>
+        /// Adding new event to database
+        /// </summary>
+        /// <param name="newEvent">Event to add</param>
+        /// <exception cref="Exception">Throws when event could not be added</exception>
         public async Task AddEvent(Event newEvent)
         {
             try
             {
-                if (await EventIsValid(newEvent.EventId))
+                if(await EventIsValid(newEvent.EventId))
                 {
                     await _context.Events.AddAsync(newEvent);
                     await _context.SaveChangesAsync();
-                }        
+                }
             }
             catch(Exception ex)
             {
@@ -31,11 +34,16 @@ namespace Vibez.Data.Service
             }
         }
 
+        /// <summary>
+        /// Editing an existing event from database
+        /// </summary>
+        /// <param name="newEvent">To edit event</param>
+        /// <exception cref="Exception">Throws when the database throws an error</exception>
         public async Task UpdateEvent(Event newEvent)
         {
             try
             {
-                if (await EventIsValid(newEvent.EventId))
+                if(await EventIsValid(newEvent.EventId))
                 {
                     var oldEvent = await _context.Events.Where(x => x.EventId == newEvent.EventId).FirstAsync();
 
@@ -48,7 +56,7 @@ namespace Vibez.Data.Service
                     oldEvent.CordinatesLatitude = newEvent.CordinatesLatitude;
                     oldEvent.CordinatesLongitude = newEvent.CordinatesLongitude;
                     oldEvent.IdentityUsers = newEvent.IdentityUsers;
-                    
+
                     await _context.SaveChangesAsync();
                 }
             }
@@ -97,22 +105,6 @@ namespace Vibez.Data.Service
             }
         }
 
-        public async Task<List<Event>> GetAllUserEvents(string userName)
-        {
-            try
-            {
-                var user = await _userService.GetApplicationUserByEmail(userName);
-
-                return await context.Events
-                    .Where(x => x.CreatorName == userName || x.ApplicationUsers.Any(u => u.UserName == userName))
-                    .ToListAsync();
-            }
-            catch(Exception ex)
-            {
-                throw new Exception($"Could not get all events: {ex.Message}");
-            }
-        }
-
         public async Task<EventDTO> GetEventDTOs(Event newEvent)
         {
             try
@@ -139,10 +131,10 @@ namespace Vibez.Data.Service
         {
             bool isDuplicate = await _context.Events.AnyAsync(x => x.EventId == eventId);
 
-            if (eventId > 0)
+            if(eventId > 0)
             {
 
-                if (isDuplicate)
+                if(isDuplicate)
                 {
                     return true;
                 }
@@ -150,7 +142,7 @@ namespace Vibez.Data.Service
             }
             else
             {
-                if (isDuplicate)
+                if(isDuplicate)
                 {
                     return false;
                 }
