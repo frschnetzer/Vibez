@@ -21,6 +21,7 @@ namespace Vibez.Data.Service
                 {
                     User = user,
                 });
+
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -40,6 +41,7 @@ namespace Vibez.Data.Service
                 throw new Exception($"Couldn't get friend by id. See following exception: {ex}");
             }
         }
+
         public async Task<List<Friend>> GetAllFriendsByUser(IdentityUser user)
         {
             try
@@ -48,7 +50,7 @@ namespace Vibez.Data.Service
             }
             catch (Exception ex)
             {
-                throw new Exception($"Couldn't get friends. See following exception: {ex}");
+                throw new Exception($"Couldn't get friends from user. See following exception: {ex}");
             }
         }
 
