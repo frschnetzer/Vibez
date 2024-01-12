@@ -134,6 +134,18 @@ namespace Vibez.Data.Service
             catch(Exception ex)
             {
                 throw new Exception($"Couldn't get events. See following exception: {ex}");
+            } 
+        }
+
+        public async Task<List<Event>> GetAllUpcomingEvents(string username)
+        {
+            try
+            {
+                return await _context.Events.Where(e => e.Date > DateTime.Now && e.IdentityUsers.Any(u => u.UserName == username)).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Couldn't get upcoming events. See following exception: {ex}");
             }
         }
 
