@@ -41,13 +41,10 @@ namespace Vibez.Data.Service
                     var oldEvent = await _context.Events.Where(x => x.EventId == newEvent.EventId).FirstAsync();
 
                     oldEvent.EventName = newEvent.EventName;
-                    oldEvent.CreatorName = "HalloHallo";
                     oldEvent.LocationName = newEvent.LocationName;
                     oldEvent.Date = newEvent.Date;
                     oldEvent.Notes = newEvent.Notes;
                     oldEvent.ParticipantCount = newEvent.ParticipantCount;
-                    oldEvent.CordinatesLatitude = newEvent.CordinatesLatitude;
-                    oldEvent.CordinatesLongitude = newEvent.CordinatesLongitude;
                     oldEvent.IdentityUsers = newEvent.IdentityUsers;
                     
                     await _context.SaveChangesAsync();
@@ -78,7 +75,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await _context.Events.Where(e => e.IdentityUsers.Any(u => u.UserName == user.UserName)).ToListAsync();
+                return await _context.Events.Where(e => e.CreatorName == user.UserName).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -107,6 +104,18 @@ namespace Vibez.Data.Service
             catch (Exception ex)
             {
                 throw new Exception($"Couldn't get events. See following exception: {ex}");
+            } 
+        }
+
+        public async Task<List<Event>> GetAllUpcomingEvents(string username)
+        {
+            try
+            {
+                return await _context.Events.Where(e => e.Date >= DateTime.Now && e.CreatorName == username).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Couldn't get upcoming events. See following exception: {ex}");
             }
         }
 
@@ -114,7 +123,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await _context.Events.Where(e => e.Date < DateTime.Now && e.IdentityUsers.Any(u => u.UserName == username)).ToListAsync();
+                return await _context.Events.Where(e => e.Date > DateTime.Now && e.CreatorName == username).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -134,7 +143,8 @@ namespace Vibez.Data.Service
                     CreatorName = newEvent.CreatorName,
                     LocationName = newEvent.LocationName,
                     Notes = newEvent.Notes,
-                    Date = newEvent.Date,
+                    Date =  newEvent.Date,
+                    TimeOnly = newEvent.EventTime,
                     ParticipantCount = newEvent.ParticipantCount
                 }).FirstAsync();
             }

@@ -3,10 +3,11 @@
 ################################################################################
 
 /.vs
-/Vibez/.vs
+/Vibez/.vs/slnx.sqlite
 /Vibez/Vibez/bin/Debug/net7.0
 /Vibez/Vibez/obj
 /Vibez/.vs
 /Vibez/Vibez/.vs
 /Vibez/Vibez/appsettings.json
 /Vibez/Vibez/Program.cs
+/.vs/slnx.sqlite

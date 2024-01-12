@@ -9,6 +9,8 @@ namespace Vibez.Data.Service
         Task AddEvent(Event newEvent);
         Task DeleteEventById(int eventId);
         Task<List<Event>> GetAllEvents();
+        Task<List<Event>> GetAllUpcomingEvents(string username); 
+        Task<List<Event>> GetAllPastEvents(string username);
         Task<Event> GetEventById(int eventId);
         Task<EventDTO> GetEventDTOs(Event newEvent);
         Task<List<Event>> GetEventsFromUser(IdentityUser user);

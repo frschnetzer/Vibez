@@ -10,5 +10,6 @@ namespace Vibez.Data.DTOs
         public string LocationName { get; set; } = string.Empty;
         public string Notes { get; set; } = string.Empty;
         public DateTime Date { get; set; }
+        public string TimeOnly { get; set; } = string.Empty;
     }
 }
