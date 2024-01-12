@@ -21,17 +21,14 @@ namespace Vibez.Data.Models
         [Required]
         public string LocationName { get; set; } = string.Empty;
 
-        [Required]
-        public double CordinatesLongitude { get; set; }
-
-        [Required]
-        public double CordinatesLatitude { get; set; }
-
         [StringLength(500)]
         public string Notes { get; set; } = string.Empty;
 
         [Required]
         public DateTime Date { get; set; }
+
+        [Required]
+        public string EventTime { get; set; } = string.Empty;
 
         public List<IdentityUser> IdentityUsers { get; set; } = new List<IdentityUser>();
     }

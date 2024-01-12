@@ -37,16 +37,5 @@ namespace Vibez.Data.Service
                 throw new Exception($"Couldn't get users. See following exception: {ex}");
             }
         }
-
-        private async Task<bool> UserIsValid(string userName)
-        {
-            bool isDuplicate = await _context.Users.AnyAsync(x => x.UserName == userName);
-
-            if(!isDuplicate)
-            {
-                return false;
-            }
-            return true;
-        }
     }
 }
