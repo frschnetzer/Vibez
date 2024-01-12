@@ -12,7 +12,7 @@ namespace Vibez.Data.Service
         {
             _context = context;
         }
-
+     
         public async Task AddFriend(IdentityUser user)
         {
             try
