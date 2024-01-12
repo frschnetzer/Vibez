@@ -11,7 +11,7 @@ namespace Vibez.Data.Service
         public FriendService(ApplicationDbContext context)
         {
             _context = context;
-        }
+        }  
      
         public async Task AddFriend(IdentityUser user)
         {
