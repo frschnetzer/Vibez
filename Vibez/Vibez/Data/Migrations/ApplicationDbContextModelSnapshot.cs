@@ -248,12 +248,6 @@ namespace Vibez.Data.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<double>("CordinatesLatitude")
-                        .HasColumnType("float");
-
-                    b.Property<double>("CordinatesLongitude")
-                        .HasColumnType("float");
-
                     b.Property<string>("CreatorName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -266,6 +260,10 @@ namespace Vibez.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("EventTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LocationName")
                         .IsRequired()
