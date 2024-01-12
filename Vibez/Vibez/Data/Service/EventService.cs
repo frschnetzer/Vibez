@@ -42,7 +42,7 @@ namespace Vibez.Data.Service
 
                     oldEvent.EventName = newEvent.EventName;
                     oldEvent.LocationName = newEvent.LocationName;
-                    oldEvent.Date= newEvent.Date;
+                    oldEvent.Date = newEvent.Date;
                     oldEvent.Notes = newEvent.Notes;
                     oldEvent.ParticipantCount = newEvent.ParticipantCount;
                     oldEvent.IdentityUsers = newEvent.IdentityUsers;
