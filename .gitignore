@@ -3,7 +3,7 @@
 ################################################################################
 
 /.vs
-/Vibez/.vs
+/Vibez/.vs/slnx.sqlite
 /Vibez/Vibez/bin/Debug/net7.0
 /Vibez/Vibez/obj
 /Vibez/.vs
@@ -20,3 +20,4 @@
 /Vibez/launchSettings.json
 /Vibez/docker-compose.override.yml
 /Vibez/Vibez/Program.cs
+/.vs/slnx.sqlite
