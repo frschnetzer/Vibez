@@ -41,7 +41,9 @@ namespace Vibez.Data.Service
                     var oldEvent = await _context.Events.Where(x => x.EventId == newEvent.EventId).FirstAsync();
 
                     oldEvent.EventName = newEvent.EventName;
-                    oldEvent.LocationName = newEvent.LocationName;
+                    oldEvent.City = newEvent.City;
+                    oldEvent.Adress = newEvent.Adress;
+                    oldEvent.Postcode = newEvent.Postcode;
                     oldEvent.Date = newEvent.Date;
                     oldEvent.Notes = newEvent.Notes;
                     oldEvent.ParticipantCount = newEvent.ParticipantCount;
@@ -141,7 +143,9 @@ namespace Vibez.Data.Service
                     {
                     EventName = newEvent.EventName,
                     CreatorName = newEvent.CreatorName,
-                    LocationName = newEvent.LocationName,
+                    City = newEvent.City,
+                    Adress = newEvent.Adress,
+                    Postcode = newEvent.Postcode,
                     Notes = newEvent.Notes,
                     Date =  newEvent.Date,
                     TimeOnly = newEvent.EventTime,

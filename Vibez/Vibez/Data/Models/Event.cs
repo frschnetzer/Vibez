@@ -19,8 +19,14 @@ namespace Vibez.Data.Models
 
         public int ParticipantCount { get; set; }
 
+        [Required]        
+        public string City { get; set; } = string.Empty;
+        
         [Required]
-        public string LocationName { get; set; } = string.Empty;
+        public string Adress { get; set; } = string.Empty;
+        
+        [Required]
+        public int Postcode { get; set; } 
 
         [StringLength(500)]
         public string Notes { get; set; } = string.Empty;

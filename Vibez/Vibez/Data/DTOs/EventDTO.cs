@@ -7,7 +7,9 @@ namespace Vibez.Data.DTOs
         public string EventName { get; set; } = string.Empty;
         public string CreatorName { get; set; } = string.Empty;
         public int ParticipantCount { get; set; }
-        public string LocationName { get; set; } = string.Empty;
+        public string City { get; set; } = string.Empty;
+        public string Adress { get; set; } = string.Empty;
+        public int Postcode { get; set; }
         public string Notes { get; set; } = string.Empty;
         public DateTime Date { get; set; }
         public string TimeOnly { get; set; } = string.Empty;
