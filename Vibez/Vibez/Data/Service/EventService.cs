@@ -106,7 +106,7 @@ namespace Vibez.Data.Service
             catch (Exception ex)
             {
                 throw new Exception($"Couldn't get events. See following exception: {ex}");
-            }
+            } 
         }
         public async Task<List<Event>> GetAllUpcomingEvents(string username)
         {
