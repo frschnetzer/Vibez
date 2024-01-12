@@ -3,7 +3,7 @@
 ################################################################################
 
 /.vs
-/Vibez/.vs
+/Vibez/.vs/slnx.sqlite
 /Vibez/Vibez/bin/Debug/net7.0
 /Vibez/Vibez/obj
 /Vibez/.vs

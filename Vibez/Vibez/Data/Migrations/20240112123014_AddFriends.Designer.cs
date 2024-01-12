@@ -12,8 +12,8 @@ using Vibez.Data;
 namespace Vibez.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240109141814_AddFriend")]
-    partial class AddFriend
+    [Migration("20240112123014_AddFriends")]
+    partial class AddFriends
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
