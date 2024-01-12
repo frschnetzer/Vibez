@@ -103,6 +103,24 @@ else
             {
                 currentUser = await applicaionUserService.GetApplicationUserByEmail(authstate.User.Identity.Name);
 
+                // var invitedUsers = new List<IdentityUser>();
+                // invitedUsers.Add(currentUser);
+                // invitedUsers.Add(currentUser);
+
+                // var newEvent = new Event()
+                //     {
+                //         EventName = "TestEvent",
+                //         CreatorName = currentUser.UserName,
+                //         IdentityUsers = invitedUsers,
+                //         Date = new DateTime(2024, 01,01),
+                //         LocationName = "TestLocation",
+                //         CordinatesLatitude = 47.264427185058594,
+                //         CordinatesLongitude = 11.358067512512207,
+                //         ParticipantCount = 3
+                //     };
+
+                // await eventService.AddEvent(newEvent);
+
                 eventlist = await eventService.GetEventsFromUser(currentUser);
             }
         }
@@ -121,7 +139,7 @@ else
     {
         try
         {
-            eventlist = await eventService.GetAllPastEvents(currentUser.UserName);
+            eventlist = await eventService.GetAllUpcomingEvents(currentUser.UserName);
         }
         catch(Exception ex)
         {
@@ -131,7 +149,14 @@ else
 
     private async Task GetAllPastEventsAsync()
     {
-        throw new NotImplementedException();
+        try
+        {
+            eventlist = await eventService.GetAllPastEvents(currentUser.UserName);
+        }
+        catch(Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 
     private async Task RefreshData()

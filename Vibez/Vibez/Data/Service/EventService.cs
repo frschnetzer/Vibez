@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using MudBlazor;
 using Vibez.Data.DTOs;
 using Vibez.Data.Models;
 
@@ -125,6 +123,11 @@ namespace Vibez.Data.Service
             }
         }
 
+        /// <summary>
+        /// Get list of all events
+        /// </summary>
+        /// <returns>List of events</returns>
+        /// <exception cref="Exception">Throws when an error occures while reading the database</exception>
         public async Task<List<Event>> GetAllEvents()
         {
             try
@@ -134,33 +137,51 @@ namespace Vibez.Data.Service
             catch(Exception ex)
             {
                 throw new Exception($"Couldn't get events. See following exception: {ex}");
-            } 
+            }
         }
 
+        /// <summary>
+        /// Get list of all upcoming Events of the current user
+        /// </summary>
+        /// <param name="username">Current authenticated user</param>
+        /// <returns>List of Events</returns>
+        /// <exception cref="Exception">Throws when an error occured while reading the database</exception>
         public async Task<List<Event>> GetAllUpcomingEvents(string username)
         {
             try
             {
                 return await _context.Events.Where(e => e.Date > DateTime.Now && e.IdentityUsers.Any(u => u.UserName == username)).ToListAsync();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw new Exception($"Couldn't get upcoming events. See following exception: {ex}");
             }
         }
 
+        /// <summary>
+        /// Get list of all past Events of the current user
+        /// </summary>
+        /// <param name="username">Current authenticated user</param>
+        /// <returns>List of Events</returns>
+        /// <exception cref="Exception">Throws when an error occures while reading the database</exception>
         public async Task<List<Event>> GetAllPastEvents(string username)
         {
             try
             {
                 return await _context.Events.Where(e => e.Date < DateTime.Now && e.IdentityUsers.Any(u => u.UserName == username)).ToListAsync();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw new Exception($"Couldn't get past events. See following exception: {ex}");
             }
         }
 
+        /// <summary>
+        /// Gets Event dto of an event
+        /// </summary>
+        /// <param name="newEvent">Event to select</param>
+        /// <returns>EventDto</returns>
+        /// <exception cref="Exception">Throws when an error occures while reading the database</exception>
         public async Task<EventDTO> GetEventDTOs(Event newEvent)
         {
             try
