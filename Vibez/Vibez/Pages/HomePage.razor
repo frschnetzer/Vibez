@@ -88,6 +88,8 @@ else
     private AuthenticationState? authstate;
     private Event? newEvent;
 
+    private IdentityUser currentUser;
+
     private bool isAuthenticated;
 
     protected override async Task OnInitializedAsync()
@@ -99,8 +101,7 @@ else
         {
             if(isAuthenticated)
             {
-                // just for testing right now
-                var currentUser = await applicaionUserService.GetApplicationUserByEmail(authstate.User.Identity.Name);
+                currentUser = await applicaionUserService.GetApplicationUserByEmail(authstate.User.Identity.Name);
 
                 eventlist = await eventService.GetEventsFromUser(currentUser);
             }
@@ -118,7 +119,14 @@ else
 
     private async Task GetAllUpcomingEventsAsync()
     {
-        throw new NotImplementedException();
+        try
+        {
+            eventlist = await eventService.GetAllPastEvents(currentUser.UserName);
+        }
+        catch(Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 
     private async Task GetAllPastEventsAsync()
@@ -128,6 +136,13 @@ else
 
     private async Task RefreshData()
     {
-        // eventlist = await eventService.GetAllUserEvents(authstate.User.Identity.Name);
+        try
+        {
+            eventlist = await eventService.GetEventsFromUser(currentUser);
+        }
+        catch(Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 }
