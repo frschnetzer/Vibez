@@ -67,6 +67,11 @@ namespace Vibez.Data.Service
             }
         }
 
+        /// <summary>
+        /// Delete an existing event from database
+        /// </summary>
+        /// <param name="eventId">Id of event to delete</param>
+        /// <exception cref="Exception">Throws when the database throws an error</exception>
         public async Task DeleteEventById(int eventId)
         {
             try
@@ -82,18 +87,30 @@ namespace Vibez.Data.Service
             }
         }
 
+        /// <summary>
+        /// Get all events from the current authenticated user
+        /// </summary>
+        /// <param name="user">Current authenticated user</param>
+        /// <returns>List of Events</returns>
+        /// <exception cref="Exception">Throws when an error occures while reading the database</exception>
         public async Task<List<Event>> GetEventsFromUser(IdentityUser user)
         {
             try
             {
                 return await _context.Events.Where(e => e.IdentityUsers.Any(u => u.UserName == user.UserName)).ToListAsync();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw new Exception($"Couldn't get event by user. See following exception: {ex}");
             }
         }
 
+        /// <summary>
+        /// *Get an event by an event id
+        /// </summary>
+        /// <param name="eventId">Event id</param>
+        /// <returns>Event</returns>
+        /// <exception cref="Exception">Throws when the database </exception>
         public async Task<Event> GetEventById(int eventId)
         {
             try

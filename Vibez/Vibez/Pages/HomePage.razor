@@ -65,6 +65,22 @@ else
             </div>
         </div>
     </div>
+
+    <div>
+        @foreach(var item in eventlist)
+        {
+            <div class="card">
+                <div class="card-header">
+                    @item.EventName
+                </div>
+                <div class="card-body">
+                    <p class="card-text">@item.Notes</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        }
+
+    </div>
 }
 
 @code {
@@ -86,24 +102,7 @@ else
                 // just for testing right now
                 var currentUser = await applicaionUserService.GetApplicationUserByEmail(authstate.User.Identity.Name);
 
-                var guestList = new List<IdentityUser?>();
-                guestList.Add(currentUser);
-                guestList.Add(currentUser);
-
-                await eventService.AddEvent(new Event()
-                    {
-                        CreatorName = authstate.User.Identity.Name,
-                        CordinatesLatitude = 47.264427185058594,
-                        CordinatesLongitude = 11.358067512512207,
-                        Date = DateTime.Now,
-                        EventName = "Test event",
-                        LocationName = "Test location",
-                        Notes = "some notes",
-                        ParticipantCount = 2,
-                        IdentityUsers = guestList 
-                    });
-
-                // eventlist = await eventService.GetAllUserEvents(authstate.User.Identity.Name);
+                eventlist = await eventService.GetEventsFromUser(currentUser);
             }
         }
         catch(Exception ex)
