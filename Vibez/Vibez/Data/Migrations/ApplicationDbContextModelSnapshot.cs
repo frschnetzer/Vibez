@@ -286,6 +286,29 @@ namespace Vibez.Data.Migrations
                     b.ToTable("Events");
                 });
 
+            modelBuilder.Entity("Vibez.Data.Models.Friend", b =>
+                {
+                    b.Property<int>("FriendId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FriendId"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("FriendId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Friends");
+                });
+
             modelBuilder.Entity("Vibez.Data.Models.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
@@ -358,6 +381,19 @@ namespace Vibez.Data.Migrations
                         .HasForeignKey("ApplicationUserId");
                 });
 
+            modelBuilder.Entity("Vibez.Data.Models.Friend", b =>
+                {
+                    b.HasOne("Vibez.Data.Models.ApplicationUser", null)
+                        .WithMany("Friends")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Vibez.Data.Models.Event", b =>
                 {
                     b.Navigation("IdentityUsers");
@@ -366,6 +402,8 @@ namespace Vibez.Data.Migrations
             modelBuilder.Entity("Vibez.Data.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Events");
+
+                    b.Navigation("Friends");
                 });
 #pragma warning restore 612, 618
         }
