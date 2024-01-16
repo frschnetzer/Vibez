@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Vibez.Data.DTOs
+﻿namespace Vibez.Data.DTOs
 {
     public class EventDTO
     {
@@ -8,7 +6,7 @@ namespace Vibez.Data.DTOs
         public string CreatorName { get; set; } = string.Empty;
         public int ParticipantCount { get; set; }
         public string City { get; set; } = string.Empty;
-        public string Adress { get; set; } = string.Empty;
+        public string Address { get; set; } = string.Empty;
         public int Postcode { get; set; }
         public string Notes { get; set; } = string.Empty;
         public DateTime Date { get; set; }

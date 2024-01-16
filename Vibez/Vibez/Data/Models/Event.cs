@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
-using static Azure.Core.HttpHeader;
 
 namespace Vibez.Data.Models
 {
@@ -19,14 +18,14 @@ namespace Vibez.Data.Models
 
         public int ParticipantCount { get; set; }
 
-        [Required]        
+        [Required]
         public string City { get; set; } = string.Empty;
-        
+
         [Required]
-        public string Adress { get; set; } = string.Empty;
-        
+        public string Address { get; set; } = string.Empty;
+
         [Required]
-        public int Postcode { get; set; } 
+        public int Postcode { get; set; }
 
         [StringLength(500)]
         public string Notes { get; set; } = string.Empty;
