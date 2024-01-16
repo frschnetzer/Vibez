@@ -245,7 +245,9 @@ namespace Vibez.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventId"));
 
+
                     b.Property<string>("Address")
+
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
