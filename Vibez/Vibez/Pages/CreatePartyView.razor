@@ -52,7 +52,7 @@
 </div>
 
 @code {
-    private List<Friend> friends;
+    private List<Friend> friendsList;
     private Event? newEvent;
     private string eventname { get; set; } = string.Empty;
     private string notes { get; set; } = string.Empty;
@@ -85,9 +85,9 @@
 
         await EventService.AddEvent(_newEvent);
 
-        friends = await FriendService.GetAllFriendsByUser(creatorName);
+        friendsList = await FriendService.GetAllFriendsByUser(creatorName);
 
-        foreach (var friend in friends)
+        foreach (var friend in friendsList)
         {
             await EmailService.SendEmailAsync(friend.User.Email, creatorName.ToString());
         }
