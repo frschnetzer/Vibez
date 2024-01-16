@@ -74,6 +74,10 @@ else
                     @item.EventName
                 </div>
                 <div class="card-body">
+                    <p class="card-text">@item.Date</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+                <div class="card-body">
                     <p class="card-text">@item.Notes</p>
                     <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>
@@ -112,16 +116,18 @@ else
                 //         EventName = "TestEvent",
                 //         CreatorName = currentUser.UserName,
                 //         IdentityUsers = invitedUsers,
-                //         Date = new DateTime(2024, 01,01),
+                //         Date = new DateTime(2024, 04, 01),
+                //         EventTime = "11:00",
                 //         LocationName = "TestLocation",
-                //         CordinatesLatitude = 47.264427185058594,
-                //         CordinatesLongitude = 11.358067512512207,
                 //         ParticipantCount = 3
                 //     };
 
                 // await eventService.AddEvent(newEvent);
 
-                eventlist = await eventService.GetEventsFromUser(currentUser);
+                if(eventlist != null)
+                {
+                    eventlist = await eventService.GetEventsFromUser(currentUser);
+                }
             }
         }
         catch(Exception ex)
@@ -163,7 +169,10 @@ else
     {
         try
         {
-            eventlist = await eventService.GetEventsFromUser(currentUser);
+            if(eventlist != null)
+            {
+                eventlist = await eventService.GetEventsFromUser(currentUser);
+            }
         }
         catch(Exception ex)
         {
