@@ -245,9 +245,7 @@ namespace Vibez.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventId"));
 
-
                     b.Property<string>("Address")
-
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -291,6 +289,60 @@ namespace Vibez.Data.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Events");
+
+                    b.HasData(
+                        new
+                        {
+                            EventId = 1,
+                            Address = "123 Main St",
+                            City = "Sample City 1",
+                            CreatorName = "John Doe",
+                            Date = new DateTime(2024, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventName = "Sample Event 1",
+                            EventTime = "12:00",
+                            Notes = "This is a sample event.",
+                            ParticipantCount = 50,
+                            Postcode = 12345
+                        },
+                        new
+                        {
+                            EventId = 2,
+                            Address = "123 Sesame Stret",
+                            City = "Sample City 2",
+                            CreatorName = "Barack Obama",
+                            Date = new DateTime(2024, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventName = "Sample Event 2",
+                            EventTime = "15:00",
+                            Notes = "This is a sample event.",
+                            ParticipantCount = 20,
+                            Postcode = 6800
+                        },
+                        new
+                        {
+                            EventId = 3,
+                            Address = "123 Secondary St",
+                            City = "Sample City 3",
+                            CreatorName = "Mike Tyson",
+                            Date = new DateTime(2024, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventName = "Sample Event 3",
+                            EventTime = "20:00",
+                            Notes = "This is a sample event.",
+                            ParticipantCount = 35,
+                            Postcode = 1234
+                        },
+                        new
+                        {
+                            EventId = 4,
+                            Address = "13 Main St",
+                            City = "Sample City 4",
+                            CreatorName = "Jon Jones",
+                            Date = new DateTime(2024, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventName = "Sample Event 4",
+                            EventTime = "18:00",
+                            Notes = "This is a sample event.",
+                            ParticipantCount = 12,
+                            Postcode = 7777
+                        });
                 });
 
             modelBuilder.Entity("Vibez.Data.Models.Friend", b =>

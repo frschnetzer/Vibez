@@ -75,7 +75,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await _context.Events.Where(e => e.CreatorName == user.UserName).ToListAsync();
+                return await _context.Events.Where(e => e.CreatorName == user.UserName).OrderByDescending(x => x.Date).ToListAsync();
             }
             catch(Exception ex)
             {
@@ -99,7 +99,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await _context.Events.ToListAsync();
+                return await _context.Events.OrderByDescending(x => x.Date).ToListAsync();
             }
             catch(Exception ex)
             {
@@ -111,7 +111,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await _context.Events.Where(e => e.Date >= DateTime.Now && e.CreatorName == username).ToListAsync();
+                return await _context.Events.Where(e => e.Date >= DateTime.Now && e.CreatorName == username).OrderByDescending(x => x.Date).ToListAsync();
             }
             catch(Exception ex)
             {
@@ -123,7 +123,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await _context.Events.Where(e => e.Date <= DateTime.Now && e.CreatorName == username).ToListAsync();
+                return await _context.Events.Where(e => e.Date <= DateTime.Now && e.CreatorName == username).OrderByDescending(x => x.Date).ToListAsync();
             }
             catch(Exception ex)
             {
@@ -148,7 +148,7 @@ namespace Vibez.Data.Service
                         Date = newEvent.Date,
                         TimeOnly = newEvent.EventTime,
                         ParticipantCount = newEvent.ParticipantCount
-                    }).FirstAsync();
+                    }).OrderByDescending(x => x.Date).FirstAsync();
             }
             catch(Exception ex)
             {
