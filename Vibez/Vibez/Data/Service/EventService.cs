@@ -49,7 +49,9 @@ namespace Vibez.Data.Service
                     var oldEvent = await _context.Events.Where(x => x.EventId == newEvent.EventId).FirstAsync();
 
                     oldEvent.EventName = newEvent.EventName;
-                    oldEvent.LocationName = newEvent.LocationName;
+                    oldEvent.City = newEvent.City;
+                    oldEvent.Address = newEvent.Address;
+                    oldEvent.Postcode = newEvent.Postcode;
                     oldEvent.Date = newEvent.Date;
                     oldEvent.Notes = newEvent.Notes;
                     oldEvent.ParticipantCount = newEvent.ParticipantCount;
@@ -165,7 +167,7 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await _context.Events.Where(e => e.Date > DateTime.Now && e.CreatorName == username).ToListAsync();
+                return await _context.Events.Where(e => e.Date <= DateTime.Now && e.CreatorName == username).ToListAsync();
             }
             catch(Exception ex)
             {
@@ -187,14 +189,16 @@ namespace Vibez.Data.Service
                     .Where(x => x.EventId == newEvent.EventId)
                     .Select(x => new EventDTO
                     {
-                    EventName = newEvent.EventName,
-                    CreatorName = newEvent.CreatorName,
-                    LocationName = newEvent.LocationName,
-                    Notes = newEvent.Notes,
-                    Date =  newEvent.Date,
-                    TimeOnly = newEvent.EventTime,
-                    ParticipantCount = newEvent.ParticipantCount
-                }).FirstAsync();
+                        EventName = newEvent.EventName,
+                        CreatorName = newEvent.CreatorName,
+                        City = newEvent.City,
+                        Address = newEvent.Address,
+                        Postcode = newEvent.Postcode,
+                        Notes = newEvent.Notes,
+                        Date = newEvent.Date,
+                        TimeOnly = newEvent.EventTime,
+                        ParticipantCount = newEvent.ParticipantCount
+                    }).FirstAsync();
             }
             catch(Exception ex)
             {
