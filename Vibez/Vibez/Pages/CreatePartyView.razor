@@ -47,7 +47,7 @@
                         <option selected>Select Friends</option>
                         @foreach (var friend in friendsList)
                         {
-                            <option value="@friend.FriendId">@friend.User.UserName</option>
+                            <option value="@friend.FriendId">@friend.ApplicationUser.UserName</option>
                         }
                     </select>
                 }
@@ -69,7 +69,7 @@
     private string[]? selectedFriends;
     private List<Friend>? friendsList;
     private Event? newEvent;
-    private IdentityUser? identityUser;
+    private ApplicationUser? identityUser;
     private DateTime date { get; set; }
     private TimeOnly time { get; set; }
     private string eventname { get; set; } = string.Empty;
@@ -106,14 +106,14 @@
                 //Postcode = postcode,
                 City = city,
                 Address = street,
-                IdentityUsers = selectedFriends.Select(friendId => new IdentityUser { Id = friendId }).ToList()
+                ApplicationUsers = selectedFriends.Select(friendId => new ApplicationUser { Id = friendId }).ToList()
             };
 
         await EventService.AddEvent(_newEvent);
 
-        foreach (var friend in _newEvent.IdentityUsers)
+        foreach (var friend in _newEvent.ApplicationUsers)
         {
-            await EmailService.SendEmailAsync(friend.ApplicationUser.Email, creatorName.ToString());
+            await EmailService.SendEmailAsync(friend.Email, _newEvent.CreatorName);
         }
     }
 
