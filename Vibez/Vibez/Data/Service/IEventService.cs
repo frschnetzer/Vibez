@@ -15,5 +15,6 @@ namespace Vibez.Data.Service
         Task<EventDTO> GetEventDTOs(Event newEvent);
         Task<List<Event>> GetEventsFromUser(IdentityUser user);
         Task UpdateEvent(Event newEvent);
+        Task<List<Event>> GetAllUpcomingEventsForOneUser(string username);
     }
 }
