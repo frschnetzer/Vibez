@@ -137,10 +137,10 @@ namespace Vibez.Data.Service
             try
             {
                 return await _context.Events
-                .Where(e => e.Date >= DateTime.Now && e.ApplicationUsers
-                    .Any(u => u.UserName == username))
-                .OrderByDescending(x => x.Date)
-                .ToListAsync();
+                    .Where(e => e.Date >= DateTime.Now && e.ApplicationUsers
+                        .Any(u => u.UserName  == username))
+                    .OrderByDescending(x => x.Date)
+                    .ToListAsync();
             }
             catch(Exception ex)
             {
