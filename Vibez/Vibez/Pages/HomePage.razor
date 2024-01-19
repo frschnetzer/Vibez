@@ -51,7 +51,7 @@
 }
 else
 {
-    <div class="header">
+    <div class="header" style="background-color:rgb(14 16 55 / 70%); padding: 0px">
         <div class="button-row">
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" autocomplete="off" checked>
@@ -67,33 +67,43 @@ else
     </div>
 
     <div>
-        @foreach(var item in eventlist)
+        @foreach(var item in eventList)
         {
-            <div class="card">
-                <div class="card-header">
-                    @item.EventName
-                </div>
-                <div class="card-body">
-                    <p class="card-text">@item.Date</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">@item.Notes</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+            <div style="padding-top: 10px; padding-bottom: 10px">
+                <div class="card">
+                    <div class="card-header" style="background-color: #8c74ac; color:white">
+                        @item.EventName
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">@item.CreatorName</p>
+                        <p class="card-text">@item.Date</p>
+                        <p class="card-text">@item.Address</p>
+                        <p class="card-text">@item.City</p>
+                        <p class="card-text">@item.Notes</p>
+
+                        @if(item.Date >= DateTime.Now)
+                        {
+                            <div class="row justify-content-end">
+                                <button @onclick="() => LoadEditData(item.EventId)" class="btn col-1" style="background-color: #8c74ac; color:white; margin-right: 10px">Edit</button>
+                                <button @onclick="() => DeleteEvent(item.EventId)" class="btn btn-secondary col-1" style="margin-right: 10px">Delete</button>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         }
-
     </div>
 }
 
+<EditEventView CloseCallback="ModalCloseCallback" editEvent="selectedEvent" />
+
 @code {
-    private List<Event> eventlist = new();
+    private List<Event> eventList = new();
+    private Event? selectedEvent;
+    private int currentRowId;
+
     private AuthenticationState? authstate;
-    private Event? newEvent;
-
-    private IdentityUser currentUser;
-
+    private IdentityUser? currentUser;
     private bool isAuthenticated;
 
     protected override async Task OnInitializedAsync()
@@ -107,26 +117,9 @@ else
             {
                 currentUser = await applicaionUserService.GetApplicationUserByEmail(authstate.User.Identity.Name);
 
-                // var invitedUsers = new List<IdentityUser>();
-                // invitedUsers.Add(currentUser);
-                // invitedUsers.Add(currentUser);
-
-                // var newEvent = new Event()
-                //     {
-                //         EventName = "TestEvent",
-                //         CreatorName = currentUser.UserName,
-                //         IdentityUsers = invitedUsers,
-                //         Date = new DateTime(2024, 04, 01),
-                //         EventTime = "11:00",
-                //         LocationName = "TestLocation",
-                //         ParticipantCount = 3
-                //     };
-
-                // await eventService.AddEvent(newEvent);
-
-                if(eventlist != null)
+                if(eventList != null)
                 {
-                    eventlist = await eventService.GetEventsFromUser(currentUser);
+                    eventList = await eventService.GetEventsFromUser(currentUser);
                 }
             }
         }
@@ -145,7 +138,8 @@ else
     {
         try
         {
-            eventlist = await eventService.GetAllUpcomingEvents(currentUser.UserName);
+            eventList = await eventService.GetAllUpcomingEvents(currentUser.UserName);
+            StateHasChanged();
         }
         catch(Exception ex)
         {
@@ -157,7 +151,8 @@ else
     {
         try
         {
-            eventlist = await eventService.GetAllPastEvents(currentUser.UserName);
+            eventList = await eventService.GetAllPastEvents(currentUser.UserName);
+            StateHasChanged();
         }
         catch(Exception ex)
         {
@@ -169,14 +164,36 @@ else
     {
         try
         {
-            if(eventlist != null)
+            if(eventList != null)
             {
-                eventlist = await eventService.GetEventsFromUser(currentUser);
+                eventList = await eventService.GetEventsFromUser(currentUser);
             }
         }
         catch(Exception ex)
         {
             throw new Exception(ex.Message);
         }
+    }
+
+    private async Task LoadEditData(int selectedEventId)
+    {
+        selectedEvent = await eventService.GetEventById(selectedEventId);
+        StateHasChanged();
+    }
+
+    private async Task DeleteEvent(int selectedEventId)
+    {
+        await eventService.DeleteEventById(selectedEventId);
+        StateHasChanged();
+
+        await RefreshData();
+    }
+
+    private async void ModalCloseCallback()
+    {
+        selectedEvent = null;
+        StateHasChanged();
+
+        await RefreshData();
     }
 }

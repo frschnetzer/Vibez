@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MudBlazor.Services;
 using Vibez.Areas.Identity;
 using Vibez.Data;
-using MudBlazor.Services;
 using Vibez.Data.Service;
 
 namespace Vibez
@@ -30,7 +28,6 @@ namespace Vibez
             builder.Services.AddServerSideBlazor();
             builder.Services.AddScoped<AuthenticationStateProvider,
                 RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-            builder.Services.AddMudServices();
 
             builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
             builder.Services.AddScoped<IEmailService, EmailSercive>();
