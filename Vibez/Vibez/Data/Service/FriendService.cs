@@ -36,7 +36,10 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await _context.Friends.Where(x => x.ApplicationUser == user).Include(nameof(Friend.ApplicationUser)).FirstAsync();
+                return await _context.Friends
+                    .Where(x => x.ApplicationUser == user)
+                    .Include(nameof(Friend.ApplicationUser))
+                    .FirstAsync();
             }
             catch(Exception ex)
             {
@@ -48,7 +51,10 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await _context.Friends.Where(e => e.ApplicationUser == user).Include(nameof(Friend.ApplicationUser)).ToListAsync();
+                return await _context.Friends
+                    .Where(e => e.ApplicationUser == user)
+                    .Include(nameof(Friend.ApplicationUser))
+                    .ToListAsync();
             }
             catch(Exception ex)
             {

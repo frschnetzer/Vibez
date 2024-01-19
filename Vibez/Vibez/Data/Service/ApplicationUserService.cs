@@ -16,7 +16,11 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await _context.Users.Where(u => u.UserName == email).Include(nameof(ApplicationUser.Friends)).Include(nameof(ApplicationUser.Events)).FirstAsync();
+                return await _context.Users
+                    .Where(u => u.UserName == email)
+                    .Include(nameof(ApplicationUser.Friends))
+                    .Include(nameof(ApplicationUser.Events))
+                    .FirstAsync();
             }
             catch(Exception ex)
             {
@@ -28,7 +32,10 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await _context.Users.Include(nameof(ApplicationUser.Friends)).Include(nameof(ApplicationUser.Events)).ToListAsync();
+                return await _context.Users
+                    .Include(nameof(ApplicationUser.Friends))
+                    .Include(nameof(ApplicationUser.Events))
+                    .ToListAsync();
             }
             catch(Exception ex)
             {
