@@ -68,6 +68,7 @@
 
     public async void CreateEvent()
     {
+
         var email = await AuthProvider.GetAuthenticationStateAsync();
 
         var creatorName = await ApplicationUserService.GetApplicationUserByEmail(email.User.Identity.Name);
@@ -89,7 +90,7 @@
 
         foreach (var friend in friendsList)
         {
-            await EmailService.SendEmailAsync(friend.User.Email, creatorName.ToString());
+            await EmailService.SendEmailAsync(friend.ApplicationUser.Email, creatorName.ToString());
         }
     }
 

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Vibez.Data.Models
 {
@@ -25,7 +24,7 @@ namespace Vibez.Data.Models
         public string Address { get; set; } = string.Empty;
 
         [Required]
-        public int Postcode { get; set; }
+        public string Postcode { get; set; } = string.Empty;
 
         [StringLength(500)]
         public string Notes { get; set; } = string.Empty;
@@ -36,6 +35,6 @@ namespace Vibez.Data.Models
         [Required]
         public string EventTime { get; set; } = string.Empty;
 
-        public List<IdentityUser> IdentityUsers { get; set; } = new List<IdentityUser>();
+        public List<ApplicationUser> ApplicationUsers { get; set; } = new List<ApplicationUser>();
     }
 }
