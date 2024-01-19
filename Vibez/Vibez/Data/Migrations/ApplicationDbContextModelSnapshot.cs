@@ -281,8 +281,9 @@ namespace Vibez.Data.Migrations
                     b.Property<int>("ParticipantCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("Postcode")
-                        .HasColumnType("int");
+                    b.Property<string>("Postcode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("EventId");
 
@@ -302,7 +303,7 @@ namespace Vibez.Data.Migrations
                             EventTime = "12:00",
                             Notes = "This is a sample event.",
                             ParticipantCount = 50,
-                            Postcode = 12345
+                            Postcode = "12345"
                         },
                         new
                         {
@@ -315,7 +316,7 @@ namespace Vibez.Data.Migrations
                             EventTime = "15:00",
                             Notes = "This is a sample event.",
                             ParticipantCount = 20,
-                            Postcode = 6800
+                            Postcode = "6800"
                         },
                         new
                         {
@@ -328,7 +329,7 @@ namespace Vibez.Data.Migrations
                             EventTime = "20:00",
                             Notes = "This is a sample event.",
                             ParticipantCount = 35,
-                            Postcode = 1234
+                            Postcode = "1234"
                         },
                         new
                         {
@@ -341,7 +342,7 @@ namespace Vibez.Data.Migrations
                             EventTime = "18:00",
                             Notes = "This is a sample event.",
                             ParticipantCount = 12,
-                            Postcode = 7777
+                            Postcode = "7777"
                         });
                 });
 
