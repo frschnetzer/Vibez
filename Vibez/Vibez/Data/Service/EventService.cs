@@ -137,8 +137,7 @@ namespace Vibez.Data.Service
             try
             {
                 return await _context.Events
-                    .Include(nameof(Event.IdentityUsers))
-                    .Where(e => e.Date >= DateTime.Now && e.IdentityUsers
+                    .Where(e => e.Date >= DateTime.Now && e.ApplicationUsers
                         .Any(u => u.UserName  == username))
                     .OrderByDescending(x => x.Date)
                     .ToListAsync();
