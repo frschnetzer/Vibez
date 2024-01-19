@@ -137,13 +137,12 @@ namespace Vibez.Data.Service
             try
             {
                 return await _context.Events
-                    .Include(nameof(Event.IdentityUsers))
-                    .Where(e => e.Date >= DateTime.Now && e.IdentityUsers
-                        .Any(u => u.UserName  == username))
-                    .OrderByDescending(x => x.Date)
-                    .ToListAsync();
+                .Where(e => e.Date >= DateTime.Now && e.ApplicationUsers
+                    .Any(u => u.UserName == username))
+                .OrderByDescending(x => x.Date)
+                .ToListAsync();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw new Exception($"Couldn't get upcoming events. See following exception: {ex}");
             }

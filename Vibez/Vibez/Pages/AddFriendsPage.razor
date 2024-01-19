@@ -37,8 +37,8 @@
             @foreach (var friend in friendList)
             {
                 <tr>
-                    <td>@friend.User.UserName</td>
-                    <td>@friend.User.Email</td>
+                    <td>@friend.ApplicationUser.UserName</td>
+                    <td>@friend.ApplicationUser.Email</td>
                     <td align="right">
                         <button class="btn btn-primary" @onclick="() => DeleteFriend(friend.FriendId)">
                             Delete
@@ -56,8 +56,8 @@
 </table>
 
 @code {
-    private IdentityUser? currentUser;
-    private IdentityUser? searchedIdentityUser;
+    private ApplicationUser? currentUser;
+    private ApplicationUser? searchedIdentityUser;
     private List<Friend>? friendList;
     private string username { get; set; } = string.Empty;
 
