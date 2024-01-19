@@ -142,7 +142,7 @@ namespace Vibez.Data.Service
                     .OrderByDescending(x => x.Date)
                     .ToListAsync();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw new Exception($"Couldn't get upcoming events. See following exception: {ex}");
             }
