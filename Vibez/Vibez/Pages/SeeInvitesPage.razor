@@ -1,0 +1,33 @@
+﻿@page "/seeinvites"
+
+@using Vibez.Data.DTOs
+@using Vibez.Data.Service
+
+@inject IEventService EventService
+
+<h3>SeeInvitesPage</h3>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Event</th>
+        <th>Address</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Participants</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+@code {
+    private List<EventDTO> _listOfEvents = new List<EventDTO>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+
+}
