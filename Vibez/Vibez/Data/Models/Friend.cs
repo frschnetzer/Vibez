@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Vibez.Data.Models
 {
@@ -7,7 +6,11 @@ namespace Vibez.Data.Models
     {
         [Key]
         public int FriendId { get; set; }
-        
-        public IdentityUser User { get; set; }
+
+        [Required]
+        public string ApplicationUserId { get; set; }
+
+        [Required]
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }

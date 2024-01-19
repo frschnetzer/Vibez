@@ -113,7 +113,7 @@
 
         foreach (var friend in _newEvent.IdentityUsers)
         {
-            await EmailService.SendEmailAsync(friend.Email, identityUser.ToString());
+            await EmailService.SendEmailAsync(friend.ApplicationUser.Email, creatorName.ToString());
         }
     }
 
