@@ -48,11 +48,9 @@ else
     {
         await base.OnInitializedAsync();
 
-        //get authenticationstate from logged in user
         _authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         authenticated = _authenticationState.User.Identity.IsAuthenticated;
 
-        //username from current logged in user
         if (_authenticationState != null)
         {
             _currentUser = _authenticationState.User.Identity?.Name;
@@ -64,17 +62,17 @@ else
             foreach (var eventForUser in listWithEvents)
             {
                 _listOfEventsDto.Add(new EventDTO
-                    {
-                        EventName = eventForUser.EventName,
-                        Address = eventForUser.Address,
-                        City = eventForUser.City,
-                        CreatorName = eventForUser.CreatorName,
-                        Date = eventForUser.Date,
-                        Notes = eventForUser.Notes,
-                        ParticipantCount = eventForUser.ParticipantCount,
-                        Postcode = eventForUser.Postcode,
-                        TimeOnly = eventForUser.EventTime
-                    });
+                {
+                    EventName = eventForUser.EventName,
+                    Address = eventForUser.Address,
+                    City = eventForUser.City,
+                    CreatorName = eventForUser.CreatorName,
+                    Date = eventForUser.Date,
+                    Notes = eventForUser.Notes,
+                    ParticipantCount = eventForUser.ParticipantCount,
+                    Postcode = eventForUser.Postcode,
+                    TimeOnly = eventForUser.EventTime
+                });
             }
         }
     }
@@ -83,5 +81,4 @@ else
     {
         throw new NotImplementedException();
     }
-
 }
