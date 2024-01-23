@@ -1,6 +1,35 @@
 ﻿@page "/"
 
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Identity
+@using Vibez.Data.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+
 <PageTitle>Index</PageTitle>
 
-<HomePage></HomePage>
-
+@if(!isAuthenticated)
+{
+    <div>
+        <p>
+            Please <a href="Identity/Account/Register">sign in</a>
+            or <a href="Identity/Account/Login">log in</a>
+            to use the application!
+        </p>
+    </div>
+}
+else
+{
+    <HomePage></HomePage>
+}
+@code
+{
+    private bool isAuthenticated;
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authState.User;
+        isAuthenticated = user.Identity.IsAuthenticated;
+    }
+}
