@@ -13,7 +13,7 @@
     <div>
         <p>
             Please <a href="Identity/Account/Register">sign in</a>
-            or <a href="Identity/Account/Login">log in</a> 
+            or <a href="Identity/Account/Login">log in</a>
             to use the application!
         </p>
     </div>
@@ -55,7 +55,7 @@ else
         {
             _currentUser = _authenticationState.User.Identity?.Name;
         }
-        
+
         if (_currentUser != null)
         {
             var listWithEvents = await EventService.GetAllUpcomingEventsForOneUser(_currentUser);
@@ -79,6 +79,6 @@ else
 
     private void ViewAllEventDetails()
     {
-        throw new NotImplementedException();
+
     }
 }
