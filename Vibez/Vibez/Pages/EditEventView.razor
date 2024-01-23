@@ -1,0 +1,82 @@
+﻿@using Vibez.Data.Models
+@using Vibez.Data.Service
+
+@inject IEventService eventService
+
+@if(editEvent == null)
+{
+}
+else
+{
+    <h3>Edit Event</h3>
+
+    <div class="modal show" role="dialog" style="display:block">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">@(editEvent.EventName) </h2>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="@editEvent" OnValidSubmit="ValidScreeningSubmitted" OnInvalidSubmit="InvalidScreeningSubmitted">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <div class="list-group">
+                            <label class="label">Event Name</label>
+                            <InputText @bind-Value="editEvent.EventName" />
+                        </div>
+                        <div class="list-group">
+                            <label class="label">Date</label>
+                            <InputDate Type="InputDateType.Date" @bind-Value="editEvent.Date" />
+                        </div>
+                        <div class="list-group">
+                            <label class="label">Time</label>
+                            <InputText @bind-Value="editEvent.EventTime" />
+                        </div>
+                        <div class="list-group">
+                            <label class="label">Address</label>
+                            <InputText @bind-Value="editEvent.Address" />
+                        </div>
+                        <div class="list-group">
+                            <label class="label">Postcode</label>
+                            <InputNumber @bind-Value="editEvent.Postcode" />
+                        </div>
+                        <div class="list-group">
+                            <label class="label">City</label>
+                            <InputText @bind-Value="editEvent.City" />
+                        </div>
+                        <div>
+                            <input type="submit" class="btn btn-primary" value="Save" />
+                            <button class="btn btn-secondary" data-dismiss="modal" @onclick="CloseClick">Close</button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public EventCallback CloseCallback { get; set; }
+
+    [Parameter]
+    public Event? editEvent { get; set; }
+
+    private async void CloseClick()
+    {
+        editEvent = null;
+        await CloseCallback.InvokeAsync();
+    }
+
+    async void ValidScreeningSubmitted(EditContext editContext)
+    {
+        await eventService.UpdateEvent(editEvent);
+        CloseClick();
+    }
+
+
+    void InvalidScreeningSubmitted(EditContext editContext)
+    {
+    }
+}

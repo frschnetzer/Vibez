@@ -1,0 +1,199 @@
+﻿@page "/homePage"
+
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Identity
+@using Vibez.Data.Models
+@using Vibez.Data.Service
+
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject IEventService eventService
+@inject IApplicationUserService applicaionUserService
+
+<h3>Vibezz</h3>
+
+@*style defining*@
+<style>
+    .header {
+        background-color: #f0f0f0;
+        padding: 10px;
+        text-align: center;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .button-row {
+        display: flex;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .button {
+        padding: 10px;
+        background-color: #8c74ac;
+        color: white;
+        border: none;
+        border-radius: 5px !important;
+        cursor: pointer;
+        margin: 20px !important;
+    }
+
+        .button:hover {
+            background-color: #dcc4e4;
+            transition: 0.7s;
+        }
+</style>
+
+@if(!isAuthenticated)
+{
+    <div>
+        <p>Please sign in or register to use the application!</p>
+    </div>
+}
+else
+{
+    <div class="header" style="background-color:rgb(14 16 55 / 70%); padding: 0px">
+        <div class="button-row">
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" autocomplete="off" checked>
+                <label class="btn button" for="btnradio1" @onclick=GetAllEventsAsync>All events</label>
+
+                <input type="radio" class="btn-check" autocomplete="off">
+                <label class="btn button" for="btnradio2" @onclick=GetAllUpcomingEventsAsync>Upcoming</label>
+
+                <input type="radio" class="btn-check" autocomplete="off">
+                <label class="btn button" for="btnradio3" @onclick=GetAllPastEventsAsync>Past</label>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        @foreach(var item in eventList)
+        {
+            <div style="padding-top: 10px; padding-bottom: 10px">
+                <div class="card">
+                    <div class="card-header" style="background-color: #8c74ac; color:white">
+                        @item.EventName
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">@item.CreatorName</p>
+                        <p class="card-text">@item.Date</p>
+                        <p class="card-text">@item.Address</p>
+                        <p class="card-text">@item.City</p>
+                        <p class="card-text">@item.Notes</p>
+
+                        @if(item.Date >= DateTime.Now)
+                        {
+                            <div class="row justify-content-end">
+                                <button @onclick="() => LoadEditData(item.EventId)" class="btn col-1" style="background-color: #8c74ac; color:white; margin-right: 10px">Edit</button>
+                                <button @onclick="() => DeleteEvent(item.EventId)" class="btn btn-secondary col-1" style="margin-right: 10px">Delete</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<EditEventView CloseCallback="ModalCloseCallback" editEvent="selectedEvent" />
+
+@code {
+    private List<Event> eventList = new();
+    private Event? selectedEvent;
+    private int currentRowId;
+
+    private AuthenticationState? authstate;
+    private ApplicationUser? currentUser;
+    private bool isAuthenticated;
+
+    protected override async Task OnInitializedAsync()
+    {
+        authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        isAuthenticated = authstate.User.Identity.IsAuthenticated;
+
+        try
+        {
+            if(isAuthenticated)
+            {
+                currentUser = await applicaionUserService.GetApplicationUserByEmail(authstate.User.Identity.Name);
+
+                if(eventList != null)
+                {
+                    eventList = await eventService.GetEventsFromUser(currentUser);
+                }
+            }
+        }
+        catch(Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
+
+    private async Task GetAllEventsAsync()
+    {
+        await RefreshData();
+    }
+
+    private async Task GetAllUpcomingEventsAsync()
+    {
+        try
+        {
+            eventList = await eventService.GetAllUpcomingEvents(currentUser.UserName);
+            StateHasChanged();
+        }
+        catch(Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
+
+    private async Task GetAllPastEventsAsync()
+    {
+        try
+        {
+            eventList = await eventService.GetAllPastEvents(currentUser.UserName);
+            StateHasChanged();
+        }
+        catch(Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
+
+    private async Task RefreshData()
+    {
+        try
+        {
+            if(eventList != null)
+            {
+                eventList = await eventService.GetEventsFromUser(currentUser);
+            }
+        }
+        catch(Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
+
+    private async Task LoadEditData(int selectedEventId)
+    {
+        selectedEvent = await eventService.GetEventById(selectedEventId);
+        StateHasChanged();
+    }
+
+    private async Task DeleteEvent(int selectedEventId)
+    {
+        await eventService.DeleteEventById(selectedEventId);
+        StateHasChanged();
+
+        await RefreshData();
+    }
+
+    private async void ModalCloseCallback()
+    {
+        selectedEvent = null;
+        StateHasChanged();
+
+        await RefreshData();
+    }
+}

@@ -13,6 +13,11 @@ namespace Vibez.Data.Service
             _context = context;
         }
 
+        /// <summary>
+        /// Adding new event to database
+        /// </summary>
+        /// <param name="newEvent">Event to add</param>
+        /// <exception cref="Exception">Throws when event could not be added</exception>
         public async Task AddEvent(Event newEvent)
         {
             try
@@ -29,6 +34,11 @@ namespace Vibez.Data.Service
             }
         }
 
+        /// <summary>
+        /// Editing an existing event from database
+        /// </summary>
+        /// <param name="newEvent">To edit event</param>
+        /// <exception cref="Exception">Throws when the database throws an error</exception>
         public async Task UpdateEvent(Event newEvent)
         {
             try
@@ -55,6 +65,11 @@ namespace Vibez.Data.Service
             }
         }
 
+        /// <summary>
+        /// Delete an existing event from database
+        /// </summary>
+        /// <param name="eventId">Id of event to delete</param>
+        /// <exception cref="Exception">Throws when the database throws an error</exception>
         public async Task DeleteEventById(int eventId)
         {
             try
@@ -70,7 +85,14 @@ namespace Vibez.Data.Service
             }
         }
 
+        /// <summary>
+        /// Get all events from the current authenticated user
+        /// </summary>
+        /// <param name="user">Current authenticated user</param>
+        /// <returns>List of Events</returns>
+        /// <exception cref="Exception">Throws when an error occures while reading the database</exception>
         public async Task<List<Event>> GetEventsFromUser(ApplicationUser user)
+
         {
             try
             {
@@ -86,6 +108,12 @@ namespace Vibez.Data.Service
             }
         }
 
+        /// <summary>
+        /// *Get an event by an event id
+        /// </summary>
+        /// <param name="eventId">Event id</param>
+        /// <returns>Event</returns>
+        /// <exception cref="Exception">Throws when the database </exception>
         public async Task<Event> GetEventById(int eventId)
         {
             try
@@ -101,6 +129,11 @@ namespace Vibez.Data.Service
             }
         }
 
+        /// <summary>
+        /// Get list of all events
+        /// </summary>
+        /// <returns>List of events</returns>
+        /// <exception cref="Exception">Throws when an error occures while reading the database</exception>
         public async Task<List<Event>> GetAllEvents()
         {
             try
@@ -116,6 +149,12 @@ namespace Vibez.Data.Service
             }
         }
 
+        /// <summary>
+        /// Get list of all upcoming Events of the current user
+        /// </summary>
+        /// <param name="username">Current authenticated user</param>
+        /// <returns>List of Events</returns>
+        /// <exception cref="Exception">Throws when an error occured while reading the database</exception>
         public async Task<List<Event>> GetAllUpcomingEvents(string username)
         {
             try
@@ -142,12 +181,18 @@ namespace Vibez.Data.Service
                     .OrderByDescending(x => x.Date)
                     .ToListAsync();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw new Exception($"Couldn't get upcoming events. See following exception: {ex}");
             }
         }
 
+        /// <summary>
+        /// Get list of all past Events of the current user
+        /// </summary>
+        /// <param name="username">Current authenticated user</param>
+        /// <returns>List of Events</returns>
+        /// <exception cref="Exception">Throws when an error occures while reading the database</exception>
         public async Task<List<Event>> GetAllPastEvents(string username)
         {
             try
@@ -164,6 +209,12 @@ namespace Vibez.Data.Service
             }
         }
 
+        /// <summary>
+        /// Gets Event dto of an event
+        /// </summary>
+        /// <param name="newEvent">Event to select</param>
+        /// <returns>EventDto</returns>
+        /// <exception cref="Exception">Throws when an error occures while reading the database</exception>
         public async Task<EventDTO> GetEventDTOs(Event newEvent)
         {
             try
