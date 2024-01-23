@@ -8,6 +8,16 @@
 /Vibez/Vibez/obj
 /Vibez/.vs
 /Vibez/Vibez/.vs
+/Vibez/bin
+/Vibez/obj
 /Vibez/Vibez/appsettings.json
+/Vibez/Vibez/appsettings.json
+/Vibez/docker-compose.dcproj
+/Vibez/docker-compose.dcproj
+/Vibez/Vibez/Dockerfile
+/Vibez/.dockerignore
+/Vibez/docker-compose.yml
+/Vibez/launchSettings.json
+/Vibez/docker-compose.override.yml
 /Vibez/Vibez/Program.cs
 /.vs/slnx.sqlite
