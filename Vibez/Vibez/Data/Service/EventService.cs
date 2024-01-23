@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Vibez.Data.DTOs;
 using Vibez.Data.Models;
 
@@ -55,7 +54,7 @@ namespace Vibez.Data.Service
                     oldEvent.Date = newEvent.Date;
                     oldEvent.Notes = newEvent.Notes;
                     oldEvent.ParticipantCount = newEvent.ParticipantCount;
-                    oldEvent.IdentityUsers = newEvent.IdentityUsers;
+                    oldEvent.ApplicationUsers = newEvent.ApplicationUsers;
 
                     await _context.SaveChangesAsync();
                 }
@@ -92,11 +91,16 @@ namespace Vibez.Data.Service
         /// <param name="user">Current authenticated user</param>
         /// <returns>List of Events</returns>
         /// <exception cref="Exception">Throws when an error occures while reading the database</exception>
-        public async Task<List<Event>> GetEventsFromUser(IdentityUser user)
+        public async Task<List<Event>> GetEventsFromUser(ApplicationUser user)
+
         {
             try
             {
-                return await _context.Events.Where(e => e.CreatorName == user.UserName).ToListAsync();
+                return await _context.Events
+                    .Where(e => e.CreatorName == user.UserName)
+                    .OrderByDescending(x => x.Date)
+                    .Include(nameof(Event.ApplicationUsers))
+                    .ToListAsync();
             }
             catch(Exception ex)
             {
@@ -114,7 +118,10 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await _context.Events.Where(x => x.EventId == eventId).FirstAsync();
+                return await _context.Events
+                    .Where(x => x.EventId == eventId)
+                    .Include(nameof(Event.ApplicationUsers))
+                    .FirstAsync();
             }
             catch(Exception ex)
             {
@@ -131,7 +138,10 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await _context.Events.ToListAsync();
+                return await _context.Events
+                    .OrderByDescending(x => x.Date)
+                    .Include(nameof(Event.ApplicationUsers))
+                    .ToListAsync();
             }
             catch(Exception ex)
             {
@@ -149,7 +159,27 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await _context.Events.Where(e => e.Date >= DateTime.Now && e.CreatorName == username).ToListAsync();
+                return await _context.Events
+                    .Where(e => e.Date >= DateTime.Now && e.CreatorName == username)
+                    .OrderByDescending(x => x.Date)
+                    .Include(nameof(Event.ApplicationUsers))
+                    .ToListAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception($"Couldn't get upcoming events. See following exception: {ex}");
+            }
+        }
+
+        public async Task<List<Event>> GetAllUpcomingEventsForOneUser(string username)
+        {
+            try
+            {
+                return await _context.Events
+                    .Where(e => e.Date >= DateTime.Now && e.ApplicationUsers
+                        .Any(u => u.UserName  == username))
+                    .OrderByDescending(x => x.Date)
+                    .ToListAsync();
             }
             catch(Exception ex)
             {
@@ -167,7 +197,11 @@ namespace Vibez.Data.Service
         {
             try
             {
-                return await _context.Events.Where(e => e.Date <= DateTime.Now && e.CreatorName == username).ToListAsync();
+                return await _context.Events
+                    .Where(e => e.Date <= DateTime.Now && e.CreatorName == username)
+                    .OrderByDescending(x => x.Date)
+                    .Include(nameof(Event.ApplicationUsers))
+                    .ToListAsync();
             }
             catch(Exception ex)
             {
@@ -198,7 +232,9 @@ namespace Vibez.Data.Service
                         Date = newEvent.Date,
                         TimeOnly = newEvent.EventTime,
                         ParticipantCount = newEvent.ParticipantCount
-                    }).FirstAsync();
+                    })
+                    .OrderByDescending(x => x.Date)
+                    .FirstAsync();
             }
             catch(Exception ex)
             {

@@ -1,42 +1,130 @@
-﻿
-@page "/createparty"
+﻿@page "/createparty"
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Vibez.Data.Models
+@using Vibez.Data.Service
+@inject IEventService EventService
+@inject IApplicationUserService ApplicationUserService
+@inject AuthenticationStateProvider AuthProvider
+@inject IFriendService FriendService
+@inject IEmailService EmailService
 
 <PageTitle>Create Party</PageTitle>
 
-<h3>Create a party</h3>
-<br/>
-<div class="input-group mb-3 w-25">
-    <input type="text" class="form-control" placeholder="Eventname"/>
-</div>
-<div class="input-group mb-3 w-25">
-    <input type="text" class="form-control" placeholder="Creator Name"/>
-</div>
+<div class="container">
+    <div class="row gx-2">
+        <div class="col-md-6">
 
-<div class="input-group mb-3 w-25">
-    <input type="text" class="form-control" placeholder="Location" />
+            <h3>Create a party</h3>
+
+            <div class="input-group mb-3 w-75">
+                <input @bind="eventname" type="text" class="form-control" placeholder="Eventname" />
+            </div>
+            <div class="input-group mb-3 w-75">
+                <input @bind="notes" type="text" class="form-control" placeholder="Notes" />
+            </div>
+            <div class="input-group mb-3 w-75">
+                <input @bind="street" @onkeydown="GenerateMapUrl" type="text" class="form-control" placeholder="Street" />
+            </div>
+            <div class="input-group mb-3 w-75">
+                <input @bind="postcode" @onkeydown="GenerateMapUrl" type="text" class="form-control" placeholder="Zipcode" />
+            </div>
+            <div class="input-group mb-3 w-75">
+                <input @bind="city" @onkeydown="GenerateMapUrl" type="text" class="form-control" placeholder="City" />
+            </div>
+            <div class="input-group mb-3 w-50">
+                <input type="date" @bind="date" class="form-control" />
+                <input type="time" @bind="time" class="form-control" />
+            </div>
+            <div class="input-group mb-3 w-75">
+                @if (friendsList == null || friendsList.Count == 0)
+                {
+                    <h3>Validation</h3>
+                }
+                else
+                {
+                    <select class="form-select" @bind="selectedFriends" multiple aria-label="multiple select example">
+                        <option selected>Select Friends</option>
+                        @foreach (var friend in friendsList)
+                        {
+                            <option value="@friend.FriendId">@friend.ApplicationUser.UserName</option>
+                        }
+                    </select>
+                }
+            </div>
+            <div class="input-group mb-3 w-30" style="margin-top: 20px;">
+                <button @onclick="CreateEvent">Create Event</button>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group mb-3 w-300" style="width: 600px; height: 350px;">
+                <iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="gmap_canvas" src="@mapUrl">
+                </iframe>
+            </div>
+        </div>
+    </div>
 </div>
-
-<div class="input-group mb-3 w-25">
-    <input type="text" class="form-control" placeholder="Address" />
-</div>
-
-@* change to bootstrap, delete MudBlazor *@
-<div class="input-group mb-3 w-25">
-    <MudSelect Margin="Margin.Dense" T="string" Label="Friends" Variant="Variant.Outlined">
-        <MudSelectItem Value="@("Jakob")" />
-        <MudSelectItem Value="@("Marc")" />
-        <MudSelectItem Value="@("Franziska")" />
-        <MudSelectItem Value="@("Claire")" />
-    </MudSelect>
-</div>
-
-<div class="input-group mb-3 w-25">
-    <input type="date" class="form-control"/>
-    <input type="time" class="form-control"/>
-</div>
-
-
 
 @code {
+    private string[]? selectedFriends;
+    private List<Friend>? friendsList;
+    private Event? newEvent;
+    private ApplicationUser? identityUser;
+    private DateTime date { get; set; }
+    private TimeOnly time { get; set; }
+    private string eventname { get; set; } = string.Empty;
+    private string notes { get; set; } = string.Empty;
+    private string location { get; set; } = string.Empty;
+    private int participantCount { get; set; }
+    private string street = string.Empty;
+    private string postcode = string.Empty;
+    private string city = string.Empty;
+    private string mapUrl = "https://maps.google.com/maps?q=&t=h&z=3&output=embed";
 
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var email = (await AuthProvider.GetAuthenticationStateAsync()).User.Identity.Name;
+
+        identityUser = await ApplicationUserService.GetApplicationUserByEmail(email);
+
+        friendsList = await FriendService.GetAllFriendsByUser(identityUser);
+    }
+
+    public async void CreateEvent()
+    {
+        // Not ready yet
+        var _newEvent = new Event()
+            {
+                EventName = eventname,
+                CreatorName = identityUser.ToString(),
+                Notes = notes,
+                Date = date,
+                EventTime = Convert.ToString(time),
+                ParticipantCount = participantCount,
+                //Postcode = postcode,
+                City = city,
+                Address = street,
+                ApplicationUsers = selectedFriends.Select(friendId => new ApplicationUser { Id = friendId }).ToList()
+            };
+
+        await EventService.AddEvent(_newEvent);
+
+        foreach (var friend in _newEvent.ApplicationUsers)
+        {
+            await EmailService.SendEmailAsync(friend.Email, _newEvent.CreatorName);
+        }
+    }
+
+    private void GenerateMapUrl()
+    {
+        if (!string.IsNullOrEmpty(street) || !string.IsNullOrEmpty(postcode) || !string.IsNullOrEmpty(city))
+        {
+            // Erzeugen der Google Maps-URL basierend auf den eingegebenen Daten
+            string address = $"{street}, {postcode} {city}";
+            string encodedAddress = Uri.EscapeUriString(address);
+            mapUrl = $"https://maps.google.com/maps?q={encodedAddress}&t=h&z=20&output=embed";
+        }
+    }
 }

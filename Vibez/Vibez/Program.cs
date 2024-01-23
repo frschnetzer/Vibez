@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Vibez.Areas.Identity;
 using Vibez.Data;
+using Vibez.Data.Models;
 using Vibez.Data.Service;
 
 namespace Vibez
@@ -20,18 +20,19 @@ namespace Vibez
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-            builder.Services.AddDefaultIdentity<IdentityUser>(options
+
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options
                     => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddScoped<AuthenticationStateProvider,
-                RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+                RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
 
             builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
             builder.Services.AddScoped<IEmailService, EmailSercive>();
             builder.Services.AddScoped<IEventService, EventService>();
+            builder.Services.AddScoped<IFriendService, FriendService>();
 
             var app = builder.Build();
 

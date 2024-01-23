@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Vibez.Data.DTOs;
+
 using Vibez.Data.Models;
 
 namespace Vibez.Data.Service
@@ -14,11 +15,15 @@ namespace Vibez.Data.Service
             _context = context;
         }
 
-        public async Task<IdentityUser> GetApplicationUserByEmail(string email)
+        public async Task<ApplicationUser> GetApplicationUserByEmail(string email)
         {
             try
             {
-                return await _context.Users.Where(x => x.Email == email).SingleAsync();
+                return await _context.Users
+                    .Where(u => u.UserName == email)
+                    .Include(nameof(ApplicationUser.Friends))
+                    .Include(nameof(ApplicationUser.Events))
+                    .FirstAsync();
             }
             catch(Exception ex)
             {
@@ -26,11 +31,14 @@ namespace Vibez.Data.Service
             }
         }
 
-        public async Task<List<IdentityUser>> GetAllApplicationUsers()
+        public async Task<List<ApplicationUser>> GetAllApplicationUsers()
         {
             try
             {
-                return await _context.Users.ToListAsync();
+                return await _context.Users
+                    .Include(nameof(ApplicationUser.Friends))
+                    .Include(nameof(ApplicationUser.Events))
+                    .ToListAsync();
             }
             catch(Exception ex)
             {
