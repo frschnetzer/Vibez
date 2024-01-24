@@ -1,17 +1,26 @@
 ﻿@page "/addfriends"
+
 @using Microsoft.AspNetCore.Identity
 @using Vibez.Data.Models
 @using Vibez.Data.Service
+
 @inject IFriendService FriendService
-@inject AuthenticationStateProvider AuthProvider
 @inject IApplicationUserService ApplicationUserService
+@inject AuthenticationStateProvider AuthProvider
 
 <h3>Add a Friend</h3>
 
 <div class="form-row">
     <div class="form-group row">
         <div class="form-group col-md-4">
-            <input type="text" class="form-control" @bind="username" placeholder="Search friend" />
+            <input type="text" class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search..." @onchange="@((args) => SelectedPeson = args.Value.ToString())">
+            <datalist id="datalistOptions">
+                @foreach(var item in AllUsers)
+                {
+                    <option value=@item.ApplicationUser.UserName></option>
+                }
+            </datalist>
+
         </div>
         <div class="form-group col">
             <button @onclick="SearchUser" class="btn btn-primary">Search</button>
@@ -31,10 +40,10 @@
         </tr>
     </thead>
     <tbody>
-        @if (friendList != null)
+        @if(friendList != null)
         {
 
-            @foreach (var friend in friendList)
+            @foreach(var friend in friendList)
             {
                 <tr>
                     <td>@friend.ApplicationUser.UserName</td>
@@ -60,6 +69,8 @@
     private ApplicationUser? searchedIdentityUser;
     private List<Friend>? friendList;
     private string username { get; set; } = string.Empty;
+    private string SelectedPeson;
+    private List<Friend> AllUsers = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -69,6 +80,9 @@
         currentUser = await ApplicationUserService.GetApplicationUserByEmail(email);
 
         friendList = await FriendService.GetAllFriendsByUser(currentUser);
+
+        AllUsers = await FriendService.GetAllNonFriends(currentUser);
+
     }
 
     private async void SearchUser()
@@ -78,11 +92,19 @@
 
     private async void CreateFriend()
     {
+        searchedIdentityUser = await ApplicationUserService.GetApplicationUserByEmail(SelectedPeson);
         await FriendService.AddFriend(searchedIdentityUser);
+        RefreshData();
+        StateHasChanged();
     }
 
     private async void DeleteFriend(int friendId)
     {
         //await FriendService.RemoveFriend(friendId);
+    }
+
+    private async Task RefreshData()
+    {
+        friendList = await FriendService.GetAllNonFriends(currentUser);
     }
 }
