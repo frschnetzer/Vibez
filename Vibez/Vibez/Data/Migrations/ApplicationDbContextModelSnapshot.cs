@@ -355,6 +355,10 @@ namespace Vibez.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("FriendEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("FriendId");
 
                     b.HasIndex("ApplicationUserId");

@@ -1,8 +1,10 @@
 ﻿@page "/createparty"
+
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.Rendering
 @using Vibez.Data.Models
 @using Vibez.Data.Service
+
 @inject IEventService EventService
 @inject IApplicationUserService ApplicationUserService
 @inject AuthenticationStateProvider AuthProvider
@@ -43,13 +45,16 @@
                 }
                 else
                 {
-                    <select class="form-select" @bind="selectedFriends" multiple aria-label="multiple select example">
-                        <option selected>Select Friends</option>
-                        @foreach (var friend in friendsList)
-                        {
-                            <option value="@friend.FriendId">@friend.User.UserName</option>
-                        }
-                    </select>
+                    @if (friendsList.Any())
+                    {
+                        <select class="form-select" multiple aria-label="multiple select example" @onchange="OnProjectSelectionChange">
+                            <option selected>Select Friends</option>
+                            @foreach (var friend in friendsList)
+                            {
+                                <option value="@friend.FriendEmail">@friend.FriendEmail</option>
+                            }
+                        </select>
+                    }
                 }
             </div>
             <div class="input-group mb-3 w-30" style="margin-top: 20px;">
@@ -57,7 +62,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="input-group mb-3 w-300" style="width: 600px; height: 350px;">
+            <div class="input-group mb-3" style="width: 600px; height: 350px;">
                 <iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="gmap_canvas" src="@mapUrl">
                 </iframe>
             </div>
@@ -66,19 +71,20 @@
 </div>
 
 @code {
-    private string[]? selectedFriends;
+    private List<string> selectedFriends;
     private List<Friend>? friendsList;
     private Event? newEvent;
-    private IdentityUser? identityUser;
+    private ApplicationUser? appUser;
+    private List<ApplicationUser> appUserList = new List<ApplicationUser>();
     private DateTime date { get; set; }
     private TimeOnly time { get; set; }
     private string eventname { get; set; } = string.Empty;
     private string notes { get; set; } = string.Empty;
     private string location { get; set; } = string.Empty;
-    private int participantCount { get; set; }
     private string street = string.Empty;
     private string postcode = string.Empty;
     private string city = string.Empty;
+    private int friendId { get; set; }
     private string mapUrl = "https://maps.google.com/maps?q=&t=h&z=3&output=embed";
 
     protected override async Task OnInitializedAsync()
@@ -87,33 +93,46 @@
 
         var email = (await AuthProvider.GetAuthenticationStateAsync()).User.Identity.Name;
 
-        identityUser = await ApplicationUserService.GetApplicationUserByEmail(email);
+        appUser = await ApplicationUserService.GetApplicationUserByEmail(email);
 
-        friendsList = await FriendService.GetAllFriendsByUser(identityUser);
+        friendsList = await FriendService.GetAllFriendsByUser(appUser);
+    }
+
+    private async void OnProjectSelectionChange(ChangeEventArgs e)
+    {
+        if (e.Value is not null)
+        {
+            selectedFriends = ((string[])e.Value).ToList();
+        }
     }
 
     public async void CreateEvent()
     {
-        // Not ready yet
+        foreach(var friend in selectedFriends)
+        {
+            ApplicationUser _friend = await ApplicationUserService.GetApplicationUserByEmail(friend);
+            appUserList.Add(_friend);
+        }
+
         var _newEvent = new Event()
             {
                 EventName = eventname,
-                CreatorName = identityUser.ToString(),
+                CreatorName = appUser.ToString(),
                 Notes = notes,
                 Date = date,
                 EventTime = Convert.ToString(time),
-                ParticipantCount = participantCount,
-                //Postcode = postcode,
+                ParticipantCount = appUserList.Count,
+                Postcode = postcode,
                 City = city,
                 Address = street,
-                IdentityUsers = selectedFriends.Select(friendId => new IdentityUser { Id = friendId }).ToList()
+                ApplicationUsers = appUserList
             };
 
         await EventService.AddEvent(_newEvent);
 
-        foreach (var friend in _newEvent.IdentityUsers)
+        foreach (var friend in _newEvent.ApplicationUsers)
         {
-            await EmailService.SendEmailAsync(friend.ApplicationUser.Email, creatorName.ToString());
+            await EmailService.SendEmailAsync(friend.Email, _newEvent.CreatorName);
         }
     }
 
@@ -121,7 +140,6 @@
     {
         if (!string.IsNullOrEmpty(street) || !string.IsNullOrEmpty(postcode) || !string.IsNullOrEmpty(city))
         {
-            // Erzeugen der Google Maps-URL basierend auf den eingegebenen Daten
             string address = $"{street}, {postcode} {city}";
             string encodedAddress = Uri.EscapeUriString(address);
             mapUrl = $"https://maps.google.com/maps?q={encodedAddress}&t=h&z=20&output=embed";

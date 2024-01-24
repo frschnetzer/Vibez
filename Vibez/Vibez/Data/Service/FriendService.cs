@@ -12,17 +12,18 @@ namespace Vibez.Data.Service
             _context = context;
         }
 
-        public async Task AddFriend(ApplicationUser user)
+        public async Task AddFriend(ApplicationUser currUser, ApplicationUser selectedFriend)
         {
             try
             {
                 Friend friend = new Friend()
                 {
-                    ApplicationUser = user,
-                    ApplicationUserId = user.Id
+                    ApplicationUser = currUser,
+                    ApplicationUserId = currUser.Id,
+                    FriendEmail = selectedFriend.Email
                 };
-
-                //user.Friends.Add(friend);
+                
+                currUser.Friends.Add(friend);
                 await _context.Friends.AddAsync(friend);
                 await _context.SaveChangesAsync();
             }

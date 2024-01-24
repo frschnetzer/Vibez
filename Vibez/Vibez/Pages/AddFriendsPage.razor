@@ -37,8 +37,8 @@
             @foreach (var friend in friendList)
             {
                 <tr>
-                    <td>@friend.User.UserName</td>
-                    <td>@friend.User.Email</td>
+                    <td>@friend.ApplicationUser.UserName</td>
+                    <td>@friend.ApplicationUser.Email</td>
                     <td align="right">
                         <button class="btn btn-primary" @onclick="() => DeleteFriend(friend.FriendId)">
                             Delete
@@ -56,8 +56,8 @@
 </table>
 
 @code {
-    private IdentityUser? currentUser;
-    private IdentityUser? searchedIdentityUser;
+    private ApplicationUser? currentUser;
+    private ApplicationUser? searchedIdentityUser;
     private List<Friend>? friendList;
     private string username { get; set; } = string.Empty;
 
@@ -68,7 +68,7 @@
         var email = (await AuthProvider.GetAuthenticationStateAsync()).User.Identity.Name;
         currentUser = await ApplicationUserService.GetApplicationUserByEmail(email);
 
-        friendList = await FriendService.GetAllFriendsByUser(currentUser);
+        //friendList = await FriendService.GetAllFriendsByUser(currentUser);
     }
 
     private async void SearchUser()
@@ -78,7 +78,7 @@
 
     private async void CreateFriend()
     {
-        await FriendService.AddFriend(searchedIdentityUser);
+        await FriendService.AddFriend(currentUser, searchedIdentityUser);
     }
 
     private async void DeleteFriend(int friendId)

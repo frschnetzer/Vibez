@@ -17,8 +17,8 @@ namespace Vibez.Data.Service
             try
             {
                 return await _context.Users
-                    .Where(u => u.UserName == email)
-                    .Include(nameof(ApplicationUser.Friends))
+                    .Where(u => u.UserName == email) // nameof(ApplicationUser.Friends)
+                    .Include(x => x.Friends)
                     .Include(nameof(ApplicationUser.Events))
                     .FirstAsync();
             }
