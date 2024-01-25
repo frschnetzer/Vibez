@@ -24,6 +24,7 @@ namespace Vibez.Data.Service
                 };
                 
                 currUser.Friends.Add(friend);
+
                 await _context.Friends.AddAsync(friend);
                 await _context.SaveChangesAsync();
             }

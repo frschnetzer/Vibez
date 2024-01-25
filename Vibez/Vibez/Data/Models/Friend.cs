@@ -15,7 +15,5 @@ namespace Vibez.Data.Models
 
         [Required]
         public ApplicationUser ApplicationUser { get; set; }
-
-
     }
 }
