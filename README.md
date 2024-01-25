@@ -12,7 +12,7 @@
 ### Backend
 #### DB Context:
 - DbContext created with EF-Core. Changes are DbSets and OnModelCreating Method.
-- OnModelCreating creates a intermediate table for ApplicationUser and Events table
+- OnModelCreating creates a intermediate table for ApplicationUser, Events and Friends
 
 #### Models:
 - ApplicationUser model was newly created and added two new properties: Nickname and List<Events>.
@@ -26,6 +26,7 @@
 
 #### DTOs:
 - ApplicationUserDto and EventDto
+- The ApplicationUserDto was removed the EventDto is the only one.
 
 #### Service:
 - ApplicationService and EventService with Interfaces. Both servies have database statements (add, edit, delete, get,..).
