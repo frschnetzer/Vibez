@@ -20,7 +20,7 @@ else
                     <EditForm Model="@editEvent" OnValidSubmit="ValidScreeningSubmitted" OnInvalidSubmit="InvalidScreeningSubmitted">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
-                        <div class="list-group">
+                         <div class="list-group">
                             <label class="label">Event Name</label>
                             <InputText @bind-Value="editEvent.EventName" />
                         </div>
@@ -34,20 +34,27 @@ else
                         </div>
                         <div class="list-group">
                             <label class="label">Address</label>
-                            <InputText @bind-Value="editEvent.Address" />
+                            <InputText @bind-Value="editEvent.Address" @onkeydown="GenerateMapUrl" />
                         </div>
                         <div class="list-group">
                             <label class="label">Postcode</label>
-                            <InputNumber @bind-Value="editEvent.Postcode" />
+                            <InputText @bind-Value="editEvent.Postcode" @onkeydown="GenerateMapUrl" />
                         </div>
                         <div class="list-group">
                             <label class="label">City</label>
-                            <InputText @bind-Value="editEvent.City" />
+                            <InputText @bind-Value="editEvent.City" @onkeydown="GenerateMapUrl" />
+                        </div>
+                        <br/>
+                        <div class="list-group">
+                            <div class="input-group mb-3 w-800" >
+                                <iframe frameborder="0" scrolling="no" width="500" height="200" marginheight="0" marginwidth="0" id="gmap_canvas" src="@mapUrl">
+                                </iframe>
+                            </div>
                         </div>
                         <div>
                             <input type="submit" class="btn btn-primary" value="Save" />
                             <button class="btn btn-secondary" data-dismiss="modal" @onclick="CloseClick">Close</button>
-                        </div>
+                        </div> 
                     </EditForm>
                 </div>
             </div>
@@ -63,6 +70,14 @@ else
     [Parameter]
     public Event? editEvent { get; set; }
 
+    private string mapUrl = "https://maps.google.com/maps?q=&t=h&z=3&output=embed";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        GenerateMapUrl();
+    }
+
     private async void CloseClick()
     {
         editEvent = null;
@@ -75,8 +90,18 @@ else
         CloseClick();
     }
 
-
     void InvalidScreeningSubmitted(EditContext editContext)
     {
+    }
+
+    private void GenerateMapUrl()
+    {
+        if(editEvent != null)
+        {
+            // Erzeugen der Google Maps-URL basierend auf den eingegebenen Daten
+            string address = $"{editEvent.Address}, {editEvent.Postcode} {editEvent.City}";
+            string encodedAddress = Uri.EscapeUriString(address);
+            mapUrl = $"https://maps.google.com/maps?q={encodedAddress}&t=h&z=20&output=embed";
+        }
     }
 }
