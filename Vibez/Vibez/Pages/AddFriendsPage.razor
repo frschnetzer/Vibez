@@ -68,7 +68,7 @@
         var email = (await AuthProvider.GetAuthenticationStateAsync()).User.Identity.Name;
         currentUser = await ApplicationUserService.GetApplicationUserByEmail(email);
 
-        friendList = await FriendService.GetAllFriendsByUser(currentUser);
+        //friendList = await FriendService.GetAllFriendsByUser(currentUser);
     }
 
     private async void SearchUser()
@@ -78,7 +78,7 @@
 
     private async void CreateFriend()
     {
-        await FriendService.AddFriend(searchedIdentityUser);
+        await FriendService.AddFriend(currentUser, searchedIdentityUser);
     }
 
     private async void DeleteFriend(int friendId)
