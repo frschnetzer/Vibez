@@ -10,140 +10,183 @@
 @inject AuthenticationStateProvider AuthProvider
 @inject IFriendService FriendService
 @inject IEmailService EmailService
+@inject NavigationManager NavManager
+
+<style>
+    .button {
+        background-color: #8c74ac;
+        color: white;
+        border: none;
+        border-radius: 5px !important;
+        cursor: pointer;
+    }
+</style>
 
 <PageTitle>Create Party</PageTitle>
 
-<div class="container">
-    <div class="row gx-2">
-        <div class="col-md-6">
+<EditForm Model="@_event" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
-            <h3>Create a party</h3>
+    <div class="container">
+        <div class="row gx-2">
+            <div class="col-md-6">
 
-            <div class="input-group mb-3 w-75">
-                <input @bind="eventname" type="text" class="form-control" placeholder="Eventname" />
-            </div>
-            <div class="input-group mb-3 w-75">
-                <input @bind="notes" type="text" class="form-control" placeholder="Notes" />
-            </div>
-            <div class="input-group mb-3 w-75">
-                <input @bind="street" @onkeydown="GenerateMapUrl" type="text" class="form-control" placeholder="Street" />
-            </div>
-            <div class="input-group mb-3 w-75">
-                <input @bind="postcode" @onkeydown="GenerateMapUrl" type="text" class="form-control" placeholder="Zipcode" />
-            </div>
-            <div class="input-group mb-3 w-75">
-                <input @bind="city" @onkeydown="GenerateMapUrl" type="text" class="form-control" placeholder="City" />
-            </div>
-            <div class="input-group mb-3 w-50">
-                <input type="date" @bind="date" class="form-control" />
-                <input type="time" @bind="time" class="form-control" />
-            </div>
-            <div class="input-group mb-3 w-75">
-                @if (friendsList == null || friendsList.Count == 0)
-                {
-                    <h3>Validation</h3>
-                }
-                else
-                {
-                    @if (friendsList.Any())
+                <h3>Create a Event</h3>
+
+                <div class="input-group mb-3 w-75">
+                    <input @bind="_event.EventName" type="text" class="form-control" placeholder="Eventname" />
+                </div>
+                <div class="input-group mb-3 w-75">
+                    <input @bind="_event.Notes" type="text" class="form-control" placeholder="Notes" />
+                </div>
+                <div class="input-group mb-3 w-75">
+                    <input @bind="_event.Address" @onkeydown="GenerateMapUrl" type="text" class="form-control" placeholder="Street" />
+                </div>
+                <div class="input-group mb-3 w-75">
+                    <input @bind="_event.Postcode" @onkeydown="GenerateMapUrl" type="text" class="form-control" placeholder="Postcode" />
+                </div>
+                <div class="input-group mb-3 w-75">
+                    <input @bind="_event.City" @onkeydown="GenerateMapUrl" type="text" class="form-control" placeholder="City" />
+                </div>
+                <div class="input-group mb-3 w-50">
+                    <input type="date" @bind="_event.Date" class="form-control" />
+                    <input type="time" @bind="time" class="form-control" />
+                </div>
+                <div class="input-group mb-3 w-75">
+                    @if (friendsList == null || friendsList.Count == 0)
                     {
-                        <select class="form-select" multiple aria-label="multiple select example" @onchange="OnProjectSelectionChange">
-                            <option selected>Select Friends</option>
-                            @foreach (var friend in friendsList)
-                            {
-                                <option value="@friend.FriendEmail">@friend.FriendEmail</option>
-                            }
-                        </select>
+                        <h2>You have not added friends yet!</h2>
+                        <div>
+                            <p>
+                                <a href="@("/addfriends")">Search for friends here!</a>
+                            </p>
+                        </div>
                     }
-                }
+                    else
+                    {
+                        @if (friendsList.Any())
+                        {
+                            <div>
+                                <select class="form-select" multiple aria-label="multiple select example" @onchange="OnProjectSelectionChange">
+                                    <option selected>Select Friends</option>
+                                    @foreach (var friend in friendsList)
+                                    {
+                                        <option value="@friend.FriendEmail">@friend.FriendEmail</option>
+                                    }
+                                </select>
+                            </div>
+                        }
+                    }
+                </div>
+                <!-- Andere Formularfelder hier -->
+                <div class="input-group mb-3 w-30" style="margin-top: 20px;">
+                    <button class="btn button" type="submit">Create Event</button>
+                </div>
             </div>
-            <div class="input-group mb-3 w-30" style="margin-top: 20px;">
-                <button @onclick="CreateEvent">Create Event</button>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="input-group mb-3">
-                <iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="gmap_canvas" src="@mapUrl" width="600" height="400">
-                </iframe>
-            </div>
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="gmap_canvas" src="@mapUrl" width="600" height="400">
+                    </iframe>
+                </div>
 
+            </div>
         </div>
     </div>
-</div>
+</EditForm>
+
 
 @code {
+    private Event _event = new Event();
     private List<string> selectedFriends;
     private List<Friend>? friendsList;
     private Event? newEvent;
     private ApplicationUser? appUser;
     private List<ApplicationUser> appUserList = new List<ApplicationUser>();
-    private DateTime date { get; set; }
-    private TimeOnly time { get; set; }
-    private string eventname { get; set; } = string.Empty;
-    private string notes { get; set; } = string.Empty;
-    private string location { get; set; } = string.Empty;
-    private string street = string.Empty;
-    private string postcode = string.Empty;
-    private string city = string.Empty;
+    private TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
+    private DateTime date = DateTime.Now;
     private int friendId { get; set; }
     private string mapUrl = "https://maps.google.com/maps?q=&t=h&z=3&output=embed";
 
+    /// <summary>
+    /// Gets Friendlist of current user
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
+        // Getting the Email ob currennt user
         var email = (await AuthProvider.GetAuthenticationStateAsync()).User.Identity.Name;
 
+        // Getting current User by email
         appUser = await ApplicationUserService.GetApplicationUserByEmail(email);
 
+        // Getting all friends of current user
         friendsList = await FriendService.GetAllFriendsByUser(appUser);
     }
 
-    private async void OnProjectSelectionChange(ChangeEventArgs e)
+    /// <summary>
+    /// Creates a new Event and sends invation emails to every person invited
+    /// </summary>
+    /// <returns></returns>
+    private async Task HandleValidSubmit()
     {
-        if (e.Value is not null)
+        foreach (var friend in selectedFriends)
         {
-            selectedFriends = ((string[])e.Value).ToList();
-        }
-    }
-
-    public async void CreateEvent()
-    {
-        foreach(var friend in selectedFriends)
-        {
+            // Getting every singel friend (AppUser)
             ApplicationUser _friend = await ApplicationUserService.GetApplicationUserByEmail(friend);
             appUserList.Add(_friend);
         }
 
+        // Creating new evnet
         var _newEvent = new Event()
             {
-                EventName = eventname,
+                EventName = _event.EventName,
                 CreatorName = appUser.ToString(),
-                Notes = notes,
+                Notes = _event.Notes,
                 Date = date,
                 EventTime = Convert.ToString(time),
                 ParticipantCount = appUserList.Count,
-                Postcode = postcode,
-                City = city,
-                Address = street,
+                Postcode = _event.Postcode,
+                City = _event.City,
+                Address = _event.Address,
                 ApplicationUsers = appUserList
             };
+
+        // Loads new Page
+        _event = new();
+        StateHasChanged();
 
         await EventService.AddEvent(_newEvent);
 
         foreach (var friend in _newEvent.ApplicationUsers)
         {
+            // Sending every person selected an invite email
             await EmailService.SendEmailAsync(friend.Email, _newEvent.CreatorName);
         }
     }
 
+    /// <summary>
+    /// Adds friends to selected friendList when selection changes
+    /// </summary>
+    /// <param name="e"></param>
+    private async void OnProjectSelectionChange(ChangeEventArgs e)
+    {
+        if (e.Value is not null)
+        {
+            // Adding all selected friends to list
+            selectedFriends = ((string[])e.Value).ToList();
+        }
+    }
+
+    /// <summary>
+    /// Generates the Iframe Google Maps URL in livetime
+    /// </summary>
     private void GenerateMapUrl()
     {
-        if (!string.IsNullOrEmpty(street) || !string.IsNullOrEmpty(postcode) || !string.IsNullOrEmpty(city))
-        {
-            string address = $"{street}, {postcode} {city}";
-            string encodedAddress = Uri.EscapeUriString(address);
-            mapUrl = $"https://maps.google.com/maps?q={encodedAddress}&t=h&z=20&output=embed";
-        }
+        string address = $"{_event.Address}, {_event.Postcode} {_event.City}";
+        string encodedAddress = Uri.EscapeUriString(address);
+        mapUrl = $"https://maps.google.com/maps?q={encodedAddress}&t=h&z=20&output=embed";
     }
 }
