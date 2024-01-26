@@ -1,0 +1,38 @@
+﻿@if (IsShown)
+{
+    <div class="modal show" role="dialog" style="display:block">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Warning!</h2>
+                </div>
+                <div class="modal-body">
+                    <p style="font-size: 15px">Really want to delete?</p>
+                    <button class="btn btn-danger" @onclick="SubmitDeleteClick">delete</button>
+                    <button class="btn btn-secondary" @onclick="CancelDelete">cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public EventCallback CloseCallback { get; set; }
+    [Parameter] 
+    public bool IsShown { get; set; } = false;
+    [Parameter] 
+    public bool SubmitDelete { get; set; } = false;
+
+    private void SubmitDeleteClick()
+    {
+        SubmitDelete = true;
+        IsShown = false;
+        StateHasChanged();
+    }
+
+    private async Task CancelDelete()
+    {
+        await CloseCallback.InvokeAsync();
+    }
+}
