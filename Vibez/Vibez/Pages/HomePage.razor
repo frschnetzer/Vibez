@@ -96,15 +96,17 @@ else
 }
 
 <EditEventView CloseCallback="ModalCloseCallback" editEvent="selectedEvent" />
+<DeleteWarningModalPage CloseCallback="ModalCloseCallback" IsShown=@isShown SelectedEventId="@selectedEventId" SelectedFriendId="null"/>
 
 @code {
     private List<Event> eventList = new();
     private Event? selectedEvent;
-    private int currentRowId;
+    private int? selectedEventId;
 
     private AuthenticationState? authstate;
     private ApplicationUser? currentUser;
     private bool isAuthenticated;
+    private bool isShown = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -183,17 +185,20 @@ else
 
     private async Task DeleteEvent(int selectedEventId)
     {
-        await eventService.DeleteEventById(selectedEventId);
-        StateHasChanged();
+        isShown = true;
+        this.selectedEventId = selectedEventId;
 
         await RefreshData();
+        StateHasChanged();
     }
 
     private async void ModalCloseCallback()
     {
+        isShown = false;
         selectedEvent = null;
-        StateHasChanged();
+        selectedEventId = null;
 
         await RefreshData();
+        StateHasChanged();
     }
 }

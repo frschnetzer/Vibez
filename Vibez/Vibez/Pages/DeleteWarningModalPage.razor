@@ -1,10 +1,9 @@
-﻿@using Vibez.Data.Models
-@using Vibez.Data.Service
+﻿@using Vibez.Data.Service
 
 @inject IFriendService FriendService
 @inject IEventService EventService
 
-@if (IsShown)
+@if(IsShown)
 {
     <div class="modal show" role="dialog" style="display:block">
         <div class="modal-dialog" role="document">
@@ -14,8 +13,10 @@
                 </div>
                 <div class="modal-body">
                     <p style="font-size: 15px">Are you sure to delete?</p>
-                    <button class="btn btn-danger" style="align-content: end" @onclick="SubmitDeleteClick">Delete</button>
-                    <button class="btn btn-secondary" style="align-content: end" @onclick="CancelDelete">Cancel</button>
+                    <div style="text-align:end">
+                        <button class="btn btn-danger" @onclick="SubmitDeleteClick">Delete</button>
+                        <button class="btn btn-secondary" @onclick="CancelDelete">Cancel</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -25,31 +26,26 @@
 @code {
     [Parameter]
     public EventCallback CloseCallback { get; set; }
-    [Parameter] 
+    [Parameter]
     public bool IsShown { get; set; } = false;
-    [Parameter] 
-    public bool SubmitDelete { get; set; } = false;
     [Parameter]
     public int? SelectedFriendId { get; set; }
     [Parameter]
     public int? SelectedEventId { get; set; }
 
-    private void SubmitDeleteClick()
+    private async Task SubmitDeleteClick()
     {
-        SubmitDelete = true;
-        if (SelectedFriendId != null)
+        if(SelectedFriendId != null)
         {
-            FriendService.RemoveFriendById((int)SelectedFriendId);
+            await FriendService.RemoveFriendById((int)SelectedFriendId);
         }
 
-        if (SelectedEventId != null)
+        if(SelectedEventId != null)
         {
-            EventService.DeleteEventById((int)SelectedEventId);
-
+            await EventService.DeleteEventById((int)SelectedEventId);
         }
 
-        IsShown = false;
-        StateHasChanged();
+        await CloseCallback.InvokeAsync();
     }
 
     private async Task CancelDelete()

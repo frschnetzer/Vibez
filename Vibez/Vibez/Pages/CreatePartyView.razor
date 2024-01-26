@@ -101,7 +101,6 @@
     private ApplicationUser? appUser;
     private List<ApplicationUser> appUserList = new List<ApplicationUser>();
     private TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
-    private DateTime date = DateTime.Now;
     private int friendId { get; set; }
     private string mapUrl = "https://maps.google.com/maps?q=&t=h&z=3&output=embed";
 
@@ -142,7 +141,7 @@
                 EventName = _event.EventName,
                 CreatorName = appUser.ToString(),
                 Notes = _event.Notes,
-                Date = date,
+                Date = _event.Date,
                 EventTime = Convert.ToString(time),
                 ParticipantCount = appUserList.Count,
                 Postcode = _event.Postcode,
