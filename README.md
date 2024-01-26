@@ -12,20 +12,28 @@
 ### Backend
 #### DB Context:
 - DbContext created with EF-Core. Changes are DbSets and OnModelCreating Method.
-- OnModelCreating creates a intermediate table for ApplicationUser and Events table
+- OnModelCreating creates a intermediate table for ApplicationUser, Events and Friends
 
 #### Models:
 - ApplicationUser model was newly created and added two new properties: Nickname and List<Events>.
 - Event model was newly created with following properties: Id, EventName, CreatorName, ParticipantCount, LocationName, CoorinatesLongitude, CoordinatesLatitude, Notes, Date and List<ApplicationUser>.
 - The intermediate table between Events and ApplicationUser was automatically created by EF-Core.
 
+-The models changed since the this README was first written:
+-The ApplicationUser doesn't have a Nickname anymore and he has a List<Friends> as property.
+-The Friends model has a Id, FriendEmail then a ApplicationUserId and A Applicationuser thats it.
+-Event also has some changes to the properties, there is no Cordinates anymore and it now has City, Address and Postcode.
+
 #### DTOs:
 - ApplicationUserDto and EventDto
+- The ApplicationUserDto was removed the EventDto is the only one.
 
 #### Service:
 - ApplicationService and EventService with Interfaces. Both servies have database statements (add, edit, delete, get,..).
 - every access to the database and all calculations are located in the services.
-  
+
+- Now there is also a FriendService with a Interface. This Service also have the same methods as the EventServic etc.
+     
 ### Frontend
 #### wwwroot
 -  contains all pngs and Icons

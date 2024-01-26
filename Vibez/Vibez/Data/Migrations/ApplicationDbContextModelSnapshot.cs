@@ -294,7 +294,7 @@ namespace Vibez.Data.Migrations
                             EventId = 1,
                             Address = "123 Main St",
                             City = "Sample City 1",
-                            CreatorName = "John Doe",
+                            CreatorName = "test@gmail.com",
                             Date = new DateTime(2024, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EventName = "Sample Event 1",
                             EventTime = "12:00",
@@ -307,7 +307,7 @@ namespace Vibez.Data.Migrations
                             EventId = 2,
                             Address = "123 Sesame Stret",
                             City = "Sample City 2",
-                            CreatorName = "Barack Obama",
+                            CreatorName = "test@gmail.com",
                             Date = new DateTime(2024, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EventName = "Sample Event 2",
                             EventTime = "15:00",
@@ -320,7 +320,7 @@ namespace Vibez.Data.Migrations
                             EventId = 3,
                             Address = "123 Secondary St",
                             City = "Sample City 3",
-                            CreatorName = "Mike Tyson",
+                            CreatorName = "test@gmail.com",
                             Date = new DateTime(2024, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EventName = "Sample Event 3",
                             EventTime = "20:00",
@@ -333,7 +333,7 @@ namespace Vibez.Data.Migrations
                             EventId = 4,
                             Address = "13 Main St",
                             City = "Sample City 4",
-                            CreatorName = "Jon Jones",
+                            CreatorName = "test@gmail.com",
                             Date = new DateTime(2024, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EventName = "Sample Event 4",
                             EventTime = "18:00",
@@ -354,6 +354,10 @@ namespace Vibez.Data.Migrations
                     b.Property<string>("ApplicationUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FriendEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("FriendId");
 

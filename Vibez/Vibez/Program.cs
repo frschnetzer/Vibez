@@ -33,6 +33,7 @@ namespace Vibez
             builder.Services.AddScoped<IEmailService, EmailSercive>();
             builder.Services.AddScoped<IEventService, EventService>();
             builder.Services.AddScoped<IFriendService, FriendService>();
+            builder.Configuration.AddJsonFile("appsettings.json");
 
             var app = builder.Build();
 
