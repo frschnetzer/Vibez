@@ -30,21 +30,22 @@
     [Parameter] 
     public bool SubmitDelete { get; set; } = false;
     [Parameter]
-    public Friend? SelectedFriend { get; set; }
+    public int? SelectedFriendId { get; set; }
     [Parameter]
-    public Event? SelectedEvent { get; set; }
+    public int? SelectedEventId { get; set; }
 
     private void SubmitDeleteClick()
     {
         SubmitDelete = true;
-        if (SelectedFriend != null)
+        if (SelectedFriendId != null)
         {
-            FriendService.RemoveFriendById(SelectedFriend.FriendId);
+            FriendService.RemoveFriendById((int)SelectedFriendId);
         }
 
-        if (SelectedEvent != null)
+        if (SelectedEventId != null)
         {
-            EventService.DeleteEventById(SelectedEvent.EventId);
+            EventService.DeleteEventById((int)SelectedEventId);
+
         }
 
         IsShown = false;
