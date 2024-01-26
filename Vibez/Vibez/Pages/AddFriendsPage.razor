@@ -72,7 +72,7 @@
     </table>
 </div>
 
-<DeleteWarningModalPage CloseCallback="ModalCloseCallback" IsShown=@isShown SubmitDelete=@submitDelete SelectedEvent="null" SelectedFriend=""/>
+<DeleteWarningModalPage CloseCallback="ModalCloseCallback" IsShown=@isShown SelectedEventId="null" SelectedFriendId="@selectedFriendId"/>
 
 @code {
     private ApplicationUser? currentUser;
@@ -82,8 +82,7 @@
     private string SelectedPeson;
     private List<ApplicationUser> allUsers = new();
     private bool isShown = false;
-    private bool submitDelete = false;
-    private Friend selectedFriend = new();
+    private int? selectedFriendId;
 
     protected override async Task OnInitializedAsync()
     {
@@ -109,14 +108,10 @@
     private async Task DeleteFriend(int friendId)
     {
         isShown = true;
+        selectedFriendId = friendId;
 
-        if(submitDelete)
-        {
-            await FriendService.RemoveFriendById(friendId);
-
-            await RefreshData();
-            StateHasChanged();
-        }
+        await RefreshData();
+        StateHasChanged();
     }
 
     private async Task RefreshData()
@@ -128,8 +123,10 @@
     private async void ModalCloseCallback()
     {      
         isShown = false;
-        StateHasChanged();
+        selectedFriendId = null;
 
         await RefreshData();
+        StateHasChanged();
+
     }
 }
