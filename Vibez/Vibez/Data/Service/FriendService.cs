@@ -22,7 +22,7 @@ namespace Vibez.Data.Service
                     ApplicationUserId = currUser.Id,
                     FriendEmail = selectedFriend.Email
                 };
-                
+
                 currUser.Friends.Add(friend);
 
                 await _context.Friends.AddAsync(friend);
@@ -83,26 +83,21 @@ namespace Vibez.Data.Service
         /// <param name="currentUser">Current authenticated user</param>
         /// <returns>List of Friend</returns>
         /// <exception cref="Exception">Throws when an error occures while reading from database</exception>
-        public async Task<List<Friend>> GetAllNonFriends(ApplicationUser currentUser)
+        public async Task<List<ApplicationUser>> GetAllNonFriends(ApplicationUser currentUser)
         {
             try
             {
-                var friendList = await GetAllFriendsByUser(currentUser);
-
                 var allUsersList = await _context.Users.Where(x => x.Id != currentUser.Id).ToListAsync();
 
-                List<Friend>? allUsersToFriendsList = new();
+                var friendList = await GetAllFriendsByUser(currentUser);
+                List<ApplicationUser> friendsToApplicationList = new();
 
-                foreach(var item in allUsersList)
+                foreach(var user in friendList)
                 {
-                    allUsersToFriendsList.Add(new Friend()
-                    {
-                        ApplicationUser = item,
-                        ApplicationUserId = item.Id,
-                    });
+                    friendsToApplicationList.Add(allUsersList.Where(x => x.Email == user.FriendEmail).First());
                 }
 
-                return allUsersToFriendsList.Except(friendList).ToList();
+                return allUsersList.Except(friendsToApplicationList).ToList();
             }
             catch(Exception ex)
             {
