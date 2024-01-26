@@ -1,4 +1,10 @@
-﻿@if (IsShown)
+﻿@using Vibez.Data.Models
+@using Vibez.Data.Service
+
+@inject IFriendService FriendService
+@inject IEventService EventService
+
+@if (IsShown)
 {
     <div class="modal show" role="dialog" style="display:block">
         <div class="modal-dialog" role="document">
@@ -8,8 +14,8 @@
                 </div>
                 <div class="modal-body">
                     <p style="font-size: 15px">Are you sure to delete?</p>
-                    <button class="btn btn-danger" @onclick="SubmitDeleteClick">Delete</button>
-                    <button class="btn btn-secondary" @onclick="CancelDelete">Cancel</button>
+                    <button class="btn btn-danger" style="align-content: end" @onclick="SubmitDeleteClick">Delete</button>
+                    <button class="btn btn-secondary" style="align-content: end" @onclick="CancelDelete">Cancel</button>
                 </div>
             </div>
         </div>
@@ -23,10 +29,24 @@
     public bool IsShown { get; set; } = false;
     [Parameter] 
     public bool SubmitDelete { get; set; } = false;
+    [Parameter]
+    public Friend? SelectedFriend { get; set; }
+    [Parameter]
+    public Event? SelectedEvent { get; set; }
 
     private void SubmitDeleteClick()
     {
         SubmitDelete = true;
+        if (SelectedFriend != null)
+        {
+            FriendService.RemoveFriendById(SelectedFriend.FriendId);
+        }
+
+        if (SelectedEvent != null)
+        {
+            EventService.DeleteEventById(SelectedEvent.EventId);
+        }
+
         IsShown = false;
         StateHasChanged();
     }
