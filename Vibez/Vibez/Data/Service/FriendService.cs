@@ -22,7 +22,7 @@ namespace Vibez.Data.Service
                     ApplicationUserId = currUser.Id,
                     FriendEmail = selectedFriend.Email
                 };
-                
+
                 currUser.Friends.Add(friend);
 
                 await _context.Friends.AddAsync(friend);
@@ -74,6 +74,34 @@ namespace Vibez.Data.Service
             catch(Exception ex)
             {
                 throw new Exception($"Couldn't remove friend to database. See following exception: {ex}");
+            }
+        }
+
+        /// <summary>
+        /// Get a list of all users that are not friends with the current user
+        /// </summary>
+        /// <param name="currentUser">Current authenticated user</param>
+        /// <returns>List of Friend</returns>
+        /// <exception cref="Exception">Throws when an error occures while reading from database</exception>
+        public async Task<List<ApplicationUser>> GetAllNonFriends(ApplicationUser currentUser)
+        {
+            try
+            {
+                var allUsersList = await _context.Users.Where(x => x.Id != currentUser.Id).ToListAsync();
+
+                var friendList = await GetAllFriendsByUser(currentUser);
+                List<ApplicationUser> friendsToApplicationList = new();
+
+                foreach(var user in friendList)
+                {
+                    friendsToApplicationList.Add(allUsersList.Where(x => x.Email == user.FriendEmail).First());
+                }
+
+                return allUsersList.Except(friendsToApplicationList).ToList();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception($"Could not get all non friends: {ex.Message}");
             }
         }
     }

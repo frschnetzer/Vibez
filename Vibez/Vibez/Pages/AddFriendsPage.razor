@@ -1,65 +1,84 @@
 ﻿@page "/addfriends"
+
 @using Microsoft.AspNetCore.Identity
 @using Vibez.Data.Models
 @using Vibez.Data.Service
-@inject IFriendService FriendService
-@inject AuthenticationStateProvider AuthProvider
-@inject IApplicationUserService ApplicationUserService
 
-<h3>Add a Friend</h3>
+@inject IFriendService FriendService
+@inject IApplicationUserService ApplicationUserService
+@inject AuthenticationStateProvider AuthProvider
+
+<style>
+    .button {
+        background-color: #8c74ac;
+        color: white;
+        border: none;
+        border-radius: 5px !important;
+        cursor: pointer;
+    }
+</style>
+
+<h1>Add a Friend</h1>
 
 <div class="form-row">
     <div class="form-group row">
         <div class="form-group col-md-4">
-            <input type="text" class="form-control" @bind="username" placeholder="Search friend" />
+            <input type="text" class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search..." @onchange="@((args) => SelectedPeson = args.Value.ToString())">
+            <datalist id="datalistOptions">
+                @foreach(var item in allUsers)
+                {
+                    <option value=@item.UserName></option>
+                }
+            </datalist>
         </div>
         <div class="form-group col">
-            <button @onclick="SearchUser" class="btn btn-primary">Search</button>
+            <button @onclick="CreateFriend" class="btn button">Add</button>
         </div>
     </div>
     <br />
-    <button @onclick="CreateFriend" class="btn btn-primary">Add</button>
-</div>
-<br />
-<br />
-<label class="form-label" style="font-size: 20px">Your friends:</label>
-<table class="table">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (friendList != null)
-        {
-
-            @foreach (var friend in friendList)
+    <br />
+    <br />
+    <label class="form-label" style="font-size: 30px">Your friends</label>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">You</th>
+                <th scope="col">Friend</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(friendList != null)
             {
-                <tr>
-                    <td>@friend.ApplicationUser.UserName</td>
-                    <td>@friend.ApplicationUser.Email</td>
-                    <td align="right">
-                        <button class="btn btn-primary" @onclick="() => DeleteFriend(friend.FriendId)">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
+                @foreach(var friend in friendList)
+                {
+                    <tr>
+                        <td>@friend.ApplicationUser.UserName</td>
+                        <td>@friend.FriendEmail</td>
+                        <td align="right">
+                            <button class="btn btn-secondary" @onclick="() => DeleteFriend(friend.FriendId)">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                }
             }
-        }
-        else
-        {
-            <h3>You have not added friends now!</h3>
-            <a href="@("/inviteFriends")">Get new friends now :)</a>
-        }
-    </tbody>
-</table>
+            else
+            {
+                <h3>You have not added friends now!</h3>
+
+                <p>Get new friends now :)</p>
+            }
+        </tbody>
+    </table>
+</div>
 
 @code {
     private ApplicationUser? currentUser;
     private ApplicationUser? searchedIdentityUser;
     private List<Friend>? friendList;
     private string username { get; set; } = string.Empty;
+    private string SelectedPeson;
+    private List<ApplicationUser> allUsers = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -68,21 +87,31 @@
         var email = (await AuthProvider.GetAuthenticationStateAsync()).User.Identity.Name;
         currentUser = await ApplicationUserService.GetApplicationUserByEmail(email);
 
-        //friendList = await FriendService.GetAllFriendsByUser(currentUser);
+        friendList = await FriendService.GetAllFriendsByUser(currentUser);
+
+        allUsers = await FriendService.GetAllNonFriends(currentUser);
     }
 
-    private async void SearchUser()
+    private async Task CreateFriend()
     {
-        searchedIdentityUser = await ApplicationUserService.GetApplicationUserByEmail(username);
-    }
-
-    private async void CreateFriend()
-    {
+        searchedIdentityUser = await ApplicationUserService.GetApplicationUserByEmail(SelectedPeson);
         await FriendService.AddFriend(currentUser, searchedIdentityUser);
+
+        await RefreshData();
+        StateHasChanged();
     }
 
-    private async void DeleteFriend(int friendId)
+    private async Task DeleteFriend(int friendId)
     {
-        //await FriendService.RemoveFriend(friendId);
+        await FriendService.RemoveFriendById(friendId);
+
+        await RefreshData();
+        StateHasChanged();
+    }
+
+    private async Task RefreshData()
+    {
+        friendList = await FriendService.GetAllFriendsByUser(currentUser);
+        allUsers = await FriendService.GetAllNonFriends(currentUser);
     }
 }
