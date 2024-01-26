@@ -79,7 +79,6 @@
                         }
                     }
                 </div>
-                <!-- Andere Formularfelder hier -->
                 <div class="input-group mb-3 w-30" style="margin-top: 20px;">
                     <button class="btn button" type="submit">Create Event</button>
                 </div>
@@ -89,12 +88,10 @@
                     <iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="gmap_canvas" src="@mapUrl" width="600" height="400">
                     </iframe>
                 </div>
-
             </div>
         </div>
     </div>
 </EditForm>
-
 
 @code {
     private Event _event = new Event();
@@ -116,7 +113,7 @@
     {
         await base.OnInitializedAsync();
 
-        // Getting the Email ob currennt user
+        // Getting the Email of currennt user
         var email = (await AuthProvider.GetAuthenticationStateAsync()).User.Identity.Name;
 
         // Getting current User by email
@@ -134,7 +131,7 @@
     {
         foreach (var friend in selectedFriends)
         {
-            // Getting every singel friend (AppUser)
+            // Getting every single friend (AppUser)
             ApplicationUser _friend = await ApplicationUserService.GetApplicationUserByEmail(friend);
             appUserList.Add(_friend);
         }
