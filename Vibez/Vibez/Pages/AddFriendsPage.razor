@@ -72,7 +72,7 @@
     </table>
 </div>
 
-<DeleteWarningModalPage CloseCallback="ModalCloseCallback" IsShown=@isShown SubmitDelete=@submitDelete />
+<DeleteWarningModalPage CloseCallback="ModalCloseCallback" IsShown=@isShown SubmitDelete=@submitDelete SelectedEvent="null" SelectedFriend=""/>
 
 @code {
     private ApplicationUser? currentUser;
@@ -83,6 +83,7 @@
     private List<ApplicationUser> allUsers = new();
     private bool isShown = false;
     private bool submitDelete = false;
+    private Friend selectedFriend = new();
 
     protected override async Task OnInitializedAsync()
     {
