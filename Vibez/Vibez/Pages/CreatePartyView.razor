@@ -5,12 +5,12 @@
 @using Vibez.Data.Models
 @using Vibez.Data.Service
 
+@inject AuthenticationStateProvider AuthProvider
+@inject NavigationManager NavManager
 @inject IEventService EventService
 @inject IApplicationUserService ApplicationUserService
-@inject AuthenticationStateProvider AuthProvider
 @inject IFriendService FriendService
 @inject IEmailService EmailService
-@inject NavigationManager NavManager
 
 <style>
     .button {
@@ -54,7 +54,7 @@
                     <input type="time" @bind="time" class="form-control" />
                 </div>
                 <div class="input-group mb-3 w-75">
-                    @if (friendsList == null || friendsList.Count == 0)
+                    @if(friendsList == null || friendsList.Count == 0)
                     {
                         <h2>You have not added friends yet!</h2>
                         <div>
@@ -65,16 +65,16 @@
                     }
                     else
                     {
-                        @if (friendsList.Any())
+                        @if(friendsList.Any())
                         {
                             <div>
                                 <select class="form-select" multiple aria-label="multiple select example" @onchange="OnProjectSelectionChange">
                                     <option selected>Select Friends</option>
-                                    @foreach (var friend in friendsList)
+                                    @foreach(var friend in friendsList)
                                     {
                                         <option value="@friend.FriendEmail">@friend.FriendEmail</option>
                                     }
-                                </select> 
+                                </select>
                             </div>
                         }
                     }
@@ -93,6 +93,15 @@
     </div>
 </EditForm>
 
+@if(ErrorMessage != null)
+{
+    <div style="padding-top:20px">
+        <div class="alert alert-danger" role="alert">
+            @ErrorMessage
+        </div>
+    </div>
+}
+
 @code {
     private Event _event = new Event();
     private List<string> selectedFriends;
@@ -103,6 +112,7 @@
     private TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
     private int friendId { get; set; }
     private string mapUrl = "https://maps.google.com/maps?q=&t=h&z=3&output=embed";
+    private string? ErrorMessage = null;
 
     /// <summary>
     /// Gets Friendlist of current user
@@ -115,11 +125,20 @@
         // Getting the Email of currennt user
         var email = (await AuthProvider.GetAuthenticationStateAsync()).User.Identity.Name;
 
-        // Getting current User by email
-        appUser = await ApplicationUserService.GetApplicationUserByEmail(email);
+        try
+        {
+            // Getting current User by email
+            appUser = await ApplicationUserService.GetApplicationUserByEmail(email);
 
-        // Getting all friends of current user
-        friendsList = await FriendService.GetAllFriendsByUser(appUser);
+            // Getting all friends of current user
+            friendsList = await FriendService.GetAllFriendsByUser(appUser);
+        }
+        catch(Exception ex)
+        {
+            ErrorMessage = ex.Message;
+            Thread.Sleep(3000);
+            ErrorMessage = null;
+        }
     }
 
     /// <summary>
@@ -128,38 +147,47 @@
     /// <returns></returns>
     private async Task HandleValidSubmit()
     {
-        foreach (var friend in selectedFriends)
+        try
         {
-            // Getting every single friend (AppUser)
-            ApplicationUser _friend = await ApplicationUserService.GetApplicationUserByEmail(friend);
-            appUserList.Add(_friend);
-        }
-
-        // Creating new evnet
-        var _newEvent = new Event()
+            foreach(var friend in selectedFriends)
             {
-                EventName = _event.EventName,
-                CreatorName = appUser.ToString(),
-                Notes = _event.Notes,
-                Date = _event.Date,
-                EventTime = Convert.ToString(time),
-                ParticipantCount = appUserList.Count,
-                Postcode = _event.Postcode,
-                City = _event.City,
-                Address = _event.Address,
-                ApplicationUsers = appUserList
-            };
+                // Getting every single friend (AppUser)
+                ApplicationUser _friend = await ApplicationUserService.GetApplicationUserByEmail(friend);
+                appUserList.Add(_friend);
+            }
 
-        // Loads new Page
-        _event = new();
-        StateHasChanged();
+            // Creating new evnet
+            var _newEvent = new Event()
+                {
+                    EventName = _event.EventName,
+                    CreatorName = appUser.ToString(),
+                    Notes = _event.Notes,
+                    Date = _event.Date,
+                    EventTime = Convert.ToString(time),
+                    ParticipantCount = appUserList.Count,
+                    Postcode = _event.Postcode,
+                    City = _event.City,
+                    Address = _event.Address,
+                    ApplicationUsers = appUserList
+                };
 
-        await EventService.AddEvent(_newEvent);
+            // Loads new Page
+            _event = new();
+            StateHasChanged();
 
-        foreach (var friend in _newEvent.ApplicationUsers)
+            await EventService.AddEvent(_newEvent);
+
+            foreach(var friend in _newEvent.ApplicationUsers)
+            {
+                // Sending every person selected an invite email
+                await EmailService.SendEmailAsync(friend.Email, _newEvent.CreatorName);
+            }
+        }
+        catch(Exception ex)
         {
-            // Sending every person selected an invite email
-            await EmailService.SendEmailAsync(friend.Email, _newEvent.CreatorName);
+            ErrorMessage = ex.Message;
+            Thread.Sleep(3000);
+            ErrorMessage = null;
         }
     }
 
@@ -169,7 +197,7 @@
     /// <param name="e"></param>
     private async void OnProjectSelectionChange(ChangeEventArgs e)
     {
-        if (e.Value is not null)
+        if(e.Value is not null)
         {
             // Adding all selected friends to list
             selectedFriends = ((string[])e.Value).ToList();

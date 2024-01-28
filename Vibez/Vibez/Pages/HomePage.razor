@@ -95,6 +95,15 @@ else
     </div>
 }
 
+@if(ErrorMessage != null)
+{
+    <div style="padding-top:20px">
+        <div class="alert alert-danger" role="alert">
+            @ErrorMessage
+        </div>
+    </div>
+}
+
 <EditEventView CloseCallback="ModalCloseCallback" editEvent="selectedEvent" />
 <DeleteWarningModalPage CloseCallback="ModalCloseCallback" IsShown=@isShown SelectedEventId="@selectedEventId" SelectedFriendId="null"/>
 
@@ -107,7 +116,13 @@ else
     private ApplicationUser? currentUser;
     private bool isAuthenticated;
     private bool isShown = false;
+    private string? ErrorMessage = null;
 
+
+    /// <summary>
+    /// Gets called on render. Loads user with event list
+    /// </summary>
+    /// <returns>async Task</returns>
     protected override async Task OnInitializedAsync()
     {
         authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
@@ -127,15 +142,25 @@ else
         }
         catch(Exception ex)
         {
-            throw new Exception(ex.Message);
+            ErrorMessage = ex.Message;
+            Thread.Sleep(3000);
+            ErrorMessage = null;
         }
     }
 
+    /// <summary>
+    /// Get list of all events of authorized user
+    /// </summary>
+    /// <returns>Asynchronous Task</returns>
     private async Task GetAllEventsAsync()
     {
         await RefreshData();
     }
 
+    /// <summary>
+    /// Get list of all upcoming events of autorized user
+    /// </summary>
+    /// <returnsAsynchronous Task></returns>
     private async Task GetAllUpcomingEventsAsync()
     {
         try
@@ -145,10 +170,16 @@ else
         }
         catch(Exception ex)
         {
-            throw new Exception(ex.Message);
+            ErrorMessage = ex.Message;
+            Thread.Sleep(3000);
+            ErrorMessage = null;
         }
     }
 
+    /// <summary>
+    /// Get list of all past events (not editable) of authorized user
+    /// </summary>
+    /// <returns>Asynchronous Task</returns>
     private async Task GetAllPastEventsAsync()
     {
         try
@@ -158,10 +189,16 @@ else
         }
         catch(Exception ex)
         {
-            throw new Exception(ex.Message);
+            ErrorMessage = ex.Message;
+            Thread.Sleep(3000);
+            ErrorMessage = null;
         }
     }
 
+    /// <summary>
+    /// Loads eventlist of autorized user
+    /// </summary>
+    /// <returns>Asynchronous Task</returns>
     private async Task RefreshData()
     {
         try
@@ -173,16 +210,28 @@ else
         }
         catch(Exception ex)
         {
-            throw new Exception(ex.Message);
+            ErrorMessage = ex.Message;
+            Thread.Sleep(3000);
+            ErrorMessage = null;
         }
     }
 
+    /// <summary>
+    /// Get editable event
+    /// </summary>
+    /// <param name="selectedEventId">Selected event id</param>
+    /// <returns>Asynchronous Task</returns>
     private async Task LoadEditData(int selectedEventId)
     {
         selectedEvent = await eventService.GetEventById(selectedEventId);
         StateHasChanged();
     }
 
+    /// <summary>
+    /// Deletes selected event
+    /// </summary>
+    /// <param name="selectedEventId">Selected event Id</param>
+    /// <returns>Asynchronous Task</returns>
     private async Task DeleteEvent(int selectedEventId)
     {
         isShown = true;
@@ -192,6 +241,9 @@ else
         StateHasChanged();
     }
 
+    /// <summary>
+    /// Gets called when modal is closed
+    /// </summary>
     private async void ModalCloseCallback()
     {
         isShown = false;

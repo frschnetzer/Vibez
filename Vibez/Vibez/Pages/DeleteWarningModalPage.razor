@@ -23,6 +23,15 @@
     </div>
 }
 
+@if(ErrorMessage != null)
+{
+    <div style="padding-top:20px">
+        <div class="alert alert-danger" role="alert">
+            @ErrorMessage
+        </div>
+    </div>
+}
+
 @code {
     [Parameter]
     public EventCallback CloseCallback { get; set; }
@@ -33,19 +42,31 @@
     [Parameter]
     public int? SelectedEventId { get; set; }
 
+    private string? ErrorMessage = null;
+
     private async Task SubmitDeleteClick()
     {
-        if(SelectedFriendId != null)
+        try
         {
-            await FriendService.RemoveFriendById((int)SelectedFriendId);
-        }
+            if(SelectedFriendId != null)
+            {
+                await FriendService.RemoveFriendById((int)SelectedFriendId);
+            }
 
-        if(SelectedEventId != null)
+            if(SelectedEventId != null)
+            {
+                await EventService.DeleteEventById((int)SelectedEventId);
+            }
+
+            await CloseCallback.InvokeAsync();
+
+        }
+        catch(Exception ex)
         {
-            await EventService.DeleteEventById((int)SelectedEventId);
+            ErrorMessage = ex.Message;
+            Thread.Sleep(3000);
+            ErrorMessage = null;
         }
-
-        await CloseCallback.InvokeAsync();
     }
 
     private async Task CancelDelete()

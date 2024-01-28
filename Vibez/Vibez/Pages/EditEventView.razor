@@ -20,7 +20,7 @@ else
                     <EditForm Model="@editEvent" OnValidSubmit="ValidScreeningSubmitted" OnInvalidSubmit="InvalidScreeningSubmitted">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
-                         <div class="list-group">
+                        <div class="list-group">
                             <label class="label">Event Name</label>
                             <InputText @bind-Value="editEvent.EventName" />
                         </div>
@@ -44,9 +44,9 @@ else
                             <label class="label">City</label>
                             <InputText @bind-Value="editEvent.City" @onkeydown="GenerateMapUrl" />
                         </div>
-                        <br/>
+                        <br />
                         <div class="list-group">
-                            <div class="input-group mb-3 w-800" >
+                            <div class="input-group mb-3 w-800">
                                 <iframe frameborder="0" scrolling="no" width="500" height="200" marginheight="0" marginwidth="0" id="gmap_canvas" src="@mapUrl">
                                 </iframe>
                             </div>
@@ -54,10 +54,19 @@ else
                         <div>
                             <input type="submit" class="btn btn-primary" value="Save" />
                             <button class="btn btn-secondary" data-dismiss="modal" @onclick="CloseClick">Close</button>
-                        </div> 
+                        </div>
                     </EditForm>
                 </div>
             </div>
+        </div>
+    </div>
+}
+
+@if(ErrorMessage != null)
+{
+    <div style="padding-top:20px">
+        <div class="alert alert-danger" role="alert">
+            @ErrorMessage
         </div>
     </div>
 }
@@ -72,10 +81,26 @@ else
 
     private string mapUrl = "https://maps.google.com/maps?q=&t=h&z=3&output=embed";
 
+    private string? ErrorMessage = null;
+
+    /// <summary>
+    /// Gets called on render
+    /// </summary>
+    /// <returns>Asynchronous Task</returns>
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        GenerateMapUrl();
+
+        try
+        {
+            GenerateMapUrl();
+        }
+        catch(Exception ex)
+        {
+            ErrorMessage = ex.Message;
+            Thread.Sleep(3000);
+            ErrorMessage = null;
+        }
     }
 
     private async void CloseClick()
@@ -86,14 +111,26 @@ else
 
     async void ValidScreeningSubmitted(EditContext editContext)
     {
-        await eventService.UpdateEvent(editEvent);
-        CloseClick();
+        try
+        {
+            await eventService.UpdateEvent(editEvent);
+            CloseClick();
+        }
+        catch(Exception ex)
+        {
+            ErrorMessage = ex.Message;
+            Thread.Sleep(3000);
+            ErrorMessage = null;
+        }
     }
 
     void InvalidScreeningSubmitted(EditContext editContext)
     {
     }
 
+    /// <summary>
+    /// Generates Map Url for event
+    /// </summary>
     private void GenerateMapUrl()
     {
         if(editEvent != null)
