@@ -102,6 +102,15 @@
     </div>
 }
 
+@if(ErrorMessage != null)
+{
+    <div style="padding-top:20px">
+        <div class="alert alert-success" role="alert">
+            @ErrorMessage
+        </div>
+    </div>
+}
+
 @code {
     private Event _event = new Event();
     private List<string> selectedFriends;
@@ -112,7 +121,9 @@
     private TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
     private int friendId { get; set; }
     private string mapUrl = "https://maps.google.com/maps?q=&t=h&z=3&output=embed";
+
     private string? ErrorMessage = null;
+    private string? SuccessMessage = null;
 
     /// <summary>
     /// Gets Friendlist of current user
@@ -136,8 +147,10 @@
         catch(Exception ex)
         {
             ErrorMessage = ex.Message;
-            Thread.Sleep(3000);
+            StateHasChanged();
+            await Task.Delay(3000);
             ErrorMessage = null;
+            StateHasChanged();
         }
     }
 
@@ -177,6 +190,14 @@
 
             await EventService.AddEvent(_newEvent);
 
+            SuccessMessage = "Successfully added new event!";
+            StateHasChanged();
+
+            await Task.Delay(3000);
+
+            SuccessMessage = null;
+            StateHasChanged();
+
             foreach(var friend in _newEvent.ApplicationUsers)
             {
                 // Sending every person selected an invite email
@@ -186,8 +207,12 @@
         catch(Exception ex)
         {
             ErrorMessage = ex.Message;
-            Thread.Sleep(3000);
+            StateHasChanged();
+
+            await Task.Delay(3000);
+
             ErrorMessage = null;
+            StateHasChanged();
         }
     }
 

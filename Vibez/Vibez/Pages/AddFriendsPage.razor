@@ -23,7 +23,7 @@
 <div class="form-row">
     <div class="form-group row">
         <div class="form-group col-md-4">
-            <input type="text" class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search..." @onchange="@((args) => SelectedPeson = args.Value.ToString())">
+            <input type="text" class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search..." @onchange="@((args) => SelectedPerson = args.Value.ToString())">
             <datalist id="datalistOptions">
                 @foreach(var item in allUsers)
                 {
@@ -81,18 +81,31 @@
     </div>
 }
 
+@if(SuccessMessage != null)
+{
+    <div style="padding-top:20px">
+        <div class="alert alert-success" role="alert">
+            @SuccessMessage
+        </div>
+    </div>
+}
+
 <DeleteWarningModalPage CloseCallback="ModalCloseCallback" IsShown=@isShown SelectedEventId="null" SelectedFriendId="@selectedFriendId" />
 
 @code {
     private ApplicationUser? currentUser;
     private ApplicationUser? searchedIdentityUser;
+
     private List<Friend>? friendList;
-    private string username { get; set; } = string.Empty;
-    private string SelectedPeson;
     private List<ApplicationUser> allUsers = new();
+
+    private string username { get; set; } = string.Empty;
+    private string SelectedPerson;
     private bool isShown = false;
     private int? selectedFriendId;
+
     private string? ErrorMessage = null;
+    private string? SuccessMessage = null;
 
     /// <summary>
     /// Gets called on render
@@ -114,8 +127,12 @@
         catch(Exception ex)
         {
             ErrorMessage = ex.Message;
-            Thread.Sleep(3000);
+            StateHasChanged();
+
+            await Task.Delay(3000);
+
             ErrorMessage = null;
+            StateHasChanged();
         }
     }
 
@@ -127,7 +144,7 @@
     {
         try
         {
-            searchedIdentityUser = await ApplicationUserService.GetApplicationUserByEmail(SelectedPeson);
+            searchedIdentityUser = await ApplicationUserService.GetApplicationUserByEmail(SelectedPerson);
             await FriendService.AddFriend(currentUser, searchedIdentityUser);
 
             await RefreshData();
@@ -136,8 +153,12 @@
         catch(Exception ex)
         {
             ErrorMessage = ex.Message;
-            Thread.Sleep(3000);
+            StateHasChanged();
+
+            await Task.Delay(3000);
+
             ErrorMessage = null;
+            StateHasChanged();
         }
     }
 
@@ -159,8 +180,12 @@
         catch(Exception ex)
         {
             ErrorMessage = ex.Message;
-            Thread.Sleep(3000);
+            StateHasChanged();
+
+            await Task.Delay(3000);
+
             ErrorMessage = null;
+            StateHasChanged();
         }
     }
 
@@ -174,12 +199,18 @@
         {
             friendList = await FriendService.GetAllFriendsByUser(currentUser);
             allUsers = await FriendService.GetAllNonFriends(currentUser);
+
+            StateHasChanged();
         }
         catch(Exception ex)
         {
             ErrorMessage = ex.Message;
-            Thread.Sleep(3000);
+            StateHasChanged();
+
+            await Task.Delay(3000);
+
             ErrorMessage = null;
+            StateHasChanged();
         }
     }
 

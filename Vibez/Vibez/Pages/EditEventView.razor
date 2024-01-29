@@ -98,8 +98,12 @@ else
         catch(Exception ex)
         {
             ErrorMessage = ex.Message;
-            Thread.Sleep(3000);
+            StateHasChanged();
+
+            await Task.Delay(3000);
+
             ErrorMessage = null;
+            StateHasChanged();
         }
     }
 
@@ -119,8 +123,12 @@ else
         catch(Exception ex)
         {
             ErrorMessage = ex.Message;
-            Thread.Sleep(3000);
+            StateHasChanged();
+
+            await Task.Delay(3000);
+
             ErrorMessage = null;
+            StateHasChanged();
         }
     }
 
