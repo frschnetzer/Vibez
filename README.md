@@ -19,7 +19,7 @@
 - Event model was newly created with following properties: Id, EventName, CreatorName, ParticipantCount, LocationName, CoorinatesLongitude, CoordinatesLatitude, Notes, Date and List<ApplicationUser>.
 - The intermediate table between Events and ApplicationUser was automatically created by EF-Core.
 
-- The models changed since this README was first written:
+The models changed since this README was first written:
 - The ApplicationUser doesn't have a Nickname anymore and he has a List<Friends> as property.
 - The Friends model has a Id, FriendEmail then a ApplicationUserId and A Applicationuser thats it.
 - Event also has some changes to the properties, there is no Cordinates anymore and it now has City, Address and Postcode.
