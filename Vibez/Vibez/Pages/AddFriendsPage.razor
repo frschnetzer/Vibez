@@ -121,7 +121,6 @@
             currentUser = await ApplicationUserService.GetApplicationUserByEmail(email);
 
             friendList = await FriendService.GetAllFriendsByUser(currentUser);
-
             allUsers = await FriendService.GetAllNonFriends(currentUser);
         }
         catch(Exception ex)
