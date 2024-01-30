@@ -8,19 +8,19 @@
 
 <h3>Your upcoming Events</h3>
 
-@if (!authenticated)
+@if(!authenticated)
 {
     <div>
         <p>
             Please <a href="Identity/Account/Register">sign in</a>
-            or <a href="Identity/Account/Login">log in</a> 
+            or <a href="Identity/Account/Login">log in</a>
             to use the application!
         </p>
     </div>
 }
 else
 {
-    @foreach (var item in _listOfEventsDto)
+    @foreach(var item in _listOfEventsDto)
     {
         <div style="padding-top: 10px; padding-bottom: 10px;">
             <div class="card" @onclick="ViewAllEventDetails">
@@ -39,11 +39,21 @@ else
     }
 }
 
+@if(ErrorMessage != null)
+{
+    <div style="padding-top:20px">
+        <div class="alert alert-danger" role="alert">
+            @ErrorMessage
+        </div>
+    </div>
+}
+
 @code {
     private List<EventDTO> _listOfEventsDto = new List<EventDTO>();
     public string? _currentUser;
     private AuthenticationState? _authenticationState;
     private bool authenticated;
+    private string? ErrorMessage = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -52,34 +62,49 @@ else
         _authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         authenticated = _authenticationState.User.Identity.IsAuthenticated;
 
-        if (_authenticationState != null)
+        if(_authenticationState != null)
         {
             _currentUser = _authenticationState.User.Identity?.Name;
         }
-      
-        if (_currentUser != null)
+
+        try
         {
-            var listWithEvents = await EventService.GetAllUpcomingEventsForOneUser(_currentUser);
-            foreach (var eventForUser in listWithEvents)
+            if(_currentUser != null)
             {
-                _listOfEventsDto.Add(new EventDTO
+                var listWithEvents = await EventService.GetAllUpcomingEventsForOneUser(_currentUser);
+                foreach(var eventForUser in listWithEvents)
                 {
-                    EventName = eventForUser.EventName,
-                    Address = eventForUser.Address,
-                    City = eventForUser.City,
-                    CreatorName = eventForUser.CreatorName,
-                    Date = eventForUser.Date,
-                    Notes = eventForUser.Notes,
-                    ParticipantCount = eventForUser.ParticipantCount,
-                    Postcode = eventForUser.Postcode,
-                    TimeOnly = eventForUser.EventTime
-                });
+                    _listOfEventsDto.Add(new EventDTO
+                        {
+                            EventName = eventForUser.EventName,
+                            Address = eventForUser.Address,
+                            City = eventForUser.City,
+                            CreatorName = eventForUser.CreatorName,
+                            Date = eventForUser.Date,
+                            Notes = eventForUser.Notes,
+                            ParticipantCount = eventForUser.ParticipantCount,
+                            Postcode = eventForUser.Postcode,
+                            TimeOnly = eventForUser.EventTime
+                        });
+                }
             }
         }
+        catch(Exception ex)
+        {
+            ErrorMessage = ex.Message;
+            StateHasChanged();
+
+            await Task.Delay(3000);
+
+            ErrorMessage = null;
+            StateHasChanged();
+        }
+
     }
 
+    // Not implemented yet!
     private void ViewAllEventDetails()
     {
-      
+
     }
 }

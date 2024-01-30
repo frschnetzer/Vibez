@@ -4,9 +4,9 @@
 @using Vibez.Data.Models
 @using Vibez.Data.Service
 
-@inject IFriendService FriendService
-@inject IApplicationUserService ApplicationUserService
 @inject AuthenticationStateProvider AuthProvider
+@inject IApplicationUserService ApplicationUserService
+@inject IFriendService FriendService
 
 <style>
     .button {
@@ -23,7 +23,7 @@
 <div class="form-row">
     <div class="form-group row">
         <div class="form-group col-md-4">
-            <input type="text" class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search..." @onchange="@((args) => SelectedPeson = args.Value.ToString())">
+            <input type="text" class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search..." @onchange="@((args) => SelectedPerson = args.Value.ToString())">
             <datalist id="datalistOptions">
                 @foreach(var item in allUsers)
                 {
@@ -72,56 +72,152 @@
     </table>
 </div>
 
-<DeleteWarningModalPage CloseCallback="ModalCloseCallback" IsShown=@isShown SelectedEventId="null" SelectedFriendId="@selectedFriendId"/>
+@if(ErrorMessage != null)
+{
+    <div style="padding-top:20px">
+        <div class="alert alert-danger" role="alert">
+            @ErrorMessage
+        </div>
+    </div>
+}
+
+@if(SuccessMessage != null)
+{
+    <div style="padding-top:20px">
+        <div class="alert alert-success" role="alert">
+            @SuccessMessage
+        </div>
+    </div>
+}
+
+<DeleteWarningModalPage CloseCallback="ModalCloseCallback" IsShown=@isShown SelectedEventId="null" SelectedFriendId="@selectedFriendId" />
 
 @code {
     private ApplicationUser? currentUser;
     private ApplicationUser? searchedIdentityUser;
+
     private List<Friend>? friendList;
-    private string username { get; set; } = string.Empty;
-    private string SelectedPeson;
     private List<ApplicationUser> allUsers = new();
+
+    private string username { get; set; } = string.Empty;
+    private string SelectedPerson;
     private bool isShown = false;
     private int? selectedFriendId;
 
+    private string? ErrorMessage = null;
+    private string? SuccessMessage = null;
+
+    /// <summary>
+    /// Gets called on render
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
-        var email = (await AuthProvider.GetAuthenticationStateAsync()).User.Identity.Name;
-        currentUser = await ApplicationUserService.GetApplicationUserByEmail(email);
+        try
+        {
+            var email = (await AuthProvider.GetAuthenticationStateAsync()).User.Identity.Name;
+            currentUser = await ApplicationUserService.GetApplicationUserByEmail(email);
 
-        friendList = await FriendService.GetAllFriendsByUser(currentUser);
+            friendList = await FriendService.GetAllFriendsByUser(currentUser);
+            allUsers = await FriendService.GetAllNonFriends(currentUser);
+        }
+        catch(Exception ex)
+        {
+            ErrorMessage = ex.Message;
+            StateHasChanged();
 
-        allUsers = await FriendService.GetAllNonFriends(currentUser);
+            await Task.Delay(3000);
+
+            ErrorMessage = null;
+            StateHasChanged();
+        }
     }
 
+    /// <summary>
+    /// Adds selected ApplicationUser to friendlist of authorized user
+    /// </summary>
+    /// <returns>Asynchronous Task</returns>
     private async Task CreateFriend()
     {
-        searchedIdentityUser = await ApplicationUserService.GetApplicationUserByEmail(SelectedPeson);
-        await FriendService.AddFriend(currentUser, searchedIdentityUser);
+        try
+        {
+            searchedIdentityUser = await ApplicationUserService.GetApplicationUserByEmail(SelectedPerson);
+            await FriendService.AddFriend(currentUser, searchedIdentityUser);
 
-        await RefreshData();
-        StateHasChanged();
+            await RefreshData();
+            StateHasChanged();
+        }
+        catch(Exception ex)
+        {
+            ErrorMessage = ex.Message;
+            StateHasChanged();
+
+            await Task.Delay(3000);
+
+            ErrorMessage = null;
+            StateHasChanged();
+        }
     }
 
+    /// <summary>
+    /// Deletes selected friend of friendlist of authorized user
+    /// </summary>
+    /// <param name="friendId">Selected friend id</param>
+    /// <returns>Asynchronous Task</returns>
     private async Task DeleteFriend(int friendId)
     {
         isShown = true;
         selectedFriendId = friendId;
 
-        await RefreshData();
-        StateHasChanged();
+        try
+        {
+            await RefreshData();
+            StateHasChanged();
+        }
+        catch(Exception ex)
+        {
+            ErrorMessage = ex.Message;
+            StateHasChanged();
+
+            await Task.Delay(3000);
+
+            ErrorMessage = null;
+            StateHasChanged();
+        }
     }
 
+    /// <summary>
+    /// Refreshes friendslist
+    /// </summary>
+    /// <returns>Asynchronous Task</returns>
     private async Task RefreshData()
     {
-        friendList = await FriendService.GetAllFriendsByUser(currentUser);
-        allUsers = await FriendService.GetAllNonFriends(currentUser);
+        try
+        {
+            friendList = await FriendService.GetAllFriendsByUser(currentUser);
+            allUsers = await FriendService.GetAllNonFriends(currentUser);
+
+            StateHasChanged();
+        }
+        catch(Exception ex)
+        {
+            ErrorMessage = ex.Message;
+            StateHasChanged();
+
+            await Task.Delay(3000);
+
+            ErrorMessage = null;
+            StateHasChanged();
+        }
     }
 
+    /// <summary>
+    /// Gets called on modal closed
+    /// </summary>
     private async void ModalCloseCallback()
-    {      
+    {
         isShown = false;
         selectedFriendId = null;
 
